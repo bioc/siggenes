@@ -8,7 +8,7 @@
 # y: the columns which belong to the controls (unpaired) or to the "before treatment"-measurements (paired)
 #    In the paired case x and y must have the same length; (x[i], y[i]) belong to each other
 # delta: a gene Z will be called significant if the posterior probability p1(Z) >= delta. Default is 0.9, the
-#        value Efron et al. used in their analysis 
+#        value Efron et al. used in their analysis
 # p0: prior; probability that a gene is unaffected. If NA, a simple or a more stable estimation of p0 will be
 #     calculated (see stable.p0)
 # stable.p0: If TRUE, the algorithm of Storey and Tishirani (2003a) is used. If FALSE, the estimate of pi0 is computed
@@ -19,10 +19,10 @@
 #              estimation of p0)
 # ties.rand: A problem of ranking is that there could be ties. If there are ties, the Wilcon test statistic W
 #            could be a non-integer. If ties.rand=T, then such a statistic will be randomly assigned to either
-#            floor(W) or ceiling(W). If F, the statistic is treated in a conservative way, i.e. it will be 
+#            floor(W) or ceiling(W). If F, the statistic is treated in a conservative way, i.e. it will be
 #            assigned to ceiling(W) if W < mean of the Null and to floor(W) if W > mean of the Null.
-#            To use non-integer Ws in further analysis would totally screw up the density estimation of the 
-#            observed Wilcoxon test statistics. 
+#            To use non-integer Ws in further analysis would totally screw up the density estimation of the
+#            observed Wilcoxon test statistics.
 # zero.rand: Using paired data it could happen that x[i]=y[i]. If zero.rand=T, the sign of such a pair will be
 #            randomly assigned for the Wilcoxon Sign-Rank Test. If F, the method of Lehmann (1975) is used.
 # ns.df: the number of df for the natural splines. If ns.df is n, n-1 knots will be used in the calculation
@@ -35,7 +35,7 @@
 # R.dataset: the data set that is used in the computation of the R.fold. By default the data set used in the
 #            other computations
 # file.out: some results are stored in this file. If NA, no such storage will happen
-# rand: the set.seed. If NA, no set.seed will be used                      
+# rand: the set.seed. If NA, no set.seed will be used
 # na.rm: if na.rm=FALSE, the R-fold of genes with one or more missing values will be set to NA. If na.rm=T, the
 #        missing values will be removed during the computation of the R-fold.
 
@@ -43,19 +43,19 @@
 ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.offset=TRUE,use.weights=TRUE,ties.rand=TRUE,
 		zero.rand=TRUE,ns.df=5,col.accession=NA,col.gene.name=NA,R.fold=TRUE,R.dataset=data,file.out=NA,rand=NA,na.rm=FALSE){
 	library(splines)  # necessary for ns()
-	if(!is.na(rand))   
+	if(!is.na(rand))
 		set.seed(rand)
 	Y<-as.matrix(data[,c(x,y)])   # for easier calculations a matrix of the data is made
 	mode(Y)<-"numeric"
 	n.genes<-nrow(Y)          # number of genes
-	if(!paired){    # unpaired case 
-		n.x<-length(x)     
+	if(!paired){    # unpaired case
+		n.x<-length(x)
 		n.y<-length(y)
 		W.mean<-n.x*(n.x+n.y+1)/2    # some statistics of the null density are calculated
 		W.min<-n.x*(n.x+1)/2
 		W.max<-n.x*(2*n.y+n.x+1)/2
 		Y.rank<-t(apply(Y,1,rank))         # rank the observations for each gene
-		y.wilk<-apply(Y.rank[,1:n.x],1,sum)  # calculation of the Wilcoxon test statistic
+                y.wilk <- rowSums(y.rank[,1:n.x])  # calculation of the Wilcoxon test statistic
 		f.null<-dwilcox(0:(n.x*n.y),n.x,n.y) # calculation of the null density
 	}
 	if(paired){  # paired case
@@ -64,7 +64,7 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 		W.max<-n*(n+1)/2        # some statistics of the null density; W.min is always 0
 		W.mean<-n*(n+1)/4
 		if(sum(Y==0)>0 & zero.rand){    # if zero.rand=TRUE, any zero (i.e. any x[i]-y[i]) will be set to
-			cat("zeros:",sum(Y==0),"\n")   # a very small positive or negative value. Our way of randomly 
+			cat("zeros:",sum(Y==0),"\n")   # a very small positive or negative value. Our way of randomly
 			Y[which(Y==0)]<-sample(c(0.0001,-0.0001),sum(Y==0),replace=TRUE)  # assigning a sign to zeros
 		}
 		y.wilk<-NULL
@@ -98,7 +98,7 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 		W<-W[-m]
 		count<-count[-m]
 	}
-	
+
 	if(length(ns.df)>1){
 		vec.aic<-numeric(length(ns.df))
 		for(i in 1:length(ns.df))
@@ -119,7 +119,7 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 		vec.p0 <- NULL
 		if(stable.p0){  # p0 is estimated in a more stable way using our interpretation of the suggestion
 			  # of Remark F in Efron et al.(2001)
-			
+
 			for(i in 1:(floor(length(f.null-1)/2)+1)){
 				vec.p0[i]<-sum(f.x[i:(length(f.null)-i+1)])/sum(f.null[i:(length(f.null)-i+1)])
 				vec.lambda[i]<-1-sum(f.null[i:(length(f.null)-i+1)])
@@ -129,7 +129,7 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 			p0<-min(predict.smooth.spline(spline.out,1)$y,1)
 		}
 		if(!stable.p0)     # the simple p0-estimation
-			p0<-min(f.x/f.null)   
+			p0<-min(f.x/f.null)
 	}
 	cat("p0:",round(p0,4),"\n")
 	p1<-1-p0*f.null/f.x      # calculation of the posterior
@@ -148,7 +148,7 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 		p1.sig<-p1[which(p1>=delta)]
 		local<-1-p1.sig      # local FDR for the significant genes
 		q.value<-q.value.wilc(y.wilk,p0,n.x,n.y,paired=paired)$q.value
-		row.sig.genes<-NULL 
+		row.sig.genes<-NULL
 		for(i in 1:length(tab.sig))
 			row.sig.genes<-c(row.sig.genes,which(y.wilk==names(tab.sig)[i])) # make some output
 		ebam.output<-cbind("W"=y.wilk[row.sig.genes],"q-value"=round(q.value[row.sig.genes],4))
@@ -160,11 +160,11 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 			ebam.output<-cbind(ebam.output,"gene"=substring(data[row.sig.genes,col.gene.name],1,50))
 		if(!is.na(col.accession))
 			ebam.output<-cbind("access"=data[row.sig.genes,col.accession],ebam.output)
-		ebam.output<-cbind("ID"=row.sig.genes,ebam.output)	
+		ebam.output<-cbind("ID"=row.sig.genes,ebam.output)
 		ebam.out<-as.data.frame(rbind(tab.sig,round(p1.sig,4),round(local,4)))
 		ebam.out<-cbind(c("genes","p1","local"),ebam.out)
 		names(ebam.out)<-c(" ",names(tab.sig))
-		
+
 		cat("\n","Wilcoxon test statistics of significant genes:","\n")
 		print(ebam.out)
 		if(!is.na(file.out)){  # store some output in a file

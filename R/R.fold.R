@@ -12,7 +12,7 @@
 #        the unnormalized version of the data set used in sam() if this data set was normalized
 # x: the vector of columns which belong to the cases (unpaired) or "after treatment"-measurements (paired)
 # y: the vector which contains the columns that belong to the controls (unpaired) or to the "before
-#    treatment"-measurements (paired)  
+#    treatment"-measurements (paired)
 # na.rm: if na.rm=FALSE, the d-values of genes with one or more missing values will be set to NA. If na.rm=TRUE, the
 #        missing values will be removed during the computation of the d-values.
 
@@ -20,11 +20,11 @@
 R.fold.cal<-function(data,x,y,na.rm=FALSE){
     X<-as.matrix(data[,c(x,y)])  # for easier calculation
     mode(X)<-"numeric"
-    mean.x<-apply(X[,1:length(x)],1,mean,na.rm=na.rm)  # compute the genewise mean of the first group
-    mean.y<-apply(X[,(length(x)+1):ncol(X)],1,mean,na.rm=na.rm) # compute the genewise mean of the second group 
+    mean.x <- rowMeans(X[,1:length(x)],na.rm=na.rm)  # compute the genewise mean of the first group
+    mean.y <- rowMeans(X[,(length(x)+1):ncol(X)], na.rm=na.rm) # compute the genewise mean of the second group
     vec.R.fold<-mean.x/mean.y  # compute the fold changes
-    vec.R.fold[which(mean.x<=0 | mean.y<=0)]<-NA   # set the fold changes to 0 which have at least 
-                                                            # one non-positive group mean 
+    vec.R.fold[which(mean.x<=0 | mean.y<=0)]<-NA   # set the fold changes to 0 which have at least
+                                                            # one non-positive group mean
     mat.R.fold<-cbind(mean.x=mean.x,mean.y=mean.y,R.fold=vec.R.fold)  # for output
     invisible(return(mat.R.fold))
 }
