@@ -2,7 +2,6 @@ Package: siggenes
 Version: 1.0.2
 Date: 2003-10-27
 Title: Significance and Empirical Bayes Analyses of Microarrays
-Title: Significance and Empirical Bayes Analyses of Microarrays
 Author: Holger Schwender <holger.schw@gmx.de>
 Maintainer: Holger Schwender <holger.schw@gmx.de>
 Depends: modreg, splines
@@ -12,4 +11,5 @@ Description: Identifying differentially expressed genes and estimating the
 Note: There is a patent pending for the SAM technology at Stanford University.
 License: free for non-commercial users. Non-academic users MUST have a valid 
 	license for the full (Excel) version of the SAM software programmed at
-	Stanford University, see http://www-stat.stanford.edu/~tibs/SAM/index.html
+	Stanford University, see
+	http://www-stat.stanford.edu/~tibs/SAM/index.html
