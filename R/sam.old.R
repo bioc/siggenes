@@ -6,7 +6,7 @@
 # function computes a delta for a given number or proportion of genes which should be significant.
 
 # The output of this function can be used to select the delta in the SAM Analysis. For further analysis
-# the output of sam() must be assigned to an object.
+# the output of sam() must be assigned to an object. 
 
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Please note that
@@ -16,8 +16,8 @@
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # data: the data set; there is only one condition: every row of this data set must represent a gene
-# x: the columns of the data set which belong to the cases (in the unpaired case) or the "after treatment"-
-#    values (in the paired case)
+# x: the columns of the data set which belong to the cases (in the unpaired case) or the "after treatment"- 
+#    values (in the paired case) 
 # y: the columns of the data set which belong to the control group (in the unpaired case) or to the "before
 #    treatment"-measurements
 # paired: paired or unpaired data
@@ -47,10 +47,10 @@
 # ngenes: a number or proportion of genes for which a delta is computed so that about this number or percentage
 #         of genes fall outside the thresholds cutup and cutlow, i.e. so that about this number or proportion
 #         of genes is called significant. Default is NA, i.e. no such analysis will be done.
-#           This is a option in sam.ngenes().
+#           This is a option in sam.ngenes().  
 # iteration: the number of iterations used in sam.ngenes(). For details see sam.ngenes().
 # initial.delta: the initial guesses for delta in sam.ngenes(). For details see sam.ngenes()
-# rand: the set.seed. Default is NA, i.e. there will be no set.seed().
+# rand: the set.seed. Default is NA, i.e. there will be no set.seed().      
 
 
 sam.old<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,na.rm=FALSE,s0=NA,alpha.s0=seq(0,1,.05),include.s0=TRUE,
@@ -70,12 +70,12 @@ sam.old<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,
     if(any(is.na(d)))
         cat("There are",sum(is.na(d)),"missing d values.","\n","\n")
     d.sort<-sort(d,na.last=TRUE)  # sorted observed d-values
-    d.perm<-r.perm/(s.perm+s0)
+    d.perm<-r.perm/(s.perm+s0)  
     d.perm<-apply(d.perm,2,sort,na.last=TRUE)  # matrix of sorted permuted d-values
-    d.bar<- rowMeans(d.perm)   # expected sorted d-values
+    d.bar<-rowMeans(d.perm)   # expected sorted d-values
     if(is.na(p0))
         p0<-p0.est(d,d.perm,lambda=lambda.p0,vec.lambda=vec.lambda.p0)$p0  # estimation of p0
-
+    
     FDR<-NULL
     delta.ngenes<-NULL
     fdr.ngenes<-NULL
@@ -83,7 +83,7 @@ sam.old<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,
         cat("SAM Analysis for a set of delta:","\n")
         sam.fdr.out<-sam.fdr(d.sort,d.bar,d.perm,p0,delta=delta.fdr,med=med.fdr,graphic=graphic.fdr,thres=thres.fdr,
             pty.square=pty.fdr,helplines=help.fdr)
-        FDR<-sam.fdr.out$mat.fdr    # calculation of some statistics like #significant, #falsely called
+        FDR<-sam.fdr.out$mat.fdr    # calculation of some statistics like #significant, #falsely called 
                             # genes, FDR
         print(sam.fdr.out$tab.fdr)  #output
         cat("\n")
@@ -95,7 +95,7 @@ sam.old<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,
             fdr.ngenes<-sam.ngenes.out$fdr.ngenes       # some statistics for the exact delta or for the upper
           			                        # and lower bound
             delta.ngenes<-sam.ngenes.out$delta.ngenes   # exact delta
-
+          
     }
     if(is.null(FDR))
         FDR<-fdr.ngenes
@@ -103,4 +103,4 @@ sam.old<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,
 		FDR=FDR,p0=p0,fdr.ngenes=fdr.ngenes,delta.ngenes=delta.ngenes,med.fdr=med.fdr,
 		x=x,y=y,paired=paired,var.0.genes=var.0.genes))
 }
-
+        

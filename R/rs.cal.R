@@ -49,14 +49,12 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
         n.x<-length(x)    
         n.y<-length(y)
         n<-n.x+n.y
-        x.mat<-rep(1,n.x)
-        y.mat<-rep(1,n.y)
-        mean.x<-as.vector(1/n.x*X[,1:n.x]%*%x.mat)        # computation of the r-values (nominator of d)
-        mean.y<-as.vector(1/n.y*X[,(n.x+1):n]%*%y.mat)
+        mean.x<-rowMeans(X[,1:n.x])        # computation of the r-values (nominator of d)
+        mean.y<-rowMeans(X[,(n.x+1):n])
         r<-mean.x-mean.y  # r=mean(x)-mean(y)
         center.x<-(X[,1:n.x]-mean.x)^2          # calculation of the s-values (part of the denumerator of d)
         center.y<-(X[,(n.x+1):n]-mean.y)^2
-        s<-as.vector(sqrt(((1/n.x+1/n.y)/(n-2))*(center.x%*%x.mat+center.y%*%y.mat)))  
+        s<-sqrt(((1/n.x+1/n.y)/(n-2))*(rowSums(center.x)+rowSums(center.y)))  
         if(is.null(mat.samp))  # checks if mat.samp is specified
             mat.samp<-sam.sampler(n.x,n.y,B,paired=FALSE,rand=rand,balanced=bal,file.out=NA)   # get the permutation matrix
         if(ncol(mat.samp)!=n)  # checks if mat.samp has the correct number of columns. If not, the function is stopped
@@ -69,12 +67,12 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
         for(i in 1:B){
             perm<-which(mat.samp[i,]==1)       
             n.perm<-length(perm)      # necessary if balanced permutations are used
-            mean.perm.x<-as.vector(1/n.perm*X[,perm]%*%x.mat)      # computation of the r-values for the i-th permutation
-            mean.perm.y<-as.vector(1/(n-n.perm)*X[,-perm]%*%y.mat)   # to get the Null    
+            mean.perm.x<-rowMeans(X[,perm])      # computation of the r-values for the i-th permutation
+            mean.perm.y<-rowMeans(X[,-perm])   # to get the Null    
             r.perm[,i]<-mean.perm.x-mean.perm.y
             center.perm.x<-(X[,perm]-mean.perm.x)^2    # calculation of the s-values for the i-th permutation
             center.perm.y<-(X[,-perm]-mean.perm.y)^2
-            s.perm[,i]<-as.vector(sqrt(((1/n.perm+1/(n-n.perm))/(n-2))*(center.perm.x%*%rep(1,n.perm)+center.perm.y%*%rep(1,n-n.perm))))
+            s.perm[,i]<-sqrt(((1/n.perm+1/(n-n.perm))/(n-2))*(rowSums(center.perm.x)+rowSums(center.perm.y)))
         Z<-NULL
 	}}
     if(paired){  #paired case
@@ -83,9 +81,9 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
         n<-length(x)
         x.mat<-rep(1,n)
         Z<-if(!is.null(y)) X[,1:n]-X[,(n+1):(2*n)]  else X # new # calculation of the r-values of the observed d  (r=mean(x-y))
-        r<-as.vector(1/n*Z%*%x.mat)
+        r<-rowMeans(Z)
         center<-(Z-r)^2
-        s<-as.vector(sqrt(1/(n*(n-1))*center%*%x.mat))     # calculation of the s-values of the observed d
+        s<-sqrt(1/(n*(n-1))*rowSums(center))     # calculation of the s-values of the observed d
         if(is.null(mat.samp))       # the same checkings as in the unpaired case
             mat.samp<-sam.sampler(n,n,B,paired=TRUE,rand=rand,balanced=bal,file.out=NA)   #get the permutation matrix
         if(ncol(mat.samp)!=n)
@@ -97,9 +95,9 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
         s.perm<-matrix(0,length(r),B)
         for(i in 1:B){
             Z.perm<-t(t(Z)*mat.samp[i,])              # and the same calculations as before for the i-th permutation
-            r.perm[,i]<-as.vector(1/n*Z.perm%*%x.mat)
+            r.perm[,i]<-rowMeans(Z.perm)
             center.perm<-(Z.perm-r.perm[,i])^2
-            s.perm[,i]<-as.vector(sqrt(1/(n*(n-1))*center.perm%*%x.mat))
+            s.perm[,i]<-sqrt(1/(n*(n-1))*rowSums(center.perm%*%x.mat))
         }}
     var.0.genes<-NULL
     if(any(s==0,na.rm=TRUE)){    # sets the values of r and s of each gene with variance 0 to NA

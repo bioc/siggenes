@@ -37,7 +37,7 @@
     \item{lambda.p0}{number between 0 and 1 that is used to estimate \eqn{p_0}{p0}. 
         If set to \code{1} (default), the automatic \eqn{p_0}{p0} selection using 
         the natural cubic spline fit is used.}
-    \item{vec.lambda.p0}{vector of values for \eqn{\lambda} used in the automatical
+    \item{vec.lambda.p0}{vector of values for \eqn{\lambda} used in the automatic
          computation of \eqn{p_0}{p0}.}
     \item{na.rm}{if \code{FALSE} (default), the expression scores \eqn{d} of genes with one or more
          missing values will be set to \code{NA}. If \code{TRUE}, the missing
@@ -90,7 +90,12 @@
     University of Dortmund, \url{http://de.geocities.com/holgerschw/thesis.pdf}.
 }
 
-\examples{
+
+    
+
+\author{Holger Schwender \email{holger.schw@gmx.de}}
+
+\examples{\dontrun{
     library(multtest)
     # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
     # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
@@ -100,11 +105,9 @@
     # Performing a SAM Analysis of the Golub data. Setting rand=123, to make the results reproducible,
     # and setting med.fdr=FALSE, such that the mean number instead of the median number of falsely called
     # genes is computed. The output is assigned to an object for further analyses.
-   if (interactive())  
-    sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
-}
     
+    sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
+}}
 
-\author{Holger Schwender \email{holger.schw@gmx.de}}
 
 \keyword{htest}

@@ -42,7 +42,7 @@ sam.ngenes<-function(d.sort,d.bar,d.perm,ngenes=0.05,iteration=3,initial.delta=s
             names(fdr.ngenes)<-c("delta","p0","false","called","FDR")
             cat("Set delta =",round(delta.ngenes,4),"to get",ngenes,"significant genes.","\n","\n")
             print(fdr.ngenes)
-            invisible(return(fdr.ngenes,delta.ngenes,p0))
+            invisible(return(list(fdr.ngenes=fdr.ngenes,delta.ngenes=delta.ngenes,p0=p0)))
         }
         # if no such delta was found, a new vector of deltas is been computed. The minimum delta is that
         # delta which leads to the nearest smaller number of significant genes of the previous vector of delta.
@@ -57,7 +57,7 @@ sam.ngenes<-function(d.sort,d.bar,d.perm,ngenes=0.05,iteration=3,initial.delta=s
         upper=fdr.ngenes[min(which(fdr.ngenes[,4]<ngenes)),]))
     print(fdr.ngenes)
     delta.ngenes<-NULL
-    structure(list(fdr.ngenes=fdr.ngenes,delta.ngenes=delta.ngenes,p0=p0))
+    invisible(structure(list(fdr.ngenes=fdr.ngenes,delta.ngenes=delta.ngenes,p0=p0)))
 }
     
     

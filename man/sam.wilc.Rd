@@ -63,7 +63,7 @@ of the modified t statistics, it uses Wilcoxon Rank Sums.}
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
-\examples{
+\examples{\dontrun{
     library(multtest)
     # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
     # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
@@ -72,8 +72,8 @@ of the modified t statistics, it uses Wilcoxon Rank Sums.}
     
     # Performing a SAM-Wilc Analysis of the Golub data. Setting rand=123 makes the results reproducible.
     # The output is assigned to an object for further analyses.
-    if (interactive()) {
+    
     sam.output<-sam.wilc(golub,golub.cl,rand=123)
-}
-}
+}}
+
 \keyword{htest}
