@@ -178,6 +178,6 @@ ebam.wilc<-function(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=FALSE,use.off
 		}
 	}
 	mat.out<-cbind(W,count,f.null,f.x,p1)
-	invisible(return(nsig,false,fdr,ebam.out,mat.out,p0,ns.df,glm.out,f.x,f.null,
+	invisible(list(nsig,false,fdr,ebam.out,mat.out,p0,ns.df,glm.out,f.x,f.null,
 		vec.p0,vec.lambda,y.wilk,spline.out,ebam.output,row.sig.genes))
 }
