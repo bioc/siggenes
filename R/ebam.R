@@ -3,8 +3,6 @@
 ebam<-function(a0.out,a0=NA,p0=NA,delta=NA,local.bin=.1,gene.names=NULL,q.values=TRUE,
 		R.fold=TRUE,R.unlog=TRUE,na.rm=FALSE,file.out=NA){
 	data<-eval(a0.out$X.name)
-	if(is.null(a0.out$y))           # neu
-		R.fold<-R.unlog<-FALSE  # neu
 	if(R.unlog) 
 		data<-2^data
 	if(!is.null(gene.names))

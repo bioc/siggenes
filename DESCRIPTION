@@ -1,15 +1,16 @@
 Package: siggenes
-Version: 1.1.0
-Date: 2004-06-03
-Title: SAM and Efron's empirical Bayes approaches
+Version: 1.0.6
+Date: 2003-10-27
+Title: Significance and Empirical Bayes Analyses of Microarrays
 Author: Holger Schwender <holger.schw@gmx.de>
 Maintainer: Holger Schwender <holger.schw@gmx.de>
-Depends: modreg, splines
+Depends: splines
 Description: Identifying differentially expressed genes and estimating the
     False Discovery Rate (FDR) with both the Significance Analysis of
     Microarrays (SAM) and the Empirical Bayes Analyses of Microarrays (EBAM).
 Note: There is a patent pending for the SAM technology at Stanford University.
 License: free for non-commercial users. Non-academic users MUST have a valid 
 	license for the full (Excel) version of the SAM software programmed at
-	Stanford University, see http://www-stat.stanford.edu/~tibs/SAM/index.html
-Packaged: Fri Jun  4 09:23:56 2004; ligges
+	Stanford University, see
+	http://www-stat.stanford.edu/~tibs/SAM/index.html
+

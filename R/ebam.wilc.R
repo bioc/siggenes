@@ -2,7 +2,7 @@
 
 ebam.wilc<-function(data,cl,delta=.9,p0=NA,ties.rand=TRUE,zero.rand=TRUE,gene.names=NULL,
 		R.fold=TRUE,R.unlog=TRUE,file.out=NA,na.rm=FALSE,rand=NA){
-	xy.out<-xy.cal(cl,T,T)
+	xy.out<-xy.cal(cl,TRUE,TRUE)
 	x<-xy.out$x
 	y<-xy.out$y
 	paired<-xy.out$paired

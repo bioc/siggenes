@@ -14,7 +14,7 @@
 
 # data: the used data set. Every row of this data set must correspond to a gene.
 # x: the columns of data, which belong to the cases (unpaired) or to the "after treatment"-measurements (paired)
-# y: the columns of data, which belong to the control group (unpaired) or to the "before treatment"-measurements 
+# y: the columns of data, which belong to the control group (unpaired) or to the "before treatment"-measurements
 #    (paired)
 # paired: paired or unpaired data. If paired=TRUE, i.e. there are paired observations, x and y must have the same
 #         length and (x[i],y[i]) must be an observation pair
@@ -32,12 +32,12 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
     X<-as.matrix(data[,c(x,y)])
     mode(X)<-"numeric"
     n.genes<-nrow(X)  # number of genes
-    NA.genes<-NULL       
+    NA.genes<-NULL
     var.0.genes<-NULL
     if(any(is.na(X))){  # checks if there are NAs
         NA.genes<-unique(ceiling(which(is.na(t(X)))/ncol(X)))  # which gene has NAs?
         cat("Warning: There are",length(NA.genes),"genes with at least one missing value.")
-        if(na.rm){     
+        if(na.rm){
             X[NA.genes,]<-na.replace(X[NA.genes,])   # replace missing values with the gene mean
             X[which(is.na(X))]<-0  # if there are still NAs, i.e. if there are genes with no non-missing
         }                          # value, these NAs will be set to 0 and treated later.
@@ -45,10 +45,10 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
             cat(" The W-value of these genes is set to NA.")
         cat("\n","\n")
     }
-    
-    
+
+
     if(!paired){  # paired case
-        n.x<-length(x)   
+        n.x<-length(x)
         n.y<-length(y)
         n<-n.x+n.y
         W.mean<-n.x*(n+1)/2   # mean of W-values under the null
@@ -59,9 +59,9 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
         if(any(X.sum==0)){     # which genes have variance zero?
             cat("Warning: There are",sum(X.sum==0),"genes with variance Zero or no non-missing value. The W-value of these genes is set to NA.",
                 "\n","\n")
-            var.0.genes<-which(X.sum==0)        
+            var.0.genes<-which(X.sum==0)
         }
-        W<-rowSums(X.rank[,1:n.x])  # compute the observed W-value of each gene
+        W <- rowSums(X.rank[,1:n.x])  # compute the observed W-value of each gene
         if(!is.null(var.0.genes)){
             W[var.0.genes]<-NA            # set the W-value of the genes with variance zero to NA
             n.genes<-n.genes-length(var.0.genes)
@@ -77,9 +77,9 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
         if(length(x)!=length(y))  # check if x and y have the same length
             stop("x any y must have the same length.")
         n<-length(x)
-        X<-X[,1:n]-X[,(n+1):(2*n)]   # subtract the y-columns from the corresponding x-columns of the data set 
+        X<-X[,1:n]-X[,(n+1):(2*n)]   # subtract the y-columns from the corresponding x-columns of the data set
         X.sum<-apply(X,1,var)     # check if there are genes with variance zero
-        if(any(X.sum==0)){   
+        if(any(X.sum==0)){
             cat("There are",sum(X.sum==0,na.rm=TRUE),"genes with variance Zero or no non-missing value. The W-value of these genes is set to NA.",
                 "\n","\n")
             var.0.genes<-which(X.sum==0)  # which genes have variance zero?
@@ -88,15 +88,15 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
         W.mean<-n*(n+1)/4  # mean of W-values under the Null
         if(sum(X==0)>0){   # check if there are some Zeros
             cat("There are",sum(X==0),"Zeros.","\n","\n")
-            if(zero.rand)   # if zero.rand=TRUE, a sign is randomly assigned to observation pairs with Zero difference 
+            if(zero.rand)   # if zero.rand=TRUE, a sign is randomly assigned to observation pairs with Zero difference
                 X[which(X==0)]<-sample(c(.00001,-.00001),sum(X==0),rep=TRUE)
         }
         W<-NULL
         X.rank<-NULL
         for(i in 1:n.genes)   # compute the observed W-values
             W[i]<-sum(rank(abs(X[i,]))[X[i,]>0])
-        if(!is.null(var.0.genes)){  
-            W[var.0.genes]<-NA    # set the W-values of genes with variance Zero to NA       
+        if(!is.null(var.0.genes)){
+            W[var.0.genes]<-NA    # set the W-values of genes with variance Zero to NA
             n.genes<-n.genes-length(var.0.genes)
         }
         if(!na.rm && !is.null(NA.genes)){
@@ -104,16 +104,16 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
             n.genes<-n.genes-length(NA.genes)   # number of genes with non-missing W-values
         }
         W.exp<-qsignrank(((1:n.genes)-.5)/n.genes,n) # expected W-values
-        f.null<-dsignrank(0:W.max,n)    # compute the distribtuion of the W-values under the null   
+        f.null<-dsignrank(0:W.max,n)    # compute the distribtuion of the W-values under the null
     }
-    if(sum(W!=round(W),na.rm=TRUE)>0){  
+    if(sum(W!=round(W),na.rm=TRUE)>0){
         cat("tied Wilcoxon scores:", sum(W!=round(W),na.rm=TRUE),"\n","\n")
         y.rand<-sample(c(-0.5,0.5),length(which(W!=round(W))),replace=TRUE)            # integer
         W[which(W!=round(W))]<-W[which(W!=round(W))]+y.rand
     }
-    names(f.null)<-as.character(ifelse(paired,0,W.min):W.max) 
-    
+    names(f.null)<-as.character(ifelse(paired,0,W.min):W.max)
+
     structure(list(W=W,W.exp=W.exp,f.null=f.null,X.rank=X.rank,var.0.genes=var.0.genes,
 		NA.genes=NA.genes,n.genes=n.genes))
 }
-    
+

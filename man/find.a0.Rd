@@ -70,7 +70,9 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
-\examples{\dontrun{
+
+
+\examples{
     library(multtest)
     # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
     # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
@@ -82,8 +84,6 @@
     # makes the results reproducible.
     
     find.out<-find.a0(golub,golub.cl,alpha=c(0,0.05,0.1),rand=123)
-}}
-
-
+}
 
 \keyword{htest}

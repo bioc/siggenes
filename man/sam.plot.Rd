@@ -52,7 +52,7 @@
 }
 
 \seealso{
-    \code{\link{sam}} \code{\link{sam.wilc}} \code{\link{sam.delta}}
+    \code{\link{sam}} \code{\link{sam.wilc} \code{\link{sam.delta}}}
 }
 \references{
     Tusher, V.G., Tibshirani, R., and Chu, G. (2001). Significance analysis of microarrays
@@ -68,7 +68,9 @@
 
 \author{Holger Schwender \email{holger.schw@gmx.de}}
 
-\examples{\dontrun{
+
+
+\examples{
     library(multtest)
     # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
     # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
@@ -78,7 +80,7 @@
     # Performing a SAM Analysis of the Golub data. Setting rand=123, to make the results reproducible,
     # and setting med.fdr=FALSE, such that the mean number instead of the median number of falsely called
     # genes is computed. The output is assigned to an object for further analyses.
-    
+    if (interactive()) {
     sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
     
     # Now sam.plot can be used to obtain the SAM plot and information about the differentially expressed
@@ -90,8 +92,7 @@
     
     # For further analyses, the row numbers of the differentially expressed genes can be obtained by
     
-    sam14$row.sig.genes
-}}
-
-
+    sam.14$row.sig.genes
+}
+}
 \keyword{htest}

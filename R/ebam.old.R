@@ -97,13 +97,15 @@ ebam.old<-function(a0.out,data,a0=NA,p0=NA,delta=NA,stable=TRUE,number.int=139,l
 			"Significance criterion: p1(Z) >=",delta,"\n","\n","a0:",round(a0,4),"\n","p0:",round(p0,4),"\n",
 			"significant genes:",nsig,"\n","falsely called genes:",round(false,4),"\n","FDR:",round(fdr,4),
 			"\n","\n","\n","Genes called significant:","\n","\n",file=file.out)
-		write.table(t(dimnames(ebam.out)[[2]]),file=file.out,sep="     ",append=TRUE,row.names=FALSE,col.names=FALSE,quote=FALSE)
-		write.table(ebam.out,file=file.out,sep="  ",append=TRUE,row.names=FALSE,col.names=FALSE,quote=FALSE)
+		write.table(t(dimnames(ebam.out)[[2]]),file=file.out,sep="\t",append=TRUE,row.names=FALSE,col.names=FALSE,quote=FALSE)
+		write.table(ebam.out,file=file.out,sep="\t",append=TRUE,row.names=FALSE,col.names=FALSE,quote=FALSE)
 		cat("\n","\n","local1: estimation of local FDR using the logistic regression estimates",
 			"\n","local2: local FDR is estimated by binning the observations into small intervals",
 			file=file.out,append=TRUE)
 		cat("Output is stored in",file.out,"\n")
 	}
+	else
+		print(ebam.out)
 	plot(mat.post.Z[,"Z"],mat.post.Z[,"posterior"],main="Posterior probability for Z values",
 		xlab="Z values",ylab="p1(Z)")     # the posterior of the genes is plotted
 	abline(h=delta,lty=2)

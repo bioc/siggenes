@@ -52,7 +52,7 @@ sam.plot.old<-function(sam.out,delta,data,q.values=TRUE,R.fold=TRUE,na.rm=FALSE,
     p0<-sam.out$p0
     if(!any(sam.out$FDR[,1]==delta))  # checks if delta was used in previous analysis
         # if not an analysis with sam.fdr() is done, i.e. the interesting statistics are computed
-        vec.fdr<-sam.fdr(d.sort,d.bar,d.perm,p0,delta=delta,med=sam.out$med.fdr,graphic=FALSE,wilc=wilc)$mat.fdr
+        sam.fdr(d.sort,d.bar,d.perm,p0,delta=delta,med=sam.out$med.fdr,graphic=FALSE,wilc=wilc)$mat.fdr->vec.fdr
     if(any(sam.out$FDR[,1]==delta))    # if delta was used, we use the corresponding statistics saved in sam.out
         vec.fdr<-sam.out$FDR[which(sam.out$FDR[,1]==delta),]
     sig.genes<-NULL
@@ -106,6 +106,8 @@ sam.plot.old<-function(sam.out,delta,data,q.values=TRUE,R.fold=TRUE,na.rm=FALSE,
         write.table(sam.output,file=file.out,sep="\t",append=TRUE,row.names=FALSE,col.names=FALSE,quote=FALSE)
         cat("Output is stored in",file.out,"\n")
     }
+    else
+	print(sam.output)
     par(pty="m")    
-    invisible(structure(list(vec.fdr=vec.fdr,sam.output=sam.output,row.sig.genes=row.sig.genes)))
+    structure(list(vec.fdr=vec.fdr,sam.output=sam.output,row.sig.genes=row.sig.genes))
 }

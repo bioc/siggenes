@@ -76,7 +76,8 @@ as expression scores for the genes.}
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
-\examples{\dontrun{
+\examples{
+if (interactive()) {
     library(multtest)
     # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
     # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
@@ -90,6 +91,7 @@ as expression scores for the genes.}
     # For further analyses, the row numbers of the differentially expressed genes are obtained by
     
     ebam.wilc.out$row.sig.genes
-}}
+} 
+}
 
 \keyword{htest}

@@ -13,8 +13,6 @@ sam.plot<-function(sam.out,delta,q.values=TRUE,R.fold=TRUE,R.unlog=TRUE,
 	use.numbers<-sam.out$use.numbers
 	rand<-sam.out$rand
 	data<-eval(sam.out$X.name)
-	if(is.null(sam.out$y))
-		R.unlog<-R.fold<-FALSE
 	if(R.unlog)
 		data<-2^data
 	if(!is.null(gene.names))

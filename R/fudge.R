@@ -23,26 +23,22 @@
 fudge<-function(r,s,alpha=seq(0,1,0.05),include.zero=TRUE,factor=1.4826){
 	if(max(alpha)>1 || min(alpha)<0)
     		stop("alpha has to be between 0 and 1") 
-	if(any(round(100*alpha,10)!=round(100*alpha,0))){    # alpha has to be a percentile   
+	if(any(round(100*alpha,10)!=round(100*alpha,0)))    # alpha has to be a percentile   
     		cat("Warning: At least one alpha is not a percentile. Only the first two decimal digits are retained.","\n")
-            	alpha<-signif(alpha,2)
-	}
-	n.uni.s<-length(unique(s))
-	n.int<-ifelse(n.uni.s>500,101,floor(n.uni.s/5))
-	quan<-quantile(s,seq(0,1,le=n.int),na.rm=TRUE) 
-	fudge.quan<-quantile(s,alpha,na.rm=TRUE)
+            		alpha<-signif(alpha,2)
+	quan<-quantile(s,seq(0,1,0.01),na.rm=TRUE)   # the percentiles of s are calculated
 	cv<-NULL
 	for(i in 1:length(alpha)){  # for the alpha quantile of the s-values the coefficient of variation is calculated
     		v<-NULL
-    		for(j in 1:(n.int-1)){       # compute the MAD of the d(i) as a function of the s(i)
-        		d.alpha<-r[which(s>=quan[j] & s<quan[j+1])]/(s[which(s>=quan[j] & s<quan[j+1])]+fudge.quan[i])
+    		for(j in 1:100){       # compute the MAD of the d(i) as a function of the s(i)
+        		d.alpha<-r[which(s>=quan[j] & s<quan[j+1])]/(s[which(s>=quan[j] & s<quan[j+1])]+quan[100*alpha[i]+1])
         		v[j]<-mad(d.alpha,constant=factor) 
     		}   
     		cv[i]<-sqrt(var(v))/mean(v)  # compute the coefficient of variation of these MAD values
 	}
 	if(include.zero){  # the same for s0=0
     		v<-NULL
-    		for(j in 1:(n.int-1)){
+    		for(j in 1:100){
         	d.alpha<-r[which(s>=quan[j] & s<quan[j+1])]/s[which(s>=quan[j] & s<quan[j+1])]
         	v[j]<-mad(d.alpha,constant=factor)
 		}
@@ -55,7 +51,7 @@ fudge<-function(r,s,alpha=seq(0,1,0.05),include.zero=TRUE,factor=1.4826){
 	}
 	if(!include.zero || cv.zero>=min(cv)){  # again some output
     		alpha.hat<-alpha[which(cv==min(cv))]     # which alpha quantile of the s-values is the best choice for s0?
-    		s.zero<-fudge.quan[which(cv==min(cv))]
+    		s.zero<-quan[100*alpha.hat+1]
     		cat("s0 =",round(s.zero,4)," (The",100*alpha.hat,"% quantile of the s values.)","\n","\n")
 	}
 	if(!include.zero)
