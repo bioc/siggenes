@@ -18,7 +18,7 @@
     \item{p0}{prior probability that a gene is differentially expressed. If not specified
         (i.e. \code{NA}), it will automatically be computed.}
     \item{delta}{a gene will be called differentially expressed, if its posterior
-        probability of being differentially expressed is large than or equal to
+        probability of being differentially expressed is larger than or equal to
         \code{delta}. By default, the same \code{delta} is used as in \code{find.a0}.}
     \item{local.bin}{specifies the interval used in the estimation of the local FDR for the
         expression score \eqn{z}. By default, this interval is \eqn{[z-0.1,z+0.1]}.}
@@ -26,7 +26,7 @@
     \item{q.values}{if \code{TRUE} (default), the q-value for each gene will be computed.}
     \item{R.fold}{if \code{TRUE} (default), the fold change for each differentially
         expressed gene will be computed.}
-    \item{R.unlog}{if \code{TRUE}, 2\^data will be used in the computation of
+    \item{R.unlog}{if \code{TRUE}, the anti-log of \code{data} will be used in the computation of
     the R.fold. This is recommend if \code{data} contains the log2 transformed gene
     expression levels.}
     \item{na.rm}{if \code{FALSE} (default), the fold change of genes with at least one
@@ -51,7 +51,7 @@
         expressed genes.}
     \item{row.sig.genes}{vector consisting of the row numbers that belong to the differentially
         expressed genes.}
-    \item{...}
+    \item{...}{further objects containing additional information}
 }
 
 \note{The number of false positives are computed by \eqn{p_0}{p0} times the number of falsely
@@ -63,7 +63,7 @@
 
 \references{
     Efron, B., Tibshirani, R., Storey, J.D., and Tusher, V. (2001). Empirical Bayes Analysis
-    of a Microarray Experiment, \emph{JASA}, 96, 1151-1160.}
+    of a Microarray Experiment, \emph{JASA}, 96, 1151-1160.
 
     Storey, J.D., and Tibshirani, R. (2003). Statistical significance for genome-wide
     experiments, \emph{Technical Report}, Department of Statistics, Stanford University.
@@ -75,27 +75,32 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
+
 \examples{\dontrun{
     library(multtest)
-    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
-    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
-    # and a matrix called golub.gnames whose third column contains the gene names.
+    # Load the data of Golub et al. (1999). data(golub) contains 
+    # a 3051x38 gene expression matrix called golub, a vector of
+    # length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains
+    # the gene names.
     data(golub)
     
-    # The optimal value for the fudge factor a0 is computed, where possible values of the a0 are
-    # 0 and the 0, 0.05 and 0.1 quantile of the standard deviations of the genes. Setting rand=123
+    # The optimal value for the fudge factor a0 is computed, where
+    # possible values of the a0 are 0 and the 0, 0.05 and 0.1 quantile
+    # of the standard deviations of the genes. Setting rand=123
     # makes the results reproducible.
     
     find.out<-find.a0(golub,golub.cl,alpha=c(0,0.05,0.1),rand=123)
     
-    # Now that we have find the optimal value of a0, an empirical Bayes analysis can be performed.
+    # Now that we have find the optimal value of a0, an empirical Bayes
+    # analysis can be performed.
     
     ebam.out<-ebam(find.out,gene.names=golub.gnames[,3])
     
-    # For further analyses the row numbers of the differentially expressed genes are obtained by
+    # For further analyses the row numbers of the differentially expressed
+    # genes are obtained by
     
     ebam.out$row.sig.genes
 }}
-
 
 \keyword{htest}

@@ -1,14 +1,3 @@
-# Copyright (C) 2003 Holger Schwender
-
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# Please note that
-# 1. SAM was introduced in Tsuher, V., Tibshirani, R., and Chu, G. (2001), Significance analysis
-#    of microarrays applied to the ionizing radiation response, PNAS,98, 5116-5121,
-# 2. there is a patent pending for the SAM technology at Stanford University,
-# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-
 xy.cal<-function(cl,wilc=FALSE,emp=FALSE){
 	ebs<-ifelse(emp,"EB","S")
 	ana.type<-paste(ebs,ifelse(wilc,"AM-Wilc","AM"),sep="")
@@ -16,14 +5,14 @@ xy.cal<-function(cl,wilc=FALSE,emp=FALSE){
 	uni.cl<-length(lev)
 	uni.cl.abs<-length(unique(abs(cl)))
 	if(uni.cl>2 & uni.cl!=2*uni.cl.abs)
-		stop("There is something wrong with the class labels.")
+		stop("There is something wrong with the classlabels.")
 	if(uni.cl==1){
 		if(wilc)
 			stop("SAM-Wilc and EBAM-Wilc are not available yet for one class data.")
 		cat(ana.type,"Analysis for the one-class case.","\n","\n")
 		paired<-TRUE
 		if(lev!=1)
-			cat("Warning: Expected class label is 1. cl will thus be set to 1.","\n","\n")
+			cat("Warning: Expected classlabel is 1. cl will thus be set to 1.","\n","\n")
 		x<-1:length(cl)
 		y<-NULL
 	}
@@ -31,7 +20,7 @@ xy.cal<-function(cl,wilc=FALSE,emp=FALSE){
 		cat(ana.type,"Analysis for the two class unpaired case.","\n","\n")
 		paired<-FALSE
 		if(min(lev)!=0 | max(lev)!=1){
-			cat("Warning: Expected class labels are 0 and 1. cl will thus be set to 0 and 1.","\n","\n")
+			cat("Warning: Expected classlabels are 0 and 1. cl will thus be set to 0 and 1.","\n","\n")
 			cl[which(cl==min(lev))]<-0
 			cl[which(cl==max(lev))]<-1
 		}
@@ -49,3 +38,6 @@ xy.cal<-function(cl,wilc=FALSE,emp=FALSE){
 	}
 	structure(list(x=x,y=y,paired=paired))
 }
+ 
+ 
+

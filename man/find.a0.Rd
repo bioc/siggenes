@@ -2,11 +2,11 @@
 \alias{find.a0}
 \title{Computation of the Fudge Factor}
 \description{
-        Provides the required information for obtaining the optimal choice of the fudge factor
-    in the Empirical Bayes Analysis of Microarrays that uses the modified t statistics.}
+   Provides the required information for obtaining the optimal choice of the fudge factor
+   in the Empirical Bayes Analysis of Microarrays that uses the modified t statistics.}
 \usage{
-        find.a0(data,cl,B=100,balanced=FALSE,mat.samp=NULL,delta=0.9,alpha=(0:9)/10,
-        include.0=TRUE,p0=NA,plot.legend=TRUE,na.rm=FALSE,rand=TRUE)
+   find.a0(data,cl,B=100,balanced=FALSE,mat.samp=NULL,delta=0.9,alpha=(0:9)/10,
+       include.0=TRUE,p0=NA,plot.legend=TRUE,na.rm=FALSE,rand=TRUE)
 }
 
 \arguments{
@@ -15,7 +15,7 @@
     \item{cl}{a vector containing the class labels of the samples. In the two class unpaired case,
         the label of a sample is either 0 (e.g., control group) or 1 (e.g., case group). 
         In the two class paired case, the labels are the integers between 1 and \eqn{n/2}
-        (e.g., before treatment group) and between -1 and \eqn{-n/2} (e.g., after treatment
+        (e.g., after treatment group) and between -1 and \eqn{-n/2} (e.g., before treatment
         group), where \eqn{n} is the length of \code{cl} and \eqn{k} is paired with \eqn{-k}.
         For one group data, the label for each sample should be 1.}
     \item{B}{number of permutations used in the calculation of the null density.}
@@ -70,20 +70,23 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
+
+
 \examples{\dontrun{
     library(multtest)
-    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
-    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
-    # and a matrix called golub.gnames whose third column contains the gene names.
+    # Load the data of Golub et al. (1999). data(golub) contains
+    # a 3051x38 gene expression matrix called golub, a vector of
+    # length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains
+    # the gene names.
     data(golub)
     
-    # Now the optimal value for the fudge factor a0 is computed, where possible values of the a0 are
-    # 0 and the 0, 0.05 and 0.1 quantile of the standard deviations of the genes. Setting rand=123
-    # makes the results reproducible.
+    # Now the optimal value for the fudge factor a0 is computed,
+    # where possible values of the a0 are 0 and the 0, 0.05 and
+    # 0.1 quantile of the standard deviations of the genes. 
+    # Setting rand=123 makes the results reproducible.
     
     find.out<-find.a0(golub,golub.cl,alpha=c(0,0.05,0.1),rand=123)
 }}
-
-
 
 \keyword{htest}

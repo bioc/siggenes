@@ -1,29 +1,31 @@
 \name{siggenes-internal}
+\alias{adjust.for.mt}
+\alias{build.dperm}
+\alias{cat.stat}
+\alias{d.null}
+\alias{d.stat}
+\alias{pairt.cl.transform}
+\alias{pairt.samp}
+\alias{pairt.samp.transform}
+\alias{Rfold.cal}
+\alias{setup.mat.samp}
+\alias{stats.cal}
+\alias{wilc.stat}
 \alias{ebam.old}
 \alias{ebam.wilc.old}
 \alias{find.a0.old}
-\alias{sam.old}
-\alias{sam.plot.old}
-\alias{xy.cal}
-\alias{find.cuts}
-\alias{fudge}
-\alias{na.replace}
 \alias{neglogLik.repeat}
-\alias{p0.est}
-\alias{q.value.cal}
+\alias{q.value.old}
 \alias{q.value.wilc}
-\alias{R.fold.cal}
+\alias{R.fold.old}
 \alias{ratio.est}
-\alias{roller.coaster}
 \alias{rs.cal}
-\alias{sam.fdr}
-\alias{sam.ngenes}
-\alias{sam.plotter}
 \alias{sam.sampler}
-\alias{wilc.cal}
+\alias{xy.cal}
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
-\details{These functions are not meant to be called directly by the user.}
+\details{
+   These functions are not meant to be directly called by the user.
+}
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \keyword{internal}{siggenes-internal}
-

@@ -14,7 +14,7 @@ as expression scores for the genes.}
     \item{cl}{a vector containing the class labels of the samples. In the two class unpaired case,
     the label of a sample is either 0 (e.g, control group) or 1 (e.g., case group).
     In the two class paired case, the labels are the integers between 1 and \eqn{n/2}
-    (e.g., before treatment group) and between -1 and \eqn{-n/2} (e.g., after treatment
+    (e.g., after treatment group) and between -1 and \eqn{-n/2} (e.g., before treatment
     group), where \eqn{n} is the length of \code{cl} and \eqn{k} is paired with \eqn{-k}.}
     \item{delta}{a gene will be called significant, if its posterior probability of
         being differentially expressed is larger than or equal to \code{delta}.}
@@ -29,9 +29,9 @@ as expression scores for the genes.}
     \item{gene.names}{a vector containing the names of the genes.}
     \item{R.fold}{if \code{TRUE} (default), the fold change for each differentially
         expressed gene will be computed.}
-    \item{R.unlog}{if \code{TRUE}, 2\^data will be used in the computation of the
-    R.fold. This is recommended if \code{data} consists of log2 transformed gene expression
-    data.}
+    \item{R.unlog}{if \code{TRUE}, the anti-log of \code{data} will be used in the computation of the
+        R.fold. This is recommended if \code{data} consists of log2 transformed gene expression
+        data.}
     \item{file.out}{if specified, general information like the number of significant 
         genes and the estimated FDR and gene-specific information like the expression
         scores, the q-values, the R fold etc. of the differentially expressed genes
@@ -78,16 +78,19 @@ as expression scores for the genes.}
 
 \examples{\dontrun{
     library(multtest)
-    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
-    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
-    # and a matrix called golub.gnames whose third column contains the gene names.
+    # Load the data of Golub et al. (1999). data(golub) contains
+    # a 3051x38 gene expression matrix called golub, a vector of
+    # length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains
+    # the gene names.
     data(golub)
     
     # An EBAM-Wilc analysis of the Golub data is performed by
     
     ebam.wilc.out<-ebam.wilc(golub,golub.cl,gene.names=golub.gnames[,3],rand=123)
     
-    # For further analyses, the row numbers of the differentially expressed genes are obtained by
+    # For further analyses, the row numbers of the differentially expressed
+    # genes are obtained by
     
     ebam.wilc.out$row.sig.genes
 }}
