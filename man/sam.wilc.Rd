@@ -72,8 +72,8 @@ of the modified t statistics, it uses Wilcoxon Rank Sums.}
     
     # Performing a SAM-Wilc Analysis of the Golub data. Setting rand=123 makes the results reproducible.
     # The output is assigned to an object for further analyses.
-    
+    if (interactive()) {
     sam.output<-sam.wilc(golub,golub.cl,rand=123)
 }
-
+}
 \keyword{htest}
