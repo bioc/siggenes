@@ -108,5 +108,8 @@ ebam<-function(a0.out,data,a0=NA,p0=NA,delta=NA,stable=TRUE,number.int=139,local
 	# mark the significant genes with green color
 	points(mat.post.Z[which(mat.post.Z[,2]>delta),1],mat.post.Z[which(mat.post.Z[,2]>=delta),2],col=4)
 	mat.Z.unsorted<-cbind(Z.unsorted,mat.post.Z[rank(Z.unsorted),2])
-	invisible(return(mat.repeat,optim.out,mat.post.Z,ebam.out,FDR,a0,mat.Z.unsorted,Z.unsorted,row.sig.genes,p0))
+	invisible(return(list(mat.repeat=mat.repeat,optim.out=optim.out,
+                              mat.post.Z=mat.post.Z,ebam.out=ebam.out,
+                              FDR=FDR,a0=a0,mat.Z.unsorted=mat.Z.unsorted,
+                              Z.unsorted=Z.unsorted,row.sig.genes=row.sig.genes,p0=p0)))
 }
