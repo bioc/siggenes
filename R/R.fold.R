@@ -20,11 +20,11 @@
 R.fold.cal<-function(data,x,y,na.rm=FALSE){
     X<-as.matrix(data[,c(x,y)])  # for easier calculation
     mode(X)<-"numeric"
-    mean.x <- rowMeans(X[,1:length(x)],na.rm=na.rm)  # compute the genewise mean of the first group
-    mean.y <- rowMeans(X[,(length(x)+1):ncol(X)], na.rm=na.rm) # compute the genewise mean of the second group
+    mean.x <- rowMeans(X[,1:length(x)],na.rm=na.rm)   # compute the genewise mean of the first group
+    mean.y <- rowMeans(X[,(length(x)+1):ncol(X)], na.rm=na.rm)  # compute the genewise mean of the second group
     vec.R.fold<-mean.x/mean.y  # compute the fold changes
     vec.R.fold[which(mean.x<=0 | mean.y<=0)]<-NA   # set the fold changes to 0 which have at least
                                                             # one non-positive group mean
     mat.R.fold<-cbind(mean.x=mean.x,mean.y=mean.y,R.fold=vec.R.fold)  # for output
-    invisible(return(mat.R.fold))
+    mat.R.fold
 }

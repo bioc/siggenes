@@ -61,8 +61,8 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
             mat.samp<-sam.sampler(n.x,n.y,B,paired=FALSE,rand=rand,balanced=bal,file.out=NA)   # get the permutation matrix
         if(ncol(mat.samp)!=n)  # checks if mat.samp has the correct number of columns. If not, the function is stopped
             stop("mat.samp has not the correct number of columns.")
-        if(!all(mat.samp==1 | mat.samp==2)) # checks if the values of mat.samp are correct. If not, function is stopped
-            stop("The values of mat.samp must be 1 or 2.")
+        if(!all(mat.samp==1 | mat.samp==0)) # checks if the values of mat.samp are correct. If not, function is stopped
+            stop("The values of mat.samp must be 0 or 1.")
         B<-nrow(mat.samp)
         r.perm<-matrix(0,length(r),B)
         s.perm<-matrix(0,length(r),B)
@@ -112,5 +112,6 @@ rs.cal<-function(data,x,y=NULL,paired=FALSE,mat.samp=NULL,B=100,bal=FALSE,na.rm=
         s.perm[var.0.genes,]<-NA
     }
 
-    invisible(return(r,s,r.perm,s.perm,Z,mat.samp,var.0.genes,NA.genes))
+    structure(list(r=r,s=s,r.perm=r.perm,s.perm=s.perm,Z=Z,mat.samp=mat.samp,var.0.genes=var.0.genes,
+		NA.genes=NA.genes))
 }

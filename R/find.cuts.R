@@ -48,5 +48,5 @@ find.cuts<-function(delta,d.sort,d.diff,d.perm,p0,j0,med,wilc=FALSE){
         false<-sum(d.perm[which(d.perm[,1]>=cutup | d.perm[,1]<=cutlow),2])
     fdr<-p0*false/max(nsig,1)    # FDR
     cut.out<-c(delta=delta,p0=p0,false=false,nsig=nsig,fdr=fdr,cutlow=cutlow,cutup=cutup,j1=j1,j2=j2)
-    invisible(cut.out)
+    cut.out
 }

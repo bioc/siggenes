@@ -4,57 +4,42 @@
 \description{Performs an Empirical Bayes Analysis of Microarrays by using Wilcoxon Rank Sums
 as expression scores for the genes.}
 \usage{
-    ebam.wilc(data,x,y,paired=FALSE,delta=.9,p0=NA,stable.p0=TRUE,use.offset=TRUE,use.weights=TRUE,
-    ties.rand=TRUE,zero.rand=TRUE,ns.df=5,col.accession=NA,col.gene.name=NA,R.fold=TRUE,
-    R.dataset=data,file.out=NA,rand=NA,na.rm=FALSE)
+    ebam.wilc(data,cl,delta=.9,p0=NA,ties.rand=TRUE,zero.rand=TRUE,gene.names=NULL,
+        R.fold=TRUE,R.unlog=TRUE,file.out=NA,na.rm=FALSE,rand=NA)
 }
 
 \arguments{
     \item{data}{the data set that should be analyzed. Every row of this data set must
-         correspond to a gene.}
-    \item{x}{vector of the columns of \code{data} that correspond to the treatment group. In the
-        paired case, \eqn{(x[i],y[i])} build a pair. If, e.g., the first \eqn{n_1}{n1} columns of 
-        \code{data} build the treatment group, \code{x=1:\eqn{n_1}{n1}}.}
-    \item{y}{vector of the columns of \code{data} that correspond to the control group. In the
-        paired case, \eqn{(x[i], y[i])} are an observation pair.}
-    \item{paired}{paired (\code{TRUE}) or unpaired (\code{FALSE}) data. Default is \code{FALSE}.}
+         correspond to a gene, and each column to a biological sample.}
+    \item{cl}{a vector containing the class labels of the samples. In the two class unpaired case,
+    the label of a sample is either 0 (e.g, control group) or 1 (e.g., case group).
+    In the two class paired case, the labels are the integers between 1 and \eqn{n/2}
+    (e.g., before treatment group) and between -1 and \eqn{-n/2} (e.g., after treatment
+    group), where \eqn{n} is the length of \code{cl} and \eqn{k} is paired with \eqn{-k}.}
     \item{delta}{a gene will be called significant, if its posterior probability of
         being differentially expressed is larger than or equal to \code{delta}.}
     \item{p0}{prior probability that a gene is differentially expressed. If not specified,
         it will automatically be computed.}
-    \item{stable.p0}{if \code{TRUE} (default), \eqn{p_0}{p0} will be computed by the algorithm
-        of Storey and Tibshirani (2003). If \code{FALSE}, the (unstable) estimate will
-        be computed that ensures that the posterior probability of being differentially
-        expressed is always nonnegative.}
-    \item{use.offset}{if \code{TRUE} (default), an offset will be used in the Poisson regression
-        for the estimation of the density of the expression scores of all genes.}
-    \item{use.weights}{if \code{TRUE} (default), weights are used in the natural cubic spline
-        fit for the estimation of \eqn{p_0}{p0}.}
     \item{ties.rand}{if \code{TRUE} (default), non-integer expression scores will be randomly
         assigned to the next lower or upper integer. Otherwise, they are assigned to
         the integer that is closer to the mean.}
     \item{zero.rand}{if \code{TRUE} (default), the sign of each Zero in the computation of
         the Wilcoxon signed rank sums will be randomly assigned. If \code{FALSE}, the
         sign of the Zeros will be set to '--'.}
-    \item{ns.df}{the number of degrees of freedom used in the Poisson regression for the 
-        estimation of the mixture density of the expression scores of all genes.}
-    \item{col.accession}{the column of \code{data} containing the accession numbers of
-        the genes. If specified, the accession numbers of the significant genes
-        will be added to the output.}
-    \item{col.gene.name}{the column of \code{data} that contains the names of the genes.
-        If specified, the names of the significant genes will be added to the output.}
+    \item{gene.names}{a vector containing the names of the genes.}
     \item{R.fold}{if \code{TRUE} (default), the fold change for each differentially
         expressed gene will be computed.}
-    \item{R.dataset}{the data set used in the computation of the fold change. This data
-        set can be a transformed version of \code{data}.}
+    \item{R.unlog}{if \code{TRUE}, 2\^data will be used in the computation of the
+    R.fold. This is recommended if \code{data} consists of log2 transformed gene expression
+    data.}
     \item{file.out}{if specified, general information like the number of significant 
         genes and the estimated FDR and gene-specific information like the expression
         scores, the q-values, the R fold etc. of the differentially expressed genes
         are stored in this file.}
-    \item{rand}{if specified, the random number generator will be set in a reproducible state.}
     \item{na.rm}{if \code{FALSE} (default), the fold change of genes with at least one
         missing value will be set to \code{NA}. If \code{TRUE}, missing values will be
         replaced by the genewise mean.}
+    \item{rand}{if specified, the random number generator will be set in a reproducible state.}
 }
 
 \value{a plot of the expression scores vs.\ their posterior probability of being differentially
@@ -90,5 +75,22 @@ as expression scores for the genes.}
 }
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
+
+\examples{
+    library(multtest)
+    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
+    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains the gene names.
+    data(golub)
+    
+    # An EBAM-Wilc analysis of the Golub data is performed by
+    
+    ebam.wilc.out<-ebam.wilc(golub,golub.cl,gene.names=golub.gnames[,3],rand=123)
+    
+    # For further analyses, the row numbers of the differentially expressed genes are obtained by
+    
+    ebam.wilc.out$row.sig.genes
+} 
+
 
 \keyword{htest}

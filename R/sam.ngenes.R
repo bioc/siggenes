@@ -57,7 +57,7 @@ sam.ngenes<-function(d.sort,d.bar,d.perm,ngenes=0.05,iteration=3,initial.delta=s
         upper=fdr.ngenes[min(which(fdr.ngenes[,4]<ngenes)),]))
     print(fdr.ngenes)
     delta.ngenes<-NULL
-    invisible(return(fdr.ngenes,delta.ngenes,p0))
+    structure(list(fdr.ngenes=fdr.ngenes,delta.ngenes=delta.ngenes,p0=p0))
 }
     
     

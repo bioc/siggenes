@@ -31,6 +31,6 @@ q.value.cal<-function(d,d.perm,p0){
 	mat.qvalue<-cbind(d=d[order(abs(d))],false=vec.false,q.value=q.value) # for further calculation and output
 	if(n.with.NA!=m)  # every gene with a missing d-value gets a q-value which is NA
 		mat.qvalue<-rbind(mat.qvalue,matrix(NA,n.with.NA-m,3))
-	return(mat.addup,vec.false,q.value,mat.qvalue)
+	structure(list(mat.addup=mat.addup,vec.false=vec.false,q.value=q.value,mat.qvalue=mat.qvalue))
 }
 	

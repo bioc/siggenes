@@ -7,39 +7,27 @@
     on the differentially expressed genes in a file.
 }
 \usage{
-    sam.plot(sam.out,delta,data,q.values=TRUE,R.fold=TRUE,na.rm=FALSE,pty.square=TRUE,file.out=NA,
-        col.accession=NA,col.gene.name=NA,use.numbers=sam.out$use.numbers,rand=sam.out$rand)
+    sam.plot(sam.out,delta,q.values=TRUE,R.fold=TRUE,R.unlog=TRUE,
+        na.rm=FALSE,file.out=NA,gene.names=NULL)
 }
 \arguments{
     \item{sam.out}{the object to which the output of a previous analysis with
         \code{sam} or \code{sam.wilc} was stored.}
     \item{delta}{the value of the threshold \eqn{\Delta} for which the analysis should be performed.}
-    \item{data}{the used data set. If the fold change should be computed, this data set
-        can be a transformed version of the data set used in the previous analysis
-        with \code{sam} or \code{sam.wilc}.}
     \item{q.values}{if \code{TRUE} (default), the q-value for each gene will be computed.}
     \item{R.fold}{if \code{TRUE} (default), the fold change for each differentially 
         expressed gene will be computed. If the previous SAM analysis was an one class analysis
         \code{R.fold} is automatically set to \code{FALSE}.}
+    \item{R.unlog}{if \code{TRUE}, 2\^data will be used in the computation of the
+        R.fold. This is recommended if \code{data} consists of log2 transformed gene expression
+        data.}
     \item{na.rm}{if \code{FALSE} (default), the fold change of genes with at least one
-         missing value will be set to \code{NA}. If \code{TRUE}, missing values will
-         be replaced by the genewise mean.}
-    \item{pty.square}{if \code{TRUE} (default), a square SAM Plot will be generated with
-         x and y axes having the same range.}
+        missing value will be set to \code{NA}. If \code{TRUE}, missing values will be
+        replaced by the genewise mean.}
     \item{file.out}{if specified (i.e. not \code{NA}), general information like the number
         of significant genes and the estimated FDR and gene-specific information is
         stored in the corresponding file.}
-    \item{col.accession}{the column of \code{data} containing the accession numbers of
-        the genes. If specified, the accession numbers of the significant genes
-        will be added to the output.}
-    \item{col.gene.name}{the column of \code{data} that contains the names of the genes.
-        If specified, the names of the significant genes will be added to the output.}
-    \item{use.numbers}{if \code{TRUE}, the number of observations that correspond to a point
-        in the SAM Plot will be used as symbol for this point. Will only be used, if
-        \code{sam.out} contains the results of \code{sam.wilc}.}
-    \item{rand}{if specified, the random number generator is set in a reproducible state.
-        By default, the same \code{set.seed} is used as in the previous analysis with
-        either \code{sam} or \code{sam.wilc}}
+    \item{gene.names}{a vector containing the names of the genes.}
 }
 \value{
     a SAM Plot for the specified \eqn{\Delta}{Delta} and (optionally) an output file
@@ -64,7 +52,7 @@
 }
 
 \seealso{
-    \code{\link{sam}} \code{\link{sam.wilc} \code{\link{sam.lambda}}}
+    \code{\link{sam}} \code{\link{sam.wilc} \code{\link{sam.delta}}}
 }
 \references{
     Tusher, V.G., Tibshirani, R., and Chu, G. (2001). Significance analysis of microarrays
@@ -79,5 +67,32 @@
 }
 
 \author{Holger Schwender \email{holger.schw@gmx.de}}
+
+
+
+\examples{
+    library(multtest)
+    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
+    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains the gene names.
+    data(golub)
+    
+    # Performing a SAM Analysis of the Golub data. Setting rand=123, to make the results reproducible,
+    # and setting med.fdr=FALSE, such that the mean number instead of the median number of falsely called
+    # genes is computed. The output is assigned to an object for further analyses.
+    
+    sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
+    
+    # Now sam.plot can be used to obtain the SAM plot and information about the differentially expressed
+    # genes for a specified value of delta.
+    
+    sam.14<-sam.plot(sam.output,1.4,gene.names=golub.gnames[,3])
+    
+    # sam.plot can also be used in a SAM-Wilc analysis for a specific Delta. 
+    
+    # For further analyses, the row numbers of the differentially expressed genes can be obtained by
+    
+    sam.14$row.sig.genes
+}
 
 \keyword{htest}

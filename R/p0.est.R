@@ -38,5 +38,5 @@ p0.est<-function(d,d.perm,lambda=1,vec.lambda=(0:95)/100){
 	}
 	spline.out<-smooth.spline(vec.lambda,vec.p0,w=1-vec.lambda,df=3)   # smooth natural cubic splines with 3 df
 	p0<-min(predict(spline.out,1)$y,1)   # compute p0(1) which is the estimation of p0
-	return(p0,spline.out,vec.p0)
+	structure(list(p0=p0,spline.out=spline.out,vec.p0=vec.p0))
 }

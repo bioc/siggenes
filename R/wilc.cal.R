@@ -61,7 +61,7 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
                 "\n","\n")
             var.0.genes<-which(X.sum==0)
         }
-        W <- rowSums(X.rank[,1:n.x]) # compute the observed W-value of each gene
+        W <- rowSums(X.rank[,1:n.x])  # compute the observed W-value of each gene
         if(!is.null(var.0.genes)){
             W[var.0.genes]<-NA            # set the W-value of the genes with variance zero to NA
             n.genes<-n.genes-length(var.0.genes)
@@ -113,6 +113,7 @@ wilc.cal<-function(data,x,y,paired=FALSE,zero.rand=TRUE,rand=NA,na.rm=FALSE){
     }
     names(f.null)<-as.character(ifelse(paired,0,W.min):W.max)
 
-    invisible(return(W,W.exp,f.null,X.rank,var.0.genes,NA.genes,n.genes))
+    structure(list(W=W,W.exp=W.exp,f.null=f.null,X.rank=X.rank,var.0.genes=var.0.genes,
+		NA.genes=NA.genes,n.genes=n.genes))
 }
 

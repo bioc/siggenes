@@ -1,4 +1,10 @@
 \name{siggenes-internal}
+\alias{ebam.old}
+\alias{ebam.wilc.old}
+\alias{find.a0.old}
+\alias{sam.old}
+\alias{sam.plot.old}
+\alias{xy.cal}
 \alias{find.cuts}
 \alias{fudge}
 \alias{na.replace}
@@ -20,3 +26,4 @@
 \details{These functions are not meant to be called directly by the user.}
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \keyword{internal}{siggenes-internal}
+

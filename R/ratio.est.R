@@ -68,5 +68,5 @@ ratio.est<-function(Z.norm,z.norm,p0=NA,stable=TRUE,number.int=139){
     posterior<-1-p0*(1-pi.Z)/(B*pi.Z)     # calculate the posterior probability 
     posterior[which(posterior<0)]<-0      # truncate posterior at 0
     mat.post<-cbind(mat.repeat[,c("center","success")],posterior)
-    invisible(return(mat.repeat,optim.out,p0,mat.post))
+    structure(list(mat.repeat=mat.repeat,optim.out=optim.out,p0=p0,mat.post=mat.post))
 }

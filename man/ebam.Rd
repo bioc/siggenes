@@ -6,17 +6,13 @@
     fudge factor \eqn{a_0}{a0}. Modified versions of the t statistics are used.
 }
 \usage{
-    ebam(a0.out,data,a0=NA,p0=NA,delta=NA,stable=TRUE,number.int=139,local.bin=.1,
-    col.accession=NA,col.gene.name=NA,q.values=TRUE,R.fold=TRUE,R.dataset=data,na.rm=FALSE,
-    file.out=NA)
+    ebam(a0.out,a0=NA,p0=NA,delta=NA,local.bin=.1,gene.names=NULL,q.values=TRUE,
+    R.fold=TRUE,R.unlog=TRUE,na.rm=FALSE,file.out=NA)
 }
 
 \arguments{
     \item{a0.out}{the object to which the output of a previous analysis with \code{find.a0}
         was assigned.}
-    \item{data}{the data set that should be analyzed. Each row of this data set must
-        correspond to a gene. It has to be the same data set that was used in 
-        \code{find.a0}.}
     \item{a0}{the fudge factor. If \code{NA}, the value suggested by \code{find.a0}
         will be used.}
     \item{p0}{prior probability that a gene is differentially expressed. If not specified
@@ -24,25 +20,15 @@
     \item{delta}{a gene will be called differentially expressed, if its posterior
         probability of being differentially expressed is large than or equal to
         \code{delta}. By default, the same \code{delta} is used as in \code{find.a0}.}
-    \item{stable}{if \code{TRUE} (default), \eqn{p_0}{p0} will be computed by the algorithm of
-        Storey and Tibshirani (2003). If \code{FALSE}, the (unstable) estimate will be computed
-        that ensures that the posterior probability of being differentially expressed
-        is always nonnegative.}
-    \item{number.int}{the number of equally spaced intervals that is used in the 
-        logistic regression for the estimation of the ratio of the null density to the mixture
-        density.}
     \item{local.bin}{specifies the interval used in the estimation of the local FDR for the
         expression score \eqn{z}. By default, this interval is \eqn{[z-0.1,z+0.1]}.}
-    \item{col.accession}{the column of \code{data} containing the accession numbers of
-        the genes. If specified, the accession numbers of the significant genes
-        will be added to the output.}
-    \item{col.gene.name}{the column of \code{data} that contains the names of the genes.
-        If specified, the names of the significant genes will be added to the output.}
+    \item{gene.names}{a vector containing the names of the genes}
     \item{q.values}{if \code{TRUE} (default), the q-value for each gene will be computed.}
     \item{R.fold}{if \code{TRUE} (default), the fold change for each differentially
         expressed gene will be computed.}
-    \item{R.dataset}{the data set used in the computation of the fold change. This data
-        set can be a transformed version of \code{data}.}
+    \item{R.unlog}{if \code{TRUE}, 2\^data will be used in the computation of
+    the R.fold. This is recommend if \code{data} contains the log2 transformed gene
+    expression levels.}
     \item{na.rm}{if \code{FALSE} (default), the fold change of genes with at least one
         missing value will be set to \code{NA}. If \code{TRUE}, missing values will be
         replaced by the genewise mean.}
@@ -88,5 +74,28 @@
 }
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
+
+
+\examples{
+    library(multtest)
+    # Load the data of Golub et al. (1999). data(golub) contains a 3051x38 gene expression
+    # matrix called golub, a vector of length called golub.cl that consists of the 38 class labels,
+    # and a matrix called golub.gnames whose third column contains the gene names.
+    data(golub)
+    
+    # The optimal value for the fudge factor a0 is computed, where possible values of the a0 are
+    # 0 and the 0, 0.05 and 0.1 quantile of the standard deviations of the genes. Setting rand=123
+    # makes the results reproducible.
+    
+    find.out<-find.a0(golub,golub.cl,alpha=c(0,0.05,0.1),rand=123)
+    
+    # Now that we have find the optimal value of a0, an empirical Bayes analysis can be performed.
+    
+    ebam.out<-ebam(find.out,gene.names=golub.gnames[,3])
+    
+    # For further analyses the row numbers of the differentially expressed genes are obtained by
+    
+    ebam.out$row.sig.genes
+}
 
 \keyword{htest}

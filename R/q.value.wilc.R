@@ -40,5 +40,6 @@ q.value.wilc<-function(W,p0,n.x,n.y,paired=FALSE){
     for(i in W.min:W.max)
         q.value[which(W==i)]<-vec.q.value[i-W.min+1]
     mat.qvalue<-cbind(W,q.value)[order(abs(W-W.mean),na.last=TRUE),]   # matrix of ordered W- and corresponding q-values
-    invisible(return(mat.qvalue,p.value,nsig,q.value,vec.q.value,W.min,W.max,W.mean))
+    structure(list(mat.qvalue=mat.qvalue,p.value=p.value,nsig=nsig,q.value=q.value,
+		vec.q.value=vec.q.value,W.min=W.min,W.max=W.max,W.mean=W.mean))
 }

@@ -57,5 +57,5 @@ sam.fdr<-function(d.sort,d.bar,d.perm,p0,delta=(1:10)/5,med=TRUE,graphic=TRUE,th
         roller.coaster(mat.fdr,helplines=helplines) # Delta vs. FDR and vs. #significant
                                 # genes, respectively
     }
-    invisible(return(tab.fdr,mat.fdr,p0))
+    structure(list(tab.fdr=tab.fdr,mat.fdr=mat.fdr,p0=p0))
 }

@@ -1,6 +1,7 @@
 Package: siggenes
-Version: 1.0.1
-Date: 2003-7-8
+Version: 1.0.2
+Date: 2003-10-27
+Title: Significance and Empirical Bayes Analyses of Microarrays
 Title: Significance and Empirical Bayes Analyses of Microarrays
 Author: Holger Schwender <holger.schw@gmx.de>
 Maintainer: Holger Schwender <holger.schw@gmx.de>
