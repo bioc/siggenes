@@ -1,6 +1,6 @@
 Package: siggenes
-Version: 1.2.9
-Date: 2004-10-06
+Version: 1.2.10
+Date: 2004-10-26
 Title: SAM and Efron's empirical Bayes approaches
 Author: Holger Schwender <holger.schw@gmx.de>
 Maintainer: Holger Schwender <holger.schw@gmx.de>
@@ -12,4 +12,4 @@ Description: Identification of differentially expressed genes and estimation
 License: free for non-commercial use. Non-academic users MUST have a valid 
   license for the full (Excel) version of the SAM software programmed at
   Stanford University, see http://www-stat.stanford.edu/~tibs/SAM/index.html
-Packaged: Wed Oct  6 14:41:46 2004; holgers
+Packaged: Tue Oct 26 00:18:01 2004; holgers

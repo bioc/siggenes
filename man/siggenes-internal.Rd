@@ -22,6 +22,7 @@
 \alias{rs.cal}
 \alias{sam.sampler}
 \alias{xy.cal}
+\alias{p0.est}
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
 \details{
