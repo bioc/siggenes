@@ -52,7 +52,7 @@
     # Performing a SAM Analysis of the Golub data. Setting rand=123, to make the results reproducible,
     # and setting med.fdr=FALSE, such that the mean number instead of the median number of falsely called
     # genes is computed. The output is assigned to an object for further analyses.
-    
+    if (interactive()) {
     sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
     
     # Now the number of significant genes and the FDR should be computed for other values of the threshold
@@ -60,5 +60,5 @@
     
     sam.delta(sam.output,seq(0.6,0.8,0.01))
 }
-
+}
 \keyword{htest}

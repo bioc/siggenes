@@ -80,7 +80,7 @@
     # Performing a SAM Analysis of the Golub data. Setting rand=123, to make the results reproducible,
     # and setting med.fdr=FALSE, such that the mean number instead of the median number of falsely called
     # genes is computed. The output is assigned to an object for further analyses.
-    
+    if (interactive()) {
     sam.output<-sam(golub,golub.cl,med.fdr=FALSE,rand=123)
     
     # Now sam.plot can be used to obtain the SAM plot and information about the differentially expressed
@@ -94,5 +94,5 @@
     
     sam.14$row.sig.genes
 }
-
+}
 \keyword{htest}
