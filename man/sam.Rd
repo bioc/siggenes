@@ -5,7 +5,7 @@
     a set of positive thresholds. It is possible to do either an one class or a two class
     SAM analysis.}
 \usage{sam(data,cl,B=100,balanced=FALSE,mat.samp=NULL,delta=(1:10)/5,med.fdr=TRUE,
-        s0=NA,alpha.s0=seq(0,1,.05),include.s0=T,p0=NA,lambda.p0=1,vec.lambda.p0=(0:95)/100,
+        s0=NA,alpha.s0=seq(0,1,.05),include.s0=TRUE,p0=NA,lambda.p0=1,vec.lambda.p0=(0:95)/100,
         na.rm=FALSE,graphic.fdr=TRUE,thres.fdr=seq(0.5,2,0.5),ngenes=NA,iteration=3,
         initial.delta=c(.1,seq(.2,2,.2),4),rand=NA)}
 \arguments{

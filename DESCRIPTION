@@ -1,10 +1,10 @@
 Package: siggenes
-Version: 1.0.2
+Version: 1.0.3
 Date: 2003-10-27
 Title: Significance and Empirical Bayes Analyses of Microarrays
 Author: Holger Schwender <holger.schw@gmx.de>
 Maintainer: Holger Schwender <holger.schw@gmx.de>
-Depends: modreg, splines
+Depends: splines
 Description: Identifying differentially expressed genes and estimating the
     False Discovery Rate (FDR) with both the Significance Analysis of
     Microarrays (SAM) and the Empirical Bayes Analyses of Microarrays (EBAM).

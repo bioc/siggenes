@@ -11,17 +11,14 @@
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-# Required library: modreg
-
 # d: the observed d-values
 # d.perm: matrix of the permuted d-values
 # lambda: number between 0 and 1. p0 is computed as a function of lambda. If lambda=1, p0(1) is computed
 #         using natural cubic splines. This computation leads to an optimal estimation of p0.
-# vec.lambda: if lambda=1, a natural cubic spline with 3 df of p0(vec.lambda[i]) on vec.lambda[i] is fitted 
+# vec.lambda: if lambda=1, a natural cubic spline with 3 df of p0(vec.lambda[i]) on vec.lambda[i] is fitted
 
 
 p0.est<-function(d,d.perm,lambda=1,vec.lambda=(0:95)/100){
-	library(modreg)   # library is needed for smooth.spline()
 	if(lambda>1 || lambda<0)   # limitation of lambda
 		stop("lambda has to be between 0 and 1.")
 	if(lambda!=1)       # if lambda!=1, one is only interested in p0(lambda)

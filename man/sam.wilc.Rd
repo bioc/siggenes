@@ -28,8 +28,6 @@ of the modified t statistics, it uses Wilcoxon Rank Sums.}
     \item{graphic}{if \code{TRUE} (default), both the SAM plot and the plots of Delta vs. 
         FDR and Delta vs. number of significant genes are generated. To avoid this
         plotting, set \code{graphic=FALSE}.}
-    \item{pty.square}{if \code{TRUE} (default), a square SAM plot will be generated with
-        x and y axes having the same range.}
     \item{thres}{a vector of integer values for \eqn{\Delta} for which two lines parallel
         to the 45-degree line are generated.}
     \item{use.numbers}{if \code{TRUE} (default), the symbol for each point in the SAM Plot
