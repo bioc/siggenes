@@ -23,6 +23,7 @@
 \alias{sam.sampler}
 \alias{xy.cal}
 \alias{p0.est}
+\alias{quantiles}
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
 \details{
