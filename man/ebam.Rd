@@ -14,7 +14,7 @@
 \arguments{
     \item{a0.out}{the object to which the output of a previous analysis with \code{find.a0}
         was assigned.}
-    \item{data}{the data set that should be analyzed. Each column of this data set must
+    \item{data}{the data set that should be analyzed. Each row of this data set must
         correspond to a gene. It has to be the same data set that was used in 
         \code{find.a0}.}
     \item{a0}{the fudge factor. If \code{NA}, the value suggested by \code{find.a0}
