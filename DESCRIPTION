@@ -13,3 +13,5 @@ License: free for non-commercial users. Non-academic users MUST have a valid
 	license for the full (Excel) version of the SAM software programmed at
 	Stanford University, see
 	http://www-stat.stanford.edu/~tibs/SAM/index.html
+ReleaseLevel: devel
+
