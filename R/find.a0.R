@@ -94,6 +94,6 @@ find.a0<-function(data,x,y,paired=FALSE,mat.samp=NULL,B=100,balanced=FALSE,na.rm
     if(a0!=0)
         cat("   (the",names(a0),"quantile of the s-values)")  
     cat("\n")
-    invisible(return(r,s,r.perm,s.perm,mat.samp,sig.a0,a0,delta,vec.a0,x,y))
+    invisible(list(r,s,r.perm,s.perm,mat.samp,sig.a0,a0,delta,vec.a0,x,y))
 }
         
