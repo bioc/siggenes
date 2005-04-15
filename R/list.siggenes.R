@@ -1,4 +1,5 @@
-list.siggenes<-function(object,delta,file="",gene.names=NULL,order=TRUE,text=NULL,append=FALSE){
+list.siggenes<-function(object,delta,file="",gene.names=NULL,order=TRUE,text=NULL,
+		append=FALSE){
 	if(length(delta)!=1)
 		stop("delta must have length 1.")
 	if(is.null(gene.names))
@@ -15,8 +16,12 @@ list.siggenes<-function(object,delta,file="",gene.names=NULL,order=TRUE,text=NUL
 	if(order)
 		row.sig.genes<-row.sig.genes[rev(order(abs(object@d[row.sig.genes])))]
 	sig.genes<-gene.names[row.sig.genes]
-	cat(text,if(!is.null(text)) "\n",file=file,append=append)
-	write(sig.genes,file=file,append=TRUE)
+	if(file!=""){
+		cat(text,if(!is.null(text)) "\n",file=file,append=append)
+		write(sig.genes,file=file,append=TRUE)
+	}
+	else
+		sig.genes
 }
 	
 	

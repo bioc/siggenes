@@ -136,7 +136,7 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRU
 		}
 	}
 	if(!is.null(gene.names))
-		names(W.norm)<-names(p.value)<-names(vec.false)<-substring(gene.names,1,50)
+		names(W.norm)<-names(p.value)<-names(vec.false)<-substring(gene.neames,1,50)
 	structure(list(d=W.norm,d.bar=W.exp,p.value=p.value,vec.false=vec.false,
 		discrete=ifelse(approx50,FALSE,TRUE),s=numeric(0),s0=numeric(0),
 		mat.samp=matrix(numeric(0)),msg=msg,fold=fold.out))

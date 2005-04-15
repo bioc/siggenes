@@ -61,17 +61,18 @@
   \describe{
     \item{identify}{\code{signature(x = "SAM")}: After generating a SAM plot,
        \code{identify} can be used to obtain information about the genes by
-       clicking on the symbols in the SAM plot. For all arguments of
-       \code{identify}, see \code{args.sam("identify")}.}
+       clicking on the symbols in the SAM plot. For details, see 
+       \code{help.sam(identify)}. Arguments are listed by \code{args.sam(identify)}.}
     \item{plot}{\code{signature(x = "SAM")}: Generates a SAM plot or the Delta
        plots. If the specified \code{delta} in \code{plot(object,delta)} is
        a numeric value, a SAM plot will be generated. If \code{delta} is either
        not specified or a numeric vector, the Delta plots will be generated.
        For details, see \code{?sam.plot2}, \code{?delta.plot} or 
-       \code{args.sam("plot")},respectively.}
+       \code{help.sam(plot)},respectively. Arguments are listed by \code{args.sam(plot)}.}
     \item{print}{\code{signature(x = "SAM")}: Prints general information such as 
        the number of significant genes and the estimated FDR for a set of 
-       \eqn{\Delta}{Delta}. For all arguments, see \code{args.sam("print")}.}
+       \eqn{\Delta}{Delta}. For details, see \code{help.sam(print)}. Arguments are
+       listed by \code{args.sam(print)}.}
     \item{show}{\code{signature(object = "SAM")}: Shows the output of the SAM
        analysis.}
     \item{summary}{\code{signature(object = "SAM")}: Summarizes the results of
@@ -80,12 +81,14 @@
         additional information will be shown. If \code{delta} is a numeric
         vector, the general information for the specific \eqn{\Delta}{Delta} is
         shown and additionally gene-specific information about the genes called 
-        significant using this value of \eqn{\Delta}{Delta}. For all arguments,
-        see \code{args.sam("summary")}.}
+        significant using this value of \eqn{\Delta}{Delta}. The output of summary
+	is an object of class sumSAM which has the slots \code{row.sig.genes},
+	\code{mat.fdr}, \code{mat.sig} and \code{list.args}. For details, 
+	see \code{help.sam(summary)}. All arguments are listed by \code{args.sam(summary)}.}
   }
 }
 \note{ 
-   SAM was deveoped by Tusher et al. (2001).
+   SAM was developed by Tusher et al. (2001).
     
    !!! There is a patent pending for the SAM technology at Stanford University. !!!
 }
@@ -148,12 +151,17 @@
   # Delta = 3 (since neither the gene names nor the chip type
   # has been specified ll is set to FALSE to avoid a warning).
   sam.sum3<-summary(sam.out,3,ll=FALSE)
+  sam.sum3
   
   # Obtain the rows of the Golub et al. (1999) data set containing
   # the genes called differentially expressed
-  sam.sum3$row.sig.genes
+  sam.sum3@row.sig.genes
   
   # and their names
-  golub.gnames[sam.sum3$row.sig.genes,3] 
+  golub.gnames[sam.sum3@row.sig.genes,3] 
+
+  # The matrix containing the d-values, q-values etc. of the
+  # differentially expressed genes can be obtained by
+  sam.out@mat.sig
 }}
 \keyword{classes}

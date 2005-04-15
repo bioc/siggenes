@@ -23,81 +23,64 @@ setMethod("print","SAM",
 )
 
 
+
 setMethod("summary","SAM",
-	function(object,delta=NULL,n.digits=5,what="both",ll=TRUE,chip="",file="",sep="\t",
-			quote=FALSE){
-		if(is.null(delta)){
-			cat(object@msg)
-			print(round(object@mat.fdr,n.digits))
-			return(invisible(object@mat.fdr))
+	function(object,delta=NULL,n.digits=3,what="both",ll=FALSE,chip="",file="",
+			sep="\t",quote=FALSE,dec="."){
+		list.args<-list(n.digits=n.digits,what=what,file=file,sep=sep,quote=quote,
+			dec=dec,msg=object@msg)
+		if(length(delta)!=1){
+			mat.fdr<-if(is.null(delta)) object@mat.fdr
+				else  stats.cal(object@d,object@d.bar,object@vec.false,
+					object@p0,delta=delta)
+			sig.genes<-numeric(0)
+			mat.sig<-data.frame(NULL)
 		}
-		if(length(delta)>1){
-			cat(object@msg)
-			print(round(mat.fdr<-stats.cal(object@d,object@d.bar,object@vec.false,object@p0,
-				delta=delta),n.digits))
-			return(invisible(mat.fdr))
-		}
-		if(length(delta)==1){
+		else{
 			if(!what%in%c("both","stats","genes"))
-				stop("what must be either stats, genes or both.")
+				stop("'what' must be either \"stats\", \"genes\" or \"both\".")
 			mat.fdr<-stats.cal(object@d,object@d.bar,object@vec.false,object@p0,
 				delta=delta)
-			mat.out<-round(mat.fdr,n.digits)
-			cat(object@msg[1],file=file)
-			if(what%in%c("stats","both")){
-				cat(object@msg[-1],file=file,append=TRUE)
-				cat(" Delta:",mat.out[,"Delta"],"\n","cutlow:",mat.out[,"cutlow"],"\n",
-				"cutup:",mat.out[,"cutup"],"\n","p0:",mat.out[,"p0"],"\n",
-				"Significant Genes:",mat.out[,"Called"],"\n","Falsely Called Genes:",
-				mat.out[,"False"],"\n","FDR:",mat.out[,"FDR"],
-				ifelse(what=="both","\n\n\n","\n"),file=file,append=TRUE)
-			}
 			sig.genes<-which(object@d>=mat.fdr[,"cutup"] | object@d<=mat.fdr[,"cutlow"])
-			mat.sig<-NULL
-			if(what%in%c("genes","both")){
+			mat.sig<-data.frame(NULL)
+			if(what%in%c("genes","both") & length(sig.genes)!=0){
 				if(chip=="" & object@chip=="" & ll){
 					ll<-FALSE
 					warning("Since the chip type is neither specified by 'chip' ",
 						"nor by the SAM object,","\n","ll is set to FALSE.",
 						call.=FALSE)
 				}
-				mat.sig<-cbind(Row=1:length(object@d),d.value=object@d,stdev=object@s,
-					p.value=object@p.value,q.value=object@q.value,
-					R.fold=object@fold)
-				mat.sig<-mat.sig[sig.genes,]
-				mat.sig<-mat.sig[rev(order(abs(mat.sig[,"d.value"]))),]
-				mat.out<-as.data.frame(cbind(round(mat.sig,n.digits),
-					Name=names(object@d)[mat.sig[,"Row"]]))
+				mat.sig<-cbind(Row=(1:length(object@d))[sig.genes],
+					d.value=object@d[sig.genes],stdev=object@s[sig.genes],
+					p.value=object@p.value[sig.genes],
+					q.value=object@q.value[sig.genes],
+					R.fold=object@fold[sig.genes])
+				if(length(sig.genes)>1)
+					mat.sig<-mat.sig[rev(order(abs(mat.sig[,"d.value"]))),]
 				mat.sig<-as.data.frame(mat.sig)
+				if(ll & all(row.names(mat.sig)==as.character(1:nrow(mat.sig)))){
+					ll<-FALSE
+					warning("Since no gene names are available it is not",
+						" possible to obtain locus links.\n",
+						"'ll' is thus set to FALSE.",call.=FALSE)
+				}
 				if(ll){
 					if(chip=="")
 						chip<-object@chip
 					if(chip!=object@chip & object@chip!="")
 						stop("'chip' differs from the chip type of the SAM object.")
 					require(annotate)
-					LL<-getLL(as.character(mat.out[,"Name"]),chip)
-					sym<-getSYMBOL(as.character(mat.out[,"Name"]),chip)
-					mat.sig<-data.frame(Symbol=sym,LocusLink=LL,mat.sig)
-					mat.out<-data.frame(Symbol=sym,LocusLink=as.character(LL),
-						mat.out)	
-				}
-				dimnames(mat.out)[[1]]<-1:nrow(mat.out)
-				cat("Genes called significant:\n\n",file=file,append=TRUE)
-				if(file=="")
-					print(mat.out)
-				else{
-					write.table(t(dimnames(mat.out)[[2]]),file=file,sep=sep,
-						append=TRUE,row.names=FALSE,col.names=FALSE,
-						quote=quote)
-					write.table(mat.out,file=file,sep=sep,append=TRUE,
-						row.names=FALSE,col.names=FALSE,quote=quote)
+					LL<-getLL(row.names(mat.sig),chip)
+					sym<-getSYMBOL(row.names(mat.sig),chip)
+					mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,
+						LocusLink=LL,mat.sig[,-1])
 				}
 			}
-			if(file!="")
-				cat("Output is stored in",file,"\n")		 
-		invisible(list(row.sig.genes=sig.genes,mat.fdr=mat.fdr,mat.sig=mat.sig))
+			retval<-new("sumSAM",row.sig.genes=sig.genes,mat.fdr=mat.fdr,
+				mat.sig=mat.sig,list.args=list.args)
 		}
-			
+		new("sumSAM",row.sig.genes=sig.genes,mat.fdr=mat.fdr,mat.sig=mat.sig,
+			list.args=list.args)
 	}
 )
 
@@ -119,8 +102,8 @@ setMethod("plot","SAM",
 )
 
 setMethod("identify","SAM",
-	function(x,showText=TRUE,getInfo=TRUE,pos=4,cex=0.8,add.xy=numeric(2),n.digits=4,
-			ask=TRUE,ll=TRUE,browse=FALSE,chip="",...){
+	function(x,showText=TRUE,getInfo=TRUE,pos=4,cex=0.8,add.xy=numeric(2),n.digits=3,
+			ask=FALSE,ll=FALSE,browse=FALSE,chip="",...){
 		if(length(add.xy)!=2)
 			stop("add.xy must have length 2.")
 		d<-x@d
@@ -195,6 +178,6 @@ setMethod("identify","SAM",
         invisible(id.out)
 	}
 )
- 
- 
+
+
 

@@ -174,11 +174,14 @@
   
   # Obtain the rows of golub containing the genes called
   # differentially expressed
-  sam.sum3$row.sig.genes
+  sam.sum3@row.sig.genes
   
   # and their names
-  golub.gnames[sam.sum3$row.sig.genes,3] 
-  
+  golub.gnames[sam.sum3@row.sig.genes,3] 
+
+  # The matrix containing the d-values, q-values etc. of the
+  # differentially expressed genes can be obtained by
+  sam.out@mat.sig
   
   # Perform a SAM analysis using Wilcoxon rank sums
   sam(golub,golub.cl,method="wilc.stat",rand=123)
@@ -188,7 +191,7 @@
   # data set. For now, let's assume the first five columns were
   # before treatment measurements and the next five columns were
   # after treatment measurements, where column 1 and 6, column 2
-  # and 7, \dots, build a pair. In this case, the class labels
+  # and 7, ..., build a pair. In this case, the class labels
   # would be
   new.cl<-c(-(1:5),1:5)
   new.cl

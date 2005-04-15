@@ -1,13 +1,18 @@
 \name{sam.plot2}
 \alias{sam.plot2}
+\alias{plotArguments}
 \title{SAM Plot}
 \description{
   Generates a SAM plot for a specified value of Delta.
 }
 \usage{
   sam.plot2(object, delta, pos.stats = NULL, sig.col = 3, xlim = NULL, 
-     ylim = NULL, main = NULL, xlab = NULL, ylab = NULL, pty = "s", 
-     lab = c(10, 10, 7), pch = NULL, sig.cex = 1, ...)
+        ylim = NULL, main = NULL, xlab = NULL, ylab = NULL, pty = "s", 
+        lab = c(10, 10, 7), pch = NULL, sig.cex = 1, ...)
+     
+  plotArguments(pos.stats = NULL, sig.col = 3, xlim = NULL, ylim = NULL,
+        main = NULL, xlab = NULL, ylab = NULL, pty = "s", lab = c(10, 10, 7),
+        pch = NULL, sig.cex = 1)
 }
 \arguments{
   \item{object}{an object of class SAM}

@@ -24,6 +24,13 @@
 \alias{xy.cal}
 \alias{p0.est}
 \alias{quantiles}
+\alias{add.target2href}
+\alias{check.chipname}
+\alias{col2hex}
+\alias{getTD4Affy}
+\alias{make.plotname}
+\alias{make.tablecode}
+
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
 \details{

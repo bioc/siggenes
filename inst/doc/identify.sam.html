@@ -1,0 +1,106 @@
+<html><head><title>R: SAM specific identify method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for SAM specific identify method {siggenes}"><tr>
+<td>identify {siggenes}</td><td align="right">R Documentation</td></tr></table> 
+<h2>SAM specific identify method</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Obtaining gene-specific information on a gene by clicking on the corresponding point in the
+SAM plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+identify(x, showText = TRUE, getInfo = TRUE, pos = 4, cex = 0.8, add.xy = numeric(2), 
+	n.digits = 3, ask = FALSE, ll = FALSE, browse = FALSE, chip= "", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+a SAM object</td></tr>
+<tr valign="top"><td><code>showText</code></td>
+<td>
+logical indicating if the gene name should be plotted near the identified point</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+numerical value specifying the place where the gene name is plotted. Default is <code>4</code>
+(to the right of the point). For details and other specifications see <code>?text</code></td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+numerical value specifying the relative size of the plotted text. For details see 
+<code>?par</code></td></tr>
+<tr valign="top"><td><code>add,xy</code></td>
+<td>
+a numerical vector of length 2. The text is plotted <code>add.xy[1]</code> units in x-direction
+and <code>add.xy[2]</code> units in the y-direction from the position where it is plotted by
+default</td></tr>
+<tr valign="top"><td><code>n.digits</code></td>
+<td>
+integer specifying the number of decimal places in the output</td></tr>
+<tr valign="top"><td><code>ask</code></td>
+<td>
+logical indicating if the user should be asked before the next point can be identified</td></tr>
+<tr valign="top"><td><code>ll</code></td>
+<td>
+logical indicating if both the locus links and the symbols of the genes should be added
+to the output</code></td></tr>
+<tr valign="top"><td><code>browse</code></td>
+<td>
+logical indicating if the NCBI webpage corresponding to the locus link of the identified point
+is opened. Ignored if <code>ll=FALSE</code></td></tr>
+<tr valign="top"><td><code>chip</code></td>
+<td>
+character string specifying the chip type used in this analysis. Ignored if <code>ll=FALSE</code>,
+If the argument <code>data</code> in <code>sam(data,cl,...)</code> has been specified by an
+<code>exprSet</code> object chip need not to be specified</td></tr>
+<tr valign="top"><td>>code>...</code></td>
+<td>
+further options such as <code>col</col> for the plotted text. See <code>?text</code>
+</table>
+
+
+
+<h3>Note</h3>
+
+<p>
+SAM was deveoped by Tusher et al. (2001).
+</p>
+<p>
+!!! There is a patent pending for the SAM technology at Stanford University. !!!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>
+Holger Schwender, <a href="mailto:holger.schw@gmx.de">holger.schw@gmx.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>
+Tusher, V.G., Tibshirani, R., and Chu, G. (2001). Significance analysis of microarrays
+applied to the ionizing radiation response. <EM>PNAS</EM>, 98, 5116-5121.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code>sam</code>, <code>SAM-class</code>, <code><a href="summary.sam.html">summary</a></code>
+</p>
+
+
