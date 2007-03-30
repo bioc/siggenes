@@ -1,1 +1,0 @@
-cat.ebam<-function() stop("Still to come.")
