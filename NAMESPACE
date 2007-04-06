@@ -1,0 +1,15 @@
+import(methods, multtest, Biobase, splines)
+
+
+importFrom(graphics, identify)
+
+exportClasses("SAM", "EBAM", "FindA0", "sumSAM", "sumEBAM")
+exportMethods("show", "print", "plot", "summary", "identify")
+
+export(args.ebam, args.finda0, args.sam, ebam, ebam2excel, ebam2html,
+	filterALL, find.a0, fudge2, help.ebam, help.finda0, help.sam,
+	link.genes, link.siggenes, list.siggenes, pi0.est,
+	plotArguments, sam, sam2excel, sam2html, sam.plot2,
+	sam.dstat, sam.wilc, sam.snp, d.stat, cat.stat, wilc.stat,
+	z.ebam, cat.ebam, wilc.ebam)
+
