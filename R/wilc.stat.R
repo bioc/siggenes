@@ -1,0 +1,153 @@
+wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRUE,na.method="mean",
+		approx50=TRUE,ties.method=c("min","random","max"),check.ties=FALSE,rand=NA){
+	if(!is.na(rand))
+		set.seed(rand)
+	data<-as.matrix(data)
+	mode(data)<-"numeric"
+	n.genes<-nrow(data)
+	excluded.genes<-logical(n.genes)
+	if(any(rowSums(is.na(data))>0)){
+		na.out<-na.handling(data,na.replace=na.replace,na.method=na.method)
+		data<-na.out$X
+		excluded.genes[na.out$NA.genes]<-TRUE
+		rm(na.out)
+	}
+	adjust.out<-adjust.for.mt(data,cl,wilc=TRUE)
+	X<-adjust.out$X
+	cl.mt<-adjust.out$cl.mt
+	type.mt<-adjust.out$type.mt
+	msg<-adjust.out$msg
+	if(length(unique(cl))==1)
+		R.fold<-0
+	if(R.fold>0){
+		mat.fold<-Rfold.cal(data,cl,unlog=R.unlog,R.fold=R.fold)
+		n.fulfill<-sum(mat.fold[,2])
+		if(n.fulfill==0)
+			stop("None of the genes has a fold change larger than ",R.fold,".")
+		if(n.fulfill<20)
+			stop("Less than 20 genes have a fold change larger than ",R.fold,".")
+		if(R.fold!=1)
+			msg<-paste("Number of genes having a fold change >=",R.fold,"or <=",
+				round(1/R.fold,4),":",n.fulfill,"\n\n")
+		fold.out<-mat.fold[,1]
+		if(n.fulfill<nrow(mat.fold)){
+			fc.genes<-which(mat.fold[,2]==0)
+			fold.out<-fold.out[-fc.genes]
+			X<-X[-fc.genes,]
+			excluded.genes[!excluded.genes][fc.genes]<-TRUE
+		}
+	}
+	else
+		fold.out<-numeric(0)
+	rm(data,adjust.out)
+	n.cl<-length(cl.mt)
+	x2<-function(x){
+		x*x
+	}
+	if(type.mt=="pairt"){
+		n.cl<-n.cl/2
+		X<-X[,2*(1:n.cl)-1]-X[,2*(1:n.cl)]
+		varX<-rowSums(x2(X-rowMeans(X)))/(n.cl-1)
+	}
+	else{
+		varX<-rowSums(x2(X[,cl.mt==0]-rowMeans(X[,cl.mt==0])))+
+			rowSums(x2(X[,cl.mt==1]-rowMeans(X[,cl.mt==1])))
+		varX<-varX/(n.cl-1)
+	}
+	if(sum(varX<10^-10)){
+		var0.genes<-which(varX<10^-10)
+		X<-X[-var0.genes,]
+		if(R.fold>0)
+			fold.out<-fold.out[-var0.genes]
+		excluded.genes[!excluded.genes][var0.genes]<-TRUE
+		warning("There are ",length(var0.genes)," genes with zero variance. These genes are removed,",
+			"\n","and their d-values are set to NA.",call.=FALSE)
+	}
+	n.row<-nrow(X)
+	if(check.ties){
+		n.ties<-numeric(n.row)
+		for(i in 1:n.row)
+			n.ties[i]<-n.cl-length(unique(X[i,]))
+		if(any(n.ties>0))
+			warning("There are ",sum(n.ties>0)," genes with ties. The ranks of these ties",
+				" are randomly assigned.",call.=FALSE)
+	}
+	ties.method<-match.arg(ties.method)
+	if(type.mt=="t"){
+		n0<-sum(cl.mt==0)
+		n1<-sum(cl.mt==1)
+		W.mean<-n1*(n.cl+1)/2
+		W.min<-n1*(n1+1)/2
+		W.max<-n1*(2*n0+n1+1)/2
+		W.var<-n1*n0*(n.cl+1)/12
+		X.rank<-matrix(0,n.row,n.cl)
+		for(i in 1:n.row)
+			X.rank[i,]<-rank(X[i,],ties.method=ties.method)
+		W<-rowSums(X.rank[,cl.mt==1])
+		W.norm<-(W-W.mean)/sqrt(W.var)
+		if(n0<50 & n1<50)
+			approx50<-FALSE
+		if(!approx50){
+			W.exp<-W.min+qwilcox(((1:n.row)-.5)/n.row,n1,n0)
+			W.exp<-(W.exp-W.mean)/sqrt(W.var)
+			p.value<-2*pwilcox(W.mean-abs(W-W.mean)-W.min,n1,n0)
+			p.value[p.value>1]<-1
+		}
+		else{
+			W.exp<-qnorm(((1:n.row)-.5)/n.row)
+			p.value<-2*(1-pnorm(abs(W.norm)))
+		}
+	}
+	if(type.mt=="pairt"){
+		W.max<-n.cl*(n.cl+1)/2
+		W.mean<-W.max/2
+		W.var<-n.cl*(n.cl+1)*(2*n.cl+1)/24
+		if(sum(X==0)>0){
+			if(check.ties)
+				warning("There are ",sum(X==0)," observation pairs having a difference of zero.",
+					"\n","These differences are randomly set to either 1e-06 or -1e-06.",
+					call.=FALSE)
+			X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),rep=TRUE)
+		}
+		X.rank<-matrix(0,n.row,n.cl)
+		for(i in 1:n.row)
+			X.rank[i,]<-rank(abs(X[i,]),ties.method=ties.method)
+		W<-rowSums(X.rank*(X>0))
+		W.norm<-(W-W.mean)/sqrt(W.var)
+		if(n.cl<50)
+			approx50<-FALSE
+		if(!approx50){
+			W.exp<-qsignrank(((1:n.row)-.5)/n.row,n.cl)
+			W.exp<-(W.exp-W.mean)/sqrt(W.var)
+			p.value<-2*psignrank(W.mean-abs(W-W.mean),n.cl)
+			p.value[p.value>1]<-1
+		}
+		else{
+			W.exp<-qnorm(((1:n.row)-.5)/n.row)
+			p.value<-2*(1-pnorm(abs(W.norm)))
+		}
+	}
+	vec.false<-n.row*p.value/2
+	if(n.row!=n.genes){
+		W.new<-vec.new<-p.new<-rep(NA,n.genes)
+		W.new[!excluded.genes]<-W.norm
+		vec.new[!excluded.genes]<-vec.false
+		p.new[!excluded.genes]<-p.value
+		W.norm<-W.new
+		vec.false<-vec.new
+		p.value<-p.new
+		if(R.fold>0){
+			f.new<-rep(NA,n.genes)
+			f.new[!excluded.genes]<-fold.out
+			fold.out<-f.new
+		}
+	}
+	if(!is.null(gene.names))
+		names(W.norm)<-names(p.value)<-names(vec.false)<-substring(gene.names,1,50)
+	structure(list(d=W.norm,d.bar=W.exp,p.value=p.value,vec.false=vec.false,
+		discrete=ifelse(approx50,FALSE,TRUE),s=numeric(0),s0=numeric(0),
+		mat.samp=matrix(numeric(0)),msg=msg,fold=fold.out))
+}
+	 
+ 
+

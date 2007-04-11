@@ -1,0 +1,11 @@
+cat.null.approx2<-function(z,n.cl,n.cat,n.interval=NULL,df.glm=NULL){
+	df.chisq<-(n.cl-1)*(n.cat-1)
+	p.value<-1-pchisq(z,df.chisq)
+	n.z<-length(z)
+	vec.pos<-length(z)*p.value
+	z.null<-dchisq(z,df.chisq)
+	if(is.null(df.glm))
+		df.glm<-min(df.chisq+1,5)
+	z.fit<-denspr(z,n.interval=n.interval,df=df.glm)
+	return(list(ratio=z.null/z.fit,vec.pos=vec.pos,vec.neg=numeric(n.z)))
+}
