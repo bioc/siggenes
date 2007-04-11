@@ -1,0 +1,73 @@
+<html><head><title>R: SAM specific print method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for SAM specific print method {siggenes}"><tr>
+<td>print {siggenes}</td><td align="right">R Documentation</td></tr></table> 
+<h2>SAM specific print method</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Prints the statistics (FDR, number of differentially expressed genes etc.) for an object
+of class SAM
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  print(x, delta = NULL, n.digits = 3)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+a SAM object</td></tr>
+<tr valign="top"><td><code>delta</code></td>
+<td>
+a numeric value or vector specifying one or a set of Deltas for which statistics as the number
+of differentially expressed genes and the estimated FDR should be plotted. If <code>NULL</code>
+the Delta values of <code>x</code> will be used</td></tr>
+<tr valign="top"><td><code>n.digits</code></td>
+<td>
+an integer specifying the number of decimal places in the output</td></tr>
+</table>
+
+<h3>Note</h3>
+
+<p>
+SAM was deveoped by Tusher et al. (2001).
+</p>
+<p>
+!!! There is a patent pending for the SAM technology at Stanford University. !!!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>
+Holger Schwender, <a href="mailto:holger.schw@gmx.de">holger.schw@gmx.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>
+Tusher, V.G., Tibshirani, R., and Chu, G. (2001). Significance analysis of microarrays
+applied to the ionizing radiation response. <EM>PNAS</EM>, 98, 5116-5121.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code>sam</code>, <code>SAM-class</code>, <code><a href="summary.sam.html">summary</a></code>
+</p>
+
+

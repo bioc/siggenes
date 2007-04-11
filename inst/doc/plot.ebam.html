@@ -1,0 +1,110 @@
+<html><head><title>R: EBAM specific plot method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for EBAM specific plot method {siggenes}"><tr>
+<td>plot {siggenes}</td><td align="right">R Documentation</td></tr></table> 
+<h2>EBAM specific plot method</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Generates a plot of the posterior probabilities given by an object of class EBAM.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+   plot(x, y, pos.stats = NULL, sig.col = 3, sig.cex = 1, pch = NULL, stats.cex = 0.8.
+        main = NULL , xlab = NULL, ylab = NULL, y.intersp = 1.3, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+an object of class EBAM</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+the delta value, i.e. the minimum probability for a gene to be
+called differentially expressed</td></tr>
+<tr valign="top"><td><code>pos.stats</code></td>
+<td>
+an integer between 0 and 4. If <code>pos.stats=1</code>, general
+information as the number of significant genes and the estimated FDR for
+the specified value of <code>y</code> will be plotted in the upper center of the
+plot. If <code>pos.stats=2</code>, these information will be plotted in
+the bottom right corner, if <code>pos.stats=3</code> in the bottom left corner, and
+if <code>pos.stats=4</code> in the upper left corner. If <code>pos.stats=0</code>, 
+no information will be plotted.
+By default, <code>pos.stats=2</code> if the expression scores can be both 
+positive and negative, and <code>pos.stats=4</code> if they can only take positive
+values</td></tr>
+<tr valign="top"><td><code>sig.col</code></td>
+<td>
+a specification of the color of the significant genes.
+For a description of how colors are specified, see the help of <code>par</code></td></tr>
+<tr valign="top"><td><code>sig.cex</code></td>
+<td>
+a numeric value giving the amount by which the symbols of the significant
+genes should be scaled relative to the default</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+either an integer specifying a symbol or a single character to be used as the
+default in plotting points. For a description of how <code>pch</code> can be specified, see
+the help of <code>par</code></td></tr>
+<tr valign="top"><td><code>stats.cex</code></td>
+<td>
+the size of the statistics printed in the plot relative to the default size</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+a character string naming the main title of the plot</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+a character string naming the label of the x axis</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+a character string naming the label of the y axis</td></tr>
+
+<tr valign="top"><td><code>y.intersp</code></td>
+<td>
+a numeric value specifying the space between the rows in which the statistics are
+plotted</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+further graphical parameters for the EBAM plot. See the help pages of
+<code>plot.default</code> and  <code>par</code></td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+a plot of the posterior probabilities of the genes for a specified value of
+<code>delta</code></p>
+
+<h3>Author(s)</h3>
+
+<p>
+Holger Schwender, <a href="mailto:holger.schw@gmx.de">holger.schw@gmx.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>
+Efron, B., Tibshirani, R., Storey, J.D. and Tusher, V. (2001). Empirical Bayes Analysis
+of a Microarray Experiment, <EM>JASA</EM>, 96, 1151-1160.
+</p>
+
+<p>
+Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
+the Empirical Bayes and the Significance Analysis of Microarrays.
+<EM>Technical Report</EM>, SFB 475, University of Dortmund, Germany.
+</p>
+
+</body></html>
