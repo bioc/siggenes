@@ -65,6 +65,7 @@ function(data,cl,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE
 		vec.p0<-apply(mat.fn,2,pi0.est2,success=succ.norm$success,z=succ.norm$center,
 			type=type.p0,lambda=lambda,ncs.value=ncs.value,use.weights=use.weights)
 	mat.posterior<-1-rep(vec.p0,e=n.genes)*mat.ratio
+	mat.posterior[mat.posterior<0]<-0
 	names(vec.a0)<-c(if(vec.a0[1]==0) "-", quan.a0)
 	a0.out<-makeA0mat(z.norm,mat.posterior,vec.p0,vec.a0,B,delta=delta)
 	colnames(z.mat)<-colnames(mat.posterior)<-colnames(mat.success)<-

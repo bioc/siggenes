@@ -39,6 +39,7 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 			names(check.out$vec.pos)<-names(check.out$vec.neg)<-names(out$z)
 	}
 	posterior<-1-p0*out$ratio
+	posterior[posterior<0]<-0
 	mat<-compNumber(out$z,posterior,p0,check.out$B,delta=delta,vec.pos=check.out$vec.pos,
 		vec.neg=check.out$vec.neg)	
 	new("EBAM",z=out$z,posterior=posterior,p0=p0,local=p0*out$ratio,mat.fdr=mat,
