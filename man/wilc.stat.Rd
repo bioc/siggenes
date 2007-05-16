@@ -11,8 +11,7 @@
 \usage{
    wilc.stat(data, cl, gene.names = NULL, R.fold = 1, R.unlog = TRUE, 
        na.replace = TRUE, na.method = "mean", approx50 = TRUE,
-       ties.method=c("min","random","max"), check.ties = FALSE, 
-       rand = NA)
+       ties.method=c("min","random","max"), use.row = FALSE, rand = NA)
 }
 \arguments{
   \item{data}{a matrix or a data frame. Each row of \code{data} must correspond to a gene,
@@ -48,12 +47,11 @@
      are less than 50 samples in each of the groups}
   \item{ties.method}{either \code{"min"} (default), \code{"random"}, or \code{"max"}. If
      \code{"random"}, the ranks of ties are randomly assigned. If \code{"min"} or \code{"max"},
-     the ranks of ties are set to the minimum or maximum rank, respectively. For the handling
-     of Zeros, see Details}
-  \item{check.ties}{if \code{TRUE}, a warning will be generated if there are ties or Zeros.
-     This warning contains information about how many genes have ties or Zeros. Otherwise,
-     this warning is not generated. Default is \code{FALSE} since checking for ties can
-     take some time}
+     the ranks of ties are set to the minimum or maximum rank, respectively. For details,
+     see the help of \code{\link{rank}}. If \code{use.row = TRUE}, \code{ties.method = "max"}
+     will be used. For the handling of Zeros, see Details}
+  \item{use.row}{if \code{TRUE}, \code{\link{rowWilcoxon}} is used to compute the Wilcoxon
+     rank statistics}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
      will be set into a reproducible state}
 }

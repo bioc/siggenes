@@ -14,7 +14,7 @@
    et al. (2001).}
 \section{Objects from the Class}{
    Objects can be created using the functions \code{sam}, \code{sam.dstat}, 
-   \code{sam.wilc} and \code{sam.snp}.}
+   \code{sam.wilc} and \code{sam.snp}.
 }
 \section{Slots}{
   \describe{

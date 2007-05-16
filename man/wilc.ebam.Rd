@@ -9,7 +9,7 @@
 }
 \usage{
    wilc.ebam(data, cl, approx50 = TRUE, ties.method = c("min", "random", 
-       "max"), use.offset = TRUE, df.glm = 5, rand = NA)
+       "max"), use.offset = TRUE, df.glm = 5, use.row = FALSE, rand = NA)
 }
 \arguments{
   \item{data}{a matrix or a data frame. Each row of
@@ -24,13 +24,16 @@
      are less than 50 samples in each of the groups}
   \item{ties.method}{either \code{"min"} (default), \code{"random"}, or \code{"max"}. If
      \code{"random"}, the ranks of ties are randomly assigned. If \code{"min"} or \code{"max"},
-     the ranks of ties are set to the minimum or maximum rank, respectively. For the handling
-     of Zeros, see Details}
+     the ranks of ties are set to the minimum or maximum rank, respectively. For details, see
+     the help of \code{\link{rank}}. If \code{use.row = TRUE}, then \code{ties.method = "max"}
+     is used. For the handling of Zeros, see Details}
   \item{use.offset}{should an offset be used in the Poisson regression employed to estimate
      the density of the observed Wilcoxon rank sums? If \code{TRUE}, the log-transformed
      values of the null density is used as offset}
   \item{df.glm}{integer specifying the degrees of freedom of the natural cubic spline employed
      in the Poisson regression}  
+  \item{use.row}{if \code{TRUE}, \code{\link{rowWilcoxon}} is used to compute the Wilcoxon
+     rank statistics}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
      will be set into a reproducible state}
 }
