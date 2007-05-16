@@ -1,5 +1,5 @@
 wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRUE,na.method="mean",
-		approx50=TRUE,ties.method=c("min","random","max"),check.ties=FALSE,rand=NA){
+		approx50=TRUE,ties.method=c("min","random","max"),use.row=FALSE,rand=NA){
 	if(!is.na(rand))
 		set.seed(rand)
 	data<-as.matrix(data)
@@ -64,14 +64,6 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRU
 			"\n","and their d-values are set to NA.",call.=FALSE)
 	}
 	n.row<-nrow(X)
-	if(check.ties){
-		n.ties<-numeric(n.row)
-		for(i in 1:n.row)
-			n.ties[i]<-n.cl-length(unique(X[i,]))
-		if(any(n.ties>0))
-			warning("There are ",sum(n.ties>0)," genes with ties. The ranks of these ties",
-				" are randomly assigned.",call.=FALSE)
-	}
 	ties.method<-match.arg(ties.method)
 	if(type.mt=="t"){
 		n0<-sum(cl.mt==0)
@@ -80,10 +72,14 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRU
 		W.min<-n1*(n1+1)/2
 		W.max<-n1*(2*n0+n1+1)/2
 		W.var<-n1*n0*(n.cl+1)/12
-		X.rank<-matrix(0,n.row,n.cl)
-		for(i in 1:n.row)
-			X.rank[i,]<-rank(X[i,],ties.method=ties.method)
-		W<-rowSums(X.rank[,cl.mt==1])
+		if(use.row)
+			W<-rowWilcoxon(X,cl.mt)
+		else{
+			X.rank<-matrix(0,n.row,n.cl)
+			for(i in 1:n.row)
+				X.rank[i,]<-rank(X[i,],ties.method=ties.method)
+			W<-rowSums(X.rank[,cl.mt==1])
+		}
 		W.norm<-(W-W.mean)/sqrt(W.var)
 		if(n0<50 & n1<50)
 			approx50<-FALSE
@@ -103,16 +99,19 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRU
 		W.mean<-W.max/2
 		W.var<-n.cl*(n.cl+1)*(2*n.cl+1)/24
 		if(sum(X==0)>0){
-			if(check.ties)
-				warning("There are ",sum(X==0)," observation pairs having a difference of zero.",
-					"\n","These differences are randomly set to either 1e-06 or -1e-06.",
-					call.=FALSE)
+			warning("There are ",sum(X==0)," observation pairs having a difference of zero.",
+				"\n","These differences are randomly set to either 1e-06 or -1e-06.",
+				call.=FALSE)
 			X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),rep=TRUE)
 		}
-		X.rank<-matrix(0,n.row,n.cl)
-		for(i in 1:n.row)
-			X.rank[i,]<-rank(abs(X[i,]),ties.method=ties.method)
-		W<-rowSums(X.rank*(X>0))
+		if(use.row)
+			W<-rowWilcoxon(X,rep(1,n.cl))
+		else{
+			X.rank<-matrix(0,n.row,n.cl)
+			for(i in 1:n.row)
+				X.rank[i,]<-rank(abs(X[i,]),ties.method=ties.method)
+			W<-rowSums(X.rank*(X>0))
+		}
 		W.norm<-(W-W.mean)/sqrt(W.var)
 		if(n.cl<50)
 			approx50<-FALSE
