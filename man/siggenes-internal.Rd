@@ -32,7 +32,7 @@
 \alias{compFalse}
 \alias{compNumber}
 \alias{compRatio}
-\alias{computeRS}´
+\alias{computeRS}
 \alias{ebamA0}
 \alias{getFailure}
 \alias{getSuccesses}
