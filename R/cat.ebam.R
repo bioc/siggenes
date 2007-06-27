@@ -1,6 +1,6 @@
 cat.ebam<-function(data,cl,approx=FALSE,B=100,check.levels=TRUE,check.for.NN=FALSE,lev=NULL,
-		B.more=0.1,B.max=50000,n.subset=10,fast=FALSE,n.interval=139,df.ratio=3,
-		df.glm=NULL,rand=NA){
+		B.more=0.1,B.max=50000,n.subset=10,fast=FALSE,n.interval=NULL,df.ratio=3,
+		df.dens=NULL,knots.mode=TRUE,type.nclass="wand",rand=NA){
 	data<-as.matrix(data)
 	if(any(is.na(data)))
 		stop("No NAs allowed.")
@@ -24,18 +24,19 @@ cat.ebam<-function(data,cl,approx=FALSE,B=100,check.levels=TRUE,check.for.NN=FAL
 	if(any(!(1:n.cat)%in%data))
 		stop("Some of the values between 1 and ",n.cat," are not in data.")
 	stats<-chisqClass(data,cl,n.cat,check=check.levels)
-	if(is.null(n.interval))
-		n.interval<-ifelse(approx,floor(sqrt(length(stats))),139)
 	n.cl<-length(unique(cl))
 	msg<-c("EBAM Analysis for Categorical Data\n\n",
 		paste("Null Distribution:\n",
 		ifelse(approx,"Approximation by ChiSquare Distribution",
 		paste("Estimated Based on",B,"Permutations")),"\n\n",sep=""))
 	if(approx){
-		fail.out<-cat.null.approx2(stats,n.cl,n.cat,n.interval=n.interval,df.glm=df.glm)
+		fail.out<-cat.null.approx2(stats,n.cl,n.cat,n.interval=n.interval,df.dens=df.dens,
+			knots.mode=knots.mode,type.nclass=type.nclass)
 		return(list(z=stats,ratio=fail.out$ratio,vec.pos=fail.out$vec.pos,
 			vec.neg=fail.out$vec.neg,msg=msg))
 	}
+	if(is.null(n.interval))
+		n.interval<-139
 	out<-getSuccesses(stats,n.interval=n.interval)
 	mat.samp<-setup.mat.samp(cl,"f",B=B,B.more=B.more,B.max=B.max,rand=rand)
 	fail.out<-compFailure(data,mat.samp,stats,out$interval,n.subset=n.subset,

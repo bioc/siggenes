@@ -44,6 +44,7 @@
 \alias{cat.null.approx2}
 \alias{na.handling}
 \alias{na.replace.cont}
+\alias{nclass.wand}
 
 
 \title{Internal siggenes functions}

@@ -1,11 +1,13 @@
-cat.null.approx2<-function(z,n.cl,n.cat,n.interval=NULL,df.glm=NULL){
+cat.null.approx2<-function(z,n.cl,n.cat,n.interval=NULL,df.dens=NULL,knots.mode=NULL,type.nclass="wand"){
 	df.chisq<-(n.cl-1)*(n.cat-1)
 	p.value<-1-pchisq(z,df.chisq)
 	n.z<-length(z)
 	vec.pos<-length(z)*p.value
 	z.null<-dchisq(z,df.chisq)
-	if(is.null(df.glm))
-		df.glm<-min(df.chisq+1,5)
-	z.fit<-denspr(z,n.interval=n.interval,df=df.glm)
+	if(is.null(df.dens))
+		df.dens<-ifelse(df.chisq<=2,3,5)
+	if(is.null(knots.mode))
+		knots.mode<-ifelse(df.chisq<=2,FALSE,TRUE)
+	z.fit<-denspr(z,n.interval=n.interval,df=df.dens,knots.mode=knots.mode,type.nclass=type.nclass)$y
 	return(list(ratio=z.null/z.fit,vec.pos=vec.pos,vec.neg=numeric(n.z)))
 }

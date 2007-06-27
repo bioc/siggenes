@@ -1,14 +1,29 @@
-denspr<-function(x,n.interval=NULL,df=7){
+denspr<-function(x,n.interval=NULL,df=5,knots.mode=TRUE,type.nclass=c("wand","scott","FD")){
 	require(splines)
-	if(is.null(n.interval))
-		n.interval<-floor(sqrt(length(x)))
+	if(is.null(n.interval)){
+		type<-match.arg(type.nclass)
+		FUN<-match.fun(paste("nclass",type,sep="."))
+		n.interval<-FUN(x)
+	}
+	else
+		type<-NULL
 	breaks<-seq(min(x),max(x),length=n.interval+1)
 	valHist<-hist(x,breaks=breaks,plot=FALSE)
 	center<-valHist$mids
 	counts<-valHist$counts
 	ids<-which(counts>0)
+	x.mode<-center[which.max(counts)]
+	if(knots.mode){
+		x.q<-mean(center<=x.mode)
+		q.knots<-getQuantiles(df-1,x.q)
+	}
 	center<-center[ids]
-	tmp<-ns.out<-ns(center,df=df)
+	if(knots.mode){
+		knots<-quantile(center,q.knots)
+		tmp<-ns.out<-ns(center,knots=knots)
+	}
+	else
+		tmp<-ns.out<-ns(center,df=df)
 	class(tmp)<-"matrix"
 	mat<-data.frame(Number=counts[ids],tmp)
 	glm.out<-glm(Number~.,data=mat,family=poisson)
@@ -16,9 +31,7 @@ denspr<-function(x,n.interval=NULL,df=7){
 	newx<-predict(ns.out,x)
 	class(newx)<-"matrix"
 	preds<-predict(glm.out,data.frame(newx),type="response")
-	preds/scale
+	return(list(y=preds/scale,center=valHist$mids,counts=counts,
+		x.mode=x.mode,ns.out=ns.out,type=type))
 }
-
-	
-
 

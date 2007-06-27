@@ -12,8 +12,9 @@
 \usage{
   cat.ebam(data, cl, approx = FALSE, B = 100, check.levels = TRUE, 
     check.for.NN = FALSE, lev = NULL, B.more = 0.1, B.max = 50000, 
-    n.subset = 10, fast = FALSE, n.interval = 139, df.ratio = 3,
-    df.glm = NULL, rand = NA)
+    n.subset = 10, fast = FALSE, n.interval = NULL, df.ratio = 3,
+    df.dens = NULL, knots.mode = TRUE, type.nclass = "wand",
+    rand = NA)
 }
 
 
@@ -48,15 +49,26 @@
   \item{n.interval}{the number of intervals used in the logistic regression with
      repeated observations for estimating the ratio \eqn{f_0/f}{f0/f} 
      (if \code{approx = FALSE}), or in the Poisson regression used to estimate
-     the density of the observed \eqn{z}-values (if \code{approx = TRUE})}
+     the density of the observed \eqn{z}-values (if \code{approx = TRUE}).
+     If \code{NULL}, \code{n.interval} is set to 139 if \code{approx = FALSE},
+     and estimated by the method specified by \code{type.nclass}}
   \item{df.ratio}{integer specifying the degrees of freedom of the natural cubic
      spline used in the logistic regression with repeated observations. Ignored
      if \code{approx = TRUE}} 
-  \item{df.glm}{integer specifying the degrees of freedom of the natural cubic
+  \item{df.dens}{integer specifying the degrees of freedom of the natural cubic
      spline used in the Poisson regression to estimate the density of the observed
-     \eqn{z}-values. If \code{NULL}, \code{df.glm} is set to \code{min\{df.chisq, 5\}},
-     where \code{df.chisq} are the degrees of freedom of the \eqn{chi^2}{Chisquare}-distribution.
-     Ignored if \code{approx = FALSE}}
+     \eqn{z}-values. Ignored if \code{approx = FALSE}. 
+     If \code{NULL}, \code{df.dens} is set to 3 if the degrees of freedom
+     of the appromimated null distribution, i.e.\ the \eqn{chi^2}{Chisquare}-distribution,
+     are less than or equal to 2, and otherwise \code{df.dens} is set to 5}
+  \item{knots.mode}{if \code{TRUE} the \code{df.dens} - 1 knots are centered around the
+     mode and not the median of the density when fitting the Poisson regression model.
+     Ignored if \code{approx = FALSE}. For details, see \code{\link{denspr}}}
+  \item{type.nclass}{character string specifying the procedure used to compute the
+     number of cells of the histogram. Ignored if \code{approx = FALSE} or 
+     \code{n.interval} is specified. Can be either
+     \code{"wand"} (default), \code{"scott"}, or \code{"FD"}. For details, see
+     \code{\link{denspr}}}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
      will be set into a reproducible state}
 }
