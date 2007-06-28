@@ -33,7 +33,9 @@
      is equal to "NN". Can be very time-consuming when the data set is high-dimensional}
   \item{lev}{numeric or character vector specifying the codings of the levels of the
      variables/SNPs. Must only be specified if the variables are not coded by the
-     integers between 1 and the number of levels}
+     integers between 1 and the number of levels. Can also be a list. In this case,
+     each element of this list must be a numeric or character vector specifying the codings,
+     where all elements must have the same length}
   \item{B.more}{a numeric value. If the number of all possible permutations is smaller
      than or equal to (1+\code{B.more})*\code{B}, full permutation will be done. 
      Otherwise, \code{B} permutations are used}
@@ -51,7 +53,7 @@
      (if \code{approx = FALSE}), or in the Poisson regression used to estimate
      the density of the observed \eqn{z}-values (if \code{approx = TRUE}).
      If \code{NULL}, \code{n.interval} is set to 139 if \code{approx = FALSE},
-     and estimated by the method specified by \code{type.nclass}}
+     and estimated by the method specified by \code{type.nclass} if \code{approx = TRUE}}
   \item{df.ratio}{integer specifying the degrees of freedom of the natural cubic
      spline used in the logistic regression with repeated observations. Ignored
      if \code{approx = TRUE}} 

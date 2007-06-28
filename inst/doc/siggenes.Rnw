@@ -862,7 +862,7 @@ t.ebam<-function(data, cl){
     cl <- as.factor(cl)
     out <- rowttests(data, cl)
     z <- -out$statistic
-    z.dens <- denspr(z, n.int = 139, df = 5)
+    z.dens <- denspr(z)$y
     m <- length(z)
     vec.pos <- m * out$p.value / 2
     z.null <- dt(z, out$df)

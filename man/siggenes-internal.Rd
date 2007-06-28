@@ -44,7 +44,9 @@
 \alias{cat.null.approx2}
 \alias{na.handling}
 \alias{na.replace.cont}
-\alias{nclass.wand}
+\alias{getQuantiles}
+\alias{recodeVal}
+\alias{recodeLevel}
 
 
 \title{Internal siggenes functions}

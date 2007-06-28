@@ -19,31 +19,33 @@
 
 \arguments{
   \item{data}{a matrix or data frame. Each row must correspond to a variable/SNP, and
-     each column to a sample.}
+     each column to a sample}
   \item{cl}{a numeric vector of length \code{ncol(data)} indicating to which class
      a sample belongs. Must consist of the
-     integers between 1 and \eqn{c}, where \eqn{c} is the number of different groups.}
+     integers between 1 and \eqn{c}, where \eqn{c} is the number of different groups}
   \item{B}{the number of permutations used in the estimation of the null distribution,
-     and hence, in the computation of the expected \eqn{d}-values.}
-  \item{approx}{should the null distribution be approximated by the \eqn{\chi^2}-distribution?}
+     and hence, in the computation of the expected \eqn{d}-values}
+  \item{approx}{should the null distribution be approximated by the \eqn{\chi^2}{Chisquare}-distribution?}
   \item{check.levels}{if \code{TRUE}, it will be checked if all variables/SNPs have
-     the same number of levels/categories.}
+     the same number of levels/categories}
   \item{check.for.NN}{if \code{TRUE}, it will be checked if any of the genotypes
-     is equal to "NN". Can be very time-consuming when the data set is high-dimensional.}
+     is equal to "NN". Might be very time-consuming when the data set is high-dimensional}
   \item{lev}{numeric or character vector specifying the codings of the levels of the
      variables/SNPs. Must only be specified if the variables are not coded by the
-     integers between 1 and the number of levels.}
+     integers between 1 and the number of levels. Can also be a list. In this case,
+     each element of this list must be a numeric or character vector specifying the codings,
+     where all elements must have the same length}
   \item{B.more}{a numeric value. If the number of all possible permutations is smaller
      than or equal to (1+\code{B.more})*\code{B}, full permutation will be done. 
-     Otherwise, \code{B} permutations are used.}
+     Otherwise, \code{B} permutations are used}
   \item{B.max}{a numeric value. If the number of all possible permutations is smaller
      than or equal to \code{B.max}, \code{B} randomly selected permutations will be used
      in the computation of the null distribution. Otherwise, \code{B} random draws
-     of the group labels are used.}  
+     of the group labels are used}  
   \item{n.subset}{a numeric value indicating how many permutations are considered
-     simultaneously when computing the expected d-values.}
+     simultaneously when computing the expected d-values}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
-     will be set into a reproducible state.}
+     will be set into a reproducible state}
 }
 \details{
   For each SNP, Pearson's Chi-Square statistic is computed to test if the distribution

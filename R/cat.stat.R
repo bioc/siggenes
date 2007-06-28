@@ -9,10 +9,8 @@ cat.stat<-function(data,cl,B=100,approx=FALSE,check.levels=TRUE,check.for.NN=FAL
 	}
 	if(ncol(data)!=length(cl))
 		stop("The number of columns of data must be equal to the length of cl.")
-	if(!is.null(lev)){
-		for(i in 1:length(lev))
-			data[data==lev[i]]<-i
-	}
+	if(!is.null(lev))
+		data<-recodeLevel(data,lev)
 	if(mode(data)!="numeric")
 		mode(data)<-"numeric"
 	if(any(is.na(data)))
