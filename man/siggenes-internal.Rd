@@ -47,6 +47,7 @@
 \alias{getQuantiles}
 \alias{recodeVal}
 \alias{recodeLevel}
+\alias{getTD4rs}
 
 
 \title{Internal siggenes functions}

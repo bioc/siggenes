@@ -1,6 +1,6 @@
 make.tablecode<-function(genenames,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,
 		chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,tableborder=1,
-		name1stcol="Name"){
+		name1stcol="Name",refsnp=NULL){
 	require(annotate)
 	if(any(c(ll,refseq,symbol,omim,ug))){
 		if(chipname=="" & is.null(cdfname))
@@ -30,6 +30,11 @@ make.tablecode<-function(genenames,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=
 		sym.cols<-paste("<TD>",sym,"</TD>\n",sep="")
 		th<-c(th,"Symbol")
 		tr<-paste(tr,sym.cols)
+	}
+	if(!is.null(refsnp)){
+		rs<-getTD4rs(genenames,refsnp)
+		th<-c(th,"RefSNP")
+		tr<-paste(tr,rs,"\n")
 	}
 	if(ll){
 		LL<-getLL(genenames,chipname)

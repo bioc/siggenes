@@ -12,18 +12,20 @@
  ebam2html(object, delta, filename, addStats = TRUE, addPlot = TRUE, 
         addGenes = TRUE, findA0 = NULL, varName = NULL, ll = TRUE, 
         refseq = TRUE, symbol = TRUE, omim = TRUE, ug = TRUE, 
-        chipname = "", cdfname = NULL, n.digits = 3, bg.col = "white", 
-        text.col = "black", link.col = "blue", plotArgs = plotArguments(), 
-        plotFindArgs = plotFindArguments(), bg.plot.adjust = FALSE, 
-        plotname = NULL, plotborder = 0, tableborder = 1, 
-        new.window = TRUE, ...)
+        chipname = "", cdfname = NULL, refsnp = NULL, n.digits = 3, 
+        bg.col = "white", text.col = "black", link.col = "blue", 
+        plotArgs = plotArguments(), plotFindArgs = plotFindArguments(), 
+        bg.plot.adjust = FALSE, plotname = NULL, plotborder = 0, 
+        tableborder = 1, new.window = TRUE, ...)
 
  sam2html(object, delta, filename, addStats = TRUE, addPlot = TRUE, 
         addGenes = TRUE, varName = NULL, ll = TRUE, refseq = TRUE, 
         symbol = TRUE, omim = TRUE, ug = TRUE, chipname = "", 
-        cdfname = NULL, n.digits = 3, bg.col = "white", text.col = "black",
-        link.col = "blue", plotArgs = plotArguments(), bg.plot.adjust = FALSE, 
-        plotname = NULL, plotborder = 0, tableborder = 1, new.window = TRUE, ...)
+        cdfname = NULL, refsnp = NULL, n.digits = 3, 
+        bg.col = "white", text.col = "black", link.col = "blue", 
+        plotArgs = plotArguments(), bg.plot.adjust = FALSE, 
+        plotname = NULL, plotborder = 0, tableborder = 1, 
+        new.window = TRUE, ...)
 }
 \arguments{
   \item{object}{a SAM or an EBAM object}
@@ -60,6 +62,8 @@
         the nomenclatur of the Affymetrix chips (e.g., \code{"HG-U133A"} for the
         Affymetrix HG-U133A chip). If specified, links to the Affymetrix webpage for the
         interesting genes will be added to the output. Ignored if \code{addGenes = FALSE}}
+  \item{refsnp}{character vector containing the RefSNP IDs of the SNPs used in the SAM/EBAM
+        analysis, where \code{names(refsnp)} specifies the names of these SNPs} 
   \item{n.digits}{integer specifying the number of decimal places used in the output}
   \item{bg.col}{specification of the background color of the html page. See \code{\link{par}} for
         how colors can be specified}

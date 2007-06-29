@@ -8,7 +8,7 @@ function(data,mat.samp,d,n.subset,n.cat){
 	vec.dperm<-vec.false<-numeric(n.var)
 	d.rank<-rank(-d,ties="first")
 	for(i in 1:n.B){
-		tmp<-compPermStat(data,mat.samp[vecB[i]:(vecB[i+1]-1),],n.cat)
+		tmp<-compPermStat(data,mat.samp[vecB[i]:(vecB[i+1]-1),,drop=FALSE],n.cat)
 		tmp<-apply(tmp,2,sort)
 		vec.dperm<-vec.dperm+rowSums(tmp)
 		tmp2<-c(as.vector(tmp),d)

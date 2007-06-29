@@ -1,6 +1,6 @@
 siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,findA0=NULL,
 		varName=NULL,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,chipname="",
-		cdfname=NULL,n.digits=3,bg.col="white",text.col="black",link.col="blue",
+		cdfname=NULL,refsnp=NULL,n.digits=3,bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),plotFindArgs=plotFindArguments(),
 		bg.plot.adjust=FALSE,plotname=NULL,plotborder=0,tableborder=1,
 		new.window=TRUE,...){
@@ -30,6 +30,18 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 	}
 	if(any(c(ll,refseq,symbol,omim,ug)))
 		chipname<-check.chipname(chipname,object@chip,cdfname)
+	msg<-object@msg
+	h2<-unlist(strsplit(msg[1],"\n"))[1]
+	h2<-substring(h2,ifelse(isSAM,13,14),nchar(h2))
+	isSNP<-h2==" for Categorical Data"
+	if(!is.null(refsnp)){
+		tmp<-ifelse(!isSAM,"z","d")
+		if(is.null(names(slot(object,tmp)))){
+			refsnp<-NULL
+			warning("Since no SNP names are specified by 'object'",
+				"'refsnp' is ignored.",call.=FALSE)
+		}
+	}
 	suffix<-tolower(substring(filename,nchar(filename)-4,nchar(filename)))
 	if(suffix!=".html"){
 		filename<-paste(filename,"html",sep=".")
@@ -58,10 +70,6 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 				" to FALSE.",call.=FALSE)
 		}
 	}
-	msg<-object@msg
-	h2<-unlist(strsplit(msg[1],"\n"))[1]
-	h2<-substring(h2,ifelse(isSAM,13,14),nchar(h2))
-	isSNP<-h2==" for Categorical Data"
 	if(is.null(varName))
 		varName<-ifelse(isSNP,"SNPs","Genes")
 	if(isSAM && isSNP){
@@ -154,7 +162,7 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 			tr<-make.tablecode(rownames(mat.sig),ll=ll,refseq=refseq,
 				symbol=symbol,omim=omim,ug=ug,chipname=chipname,
 				cdfname=cdfname,dataframe=mat.sig[,-1],
-				new.window=new.window,tableborder=tableborder)
+				new.window=new.window,tableborder=tableborder,refsnp=refsnp)
 		cat("<p><font color=",bg.col," size=2> HALLO</font></p>","\n",sep="",
 			file=outfile)
 		cat("<h3 align=center>","Identified ",varName," (Using Delta = ",
