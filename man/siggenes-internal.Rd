@@ -48,6 +48,9 @@
 \alias{recodeVal}
 \alias{recodeLevel}
 \alias{getTD4rs}
+\alias{findFDR}
+\alias{findNumber}
+\alias{checkInitialDelta}
 
 
 \title{Internal siggenes functions}
