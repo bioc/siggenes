@@ -20,7 +20,11 @@ function(z,post,p0,B,delta=0.9,vec.pos=NULL,vec.neg=NULL){
 	for(i in 1:n.delta){
 		if(any(z.sort<0) & post[1]>=delta[i]){
 			tmp<-post[z.sort<0]
-			j1<-min(which(tmp<delta[i]))-1
+			tmp.ids<-which(tmp<delta[i])
+			if(length(tmp.ids)==0)
+				j1<-ifelse(any(tmp==delta[i]),min(which(tmp==delta[i])),length(tmp))
+			else
+				j1<-min(tmp.ids)-1
 			f1<-if(length(vec.neg)==0) sum(1/probs[1:j1]-1)/B
 				else vec.neg[j1]
 			mat.delta[i,4]<-z.sort[j1]
@@ -32,7 +36,11 @@ function(z,post,p0,B,delta=0.9,vec.pos=NULL,vec.neg=NULL){
 		}
 		if(post[m]>=delta[i]){
 			tmp<-rev(post[z.sort>=0])
-			j2<-min(which(tmp<delta[i]))-1
+			tmp.ids<-which(tmp<delta[i])
+			if(length(tmp.ids)==0)
+				j2<-ifelse(any(tmp==delta[i]),min(which(tmp==delta[i])),length(tmp))
+			else
+				j2<-min(tmp.ids)-1
 			f2<-if(length(vec.pos)==0) sum(1/probs[(m-j2+1):m]-1)/B
 				else vec.pos[m-j2+1]
 			mat.delta[i,5]<-z.sort[m-j2+1]
