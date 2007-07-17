@@ -1,5 +1,5 @@
-wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRUE,na.method="mean",
-		approx50=TRUE,ties.method=c("min","random","max"),use.row=FALSE,rand=NA){
+wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.replace=TRUE,
+		na.method="mean",approx50=TRUE,ties.method=c("min","random","max"),use.row=FALSE,rand=NA){
 	if(!is.na(rand))
 		set.seed(rand)
 	data<-as.matrix(data)
@@ -17,10 +17,10 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRU
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
-	if(length(unique(cl))==1)
+	if(length(unique(cl.mt))!=2)
 		R.fold<-0
 	if(R.fold>0){
-		mat.fold<-Rfold.cal(data,cl,unlog=R.unlog,R.fold=R.fold)
+		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
 		n.fulfill<-sum(mat.fold[,2])
 		if(n.fulfill==0)
 			stop("None of the genes has a fold change larger than ",R.fold,".")

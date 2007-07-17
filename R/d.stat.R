@@ -4,7 +4,8 @@
 
 d.stat<-function(data,cl,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05),
 		include.zero=TRUE,n.subset=10,mat.samp=NULL,B.more=0.1,B.max=30000,
-		gene.names=NULL,R.fold=1,R.unlog=TRUE,na.replace=TRUE,na.method="mean",rand=NA){
+		gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.replace=TRUE,
+		na.method="mean",rand=NA){
 	data<-as.matrix(data)
 	mode(data)<-"numeric"
 	n.genes<-nrow(data)
@@ -20,10 +21,10 @@ d.stat<-function(data,cl,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
-	if(type.mt=="f" || length(unique(cl))==1)
+	if(length(unique(cl.mt))!=2)
 		R.fold<-0
 	if(R.fold>0){
-		mat.fold<-Rfold.cal(data,cl,unlog=R.unlog,R.fold=R.fold)
+		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
 		n.fulfill<-sum(mat.fold[,2])
 		if(n.fulfill==0)
 			stop("None of the variables has a fold change larger than ",R.fold,".")

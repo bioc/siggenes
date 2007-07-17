@@ -74,12 +74,12 @@ setMethod("summary","EBAM",
 )
 		
 setMethod("plot","EBAM",
-	function(x,y,pos.stats=NULL,sig.col=3,sig.cex=1,pch=NULL,stats.cex=0.8,main=NULL,
+	function(x,y,pos.stats=2,sig.col=3,sig.cex=1,pch=NULL,stats.cex=0.8,main=NULL,
 			xlab=NULL,ylab=NULL,y.intersp=1.3,...){
 		z<-x@z
 		post<-x@posterior
 		if(missing(y))
-			stop("No delta value has been specified.")
+			y<-x@mat.fdr[,1]
 		if(length(y)!=1)
 			stop("More than one delta value has been specified.")
 		mat.fdr<-compNumber(x@z,x@posterior,x@p0,nrow(x@mat.samp),delta=y,
@@ -94,8 +94,8 @@ setMethod("plot","EBAM",
 			stop("sig.col must be of length 1.")
 		ids<-which(z<=mat.fdr[,4] | z>=mat.fdr[,5])
 		twosided<-any(z<0)
-		if(is.null(pos.stats))
-			pos.stats<-ifelse(twosided,2,4)
+		#if(is.null(pos.stats))
+		#	pos.stats<-ifelse(twosided,2,4)
 		if(!pos.stats%in%(0:4))
 			stop("pos.stats must be an integer between 0 and 4.")
 		if(length(ids)==0)

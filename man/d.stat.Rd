@@ -12,8 +12,8 @@
   d.stat(data, cl, var.equal = FALSE, B = 100, med = FALSE, s0 = NA, 
       s.alpha = seq(0, 1, 0.05), include.zero = TRUE, n.subset = 10, 
       mat.samp = NULL, B.more = 0.1, B.max = 30000, gene.names = NULL,
-      R.fold = 1, R.unlog = TRUE, na.replace = TRUE, na.method = "mean", 
-      rand = NA)
+      R.fold = 1, use.dm = FALSE, R.unlog = TRUE, na.replace = TRUE, 
+      na.method = "mean", rand = NA)
 }
 \arguments{
   \item{data}{a matrix, data frame or exprSet object. Each row of \code{data}
@@ -71,17 +71,24 @@
      in the computation of the null distribution. Otherwise, \code{B} random draws
      of the group labels are used. In the latter way of permuting it is possible that
      some of the permutations are used more than once}
-    \item{R.fold}{a numeric value. If the fold change of a gene is smaller than or
+  \item{R.fold}{a numeric value. If the fold change of a gene is smaller than or
      equal to \code{R.fold}, or larger than or equal to 1/\code{R.fold},respectively,
      then this gene will be excluded from the SAM analysis. The expression score 
      \eqn{d} of excluded genes is set to \code{NA}. By default, \code{R.fold}
      is set to 1 such that all genes are included in the SAM analysis. Setting 
      \code{R.fold} to 0 or a negative value will avoid the computation of the fold
-     change. The fold change is only computed in the two-class cases}
+     change. The fold change is only computed in the two-class unpaired cases}
+  \item{use.dm}{if \code{TRUE}, the fold change is computed by 2 to the power of the difference between
+     the mean log2 intensities of the two groups, i.e.\ 2 to the power of the numerator of the test statistic. 
+     If \code{FALSE}, the fold change is determined
+     by computing 2 to the power of \code{data} (if \code{R.unlog = TRUE}) and then calculating the ratio of the
+     mean intensity in the group coded by 1 to the mean intensity in the group coded
+     by 0. The latter is the default, as this definition of the fold change is used in
+     Tusher et al.\ (2001)} 
   \item{R.unlog}{if \code{TRUE}, the anti-log of \code{data} will be used in the computation of the
      fold change. Otherwise, \code{data} is used. This transformation should be done
      when \code{data} is log2-tranformed (in a SAM analysis it is highly recommended
-     to use log2-transformed expression data)}
+     to use log2-transformed expression data). Ignored if \code{use.dm = TRUE}}
   \item{na.replace}{if \code{TRUE}, missing values will be removed by the genewise/rowwise
      statistic specified by \code{na.method}. If a gene has less than 2 non-missing
      values, this gene will be excluded from further analysis. If \code{na.replace=FALSE},
