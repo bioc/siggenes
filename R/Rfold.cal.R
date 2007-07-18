@@ -11,7 +11,7 @@ Rfold.cal<-function(mat,cl,unlog=TRUE,R.fold=1,use.dm=FALSE){
 		mean0[mean0<=0]<-NA
 		mean1[mean1<=0]<-NA
 	}
-	fold<-if(!use.dm) mean0/mean1 else 2^(mean1-mean0)
+	fold<-if(!use.dm) mean1/mean0 else 2^(mean1-mean0)
 	fulfill<-numeric(length(fold))
 	fulfill[fold>=R.fold | fold<=1/R.fold]<-1
 	cbind(fold=fold,fulfill=fulfill)
