@@ -1,6 +1,6 @@
 cat.ebam<-function(data,cl,approx=FALSE,B=100,check.levels=TRUE,check.for.NN=FALSE,lev=NULL,
 		B.more=0.1,B.max=50000,n.subset=10,fast=FALSE,n.interval=NULL,df.ratio=3,
-		df.dens=NULL,knots.mode=TRUE,type.nclass="wand",rand=NA){
+		df.dens=NULL,knots.mode=NULL,type.nclass="wand",rand=NA){
 	data<-as.matrix(data)
 	if(any(is.na(data)))
 		stop("No NAs allowed.")

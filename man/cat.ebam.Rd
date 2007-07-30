@@ -13,7 +13,7 @@
   cat.ebam(data, cl, approx = FALSE, B = 100, check.levels = TRUE, 
     check.for.NN = FALSE, lev = NULL, B.more = 0.1, B.max = 50000, 
     n.subset = 10, fast = FALSE, n.interval = NULL, df.ratio = 3,
-    df.dens = NULL, knots.mode = TRUE, type.nclass = "wand",
+    df.dens = NULL, knots.mode = NULL, type.nclass = "wand",
     rand = NA)
 }
 
@@ -61,11 +61,16 @@
      spline used in the Poisson regression to estimate the density of the observed
      \eqn{z}-values. Ignored if \code{approx = FALSE}. 
      If \code{NULL}, \code{df.dens} is set to 3 if the degrees of freedom
-     of the appromimated null distribution, i.e.\ the \eqn{chi^2}{Chisquare}-distribution,
+     of the appromimated null distribution, i.e.\ the \eqn{\chi^2}{ChiSquare}-distribution,
      are less than or equal to 2, and otherwise \code{df.dens} is set to 5}
   \item{knots.mode}{if \code{TRUE} the \code{df.dens} - 1 knots are centered around the
      mode and not the median of the density when fitting the Poisson regression model.
-     Ignored if \code{approx = FALSE}. For details, see \code{\link{denspr}}}
+     Ignored if \code{approx = FALSE}. 
+     If not specified, \code{knots.mode} is set to
+     \code{TRUE} if the degrees of freedom of the approximated null distribution, i.e.\
+     tht \eqn{\chi^2}{ChiSquare}-distribution, are larger than or equal to 3, and otherwise
+     \code{knots.mode} is set to \code{FALSE}. For details on this density estimation, 
+     see \code{\link{denspr}}}
   \item{type.nclass}{character string specifying the procedure used to compute the
      number of cells of the histogram. Ignored if \code{approx = FALSE} or 
      \code{n.interval} is specified. Can be either
