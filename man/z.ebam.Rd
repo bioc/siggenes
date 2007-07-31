@@ -44,7 +44,8 @@
      of the group labels are used. In the latter way of permuting, it is possible that
      some of the permutations are used more than once}
   \item{n.subset}{an integer specifying in how many subsets the \code{B} permutations
-     should be split when computing the permuted test scores}
+     should be split when computing the permuted test scores. Note that the meaning
+     of \code{n.subset} differs between the SAM and the EBAM functions}
   \item{fast}{if \code{FALSE} the exact number of permuted test scores that are
      more extreme than a particular observed test score is computed for each of
      the genes. If \code{TRUE}, a crude estimate of this number is used}

@@ -43,7 +43,7 @@
      in the computation of the null distribution. Otherwise, \code{B} random draws
      of the group labels are used}  
   \item{n.subset}{a numeric value indicating how many permutations are considered
-     simultaneously when computing the expected d-values}
+     simultaneously when computing the expected \eqn{d}-values}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
      will be set into a reproducible state}
 }

@@ -43,8 +43,9 @@
      than or equal to \code{B.max}, \code{B} randomly selected permutations will be used
      in the computation of the null distribution. Otherwise, \code{B} random draws
      of the group labels are used}  
-  \item{n.subset}{a numeric value indicating how many permutations are considered
-     simultaneously when computing the expected \eqn{z}-values}
+  \item{n.subset}{a numeric value indicating in how many subsets the \code{B} 
+     permutations are divided when computing the permuted \eqn{z}-values. Please note
+     that the meaning of \code{n.subset} differs between the SAM and the EBAM functions}
   \item{fast}{if \code{FALSE} the exact number of permuted test scores that are
      more extreme than a particular observed test score is computed for each of
      the variables/SNPs. If \code{TRUE}, a crude estimate of this number is used}

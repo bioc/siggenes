@@ -46,7 +46,7 @@
      positive values are considered}
   \item{n.subset}{a numeric value indicating how many permutations are considered
      simultaneously when computing the p-value and the number of falsely called
-     genes. If \code{med=TRUE}, \code{n.subset} will be set to 1}
+     genes. If \code{med = TRUE}, \code{n.subset} will be set to 1}
   \item{mat.samp}{a matrix having \code{ncol(data)} columns except for the two class
      paired case in which \code{mat.samp} has \code{ncol(data)}/2 columns. 
      Each row specifies one permutation of the group labels used in the computation
