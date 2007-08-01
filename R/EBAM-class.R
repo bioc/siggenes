@@ -94,8 +94,8 @@ setMethod("plot","EBAM",
 			stop("sig.col must be of length 1.")
 		ids<-which(z<=mat.fdr[,4] | z>=mat.fdr[,5])
 		twosided<-any(z<0)
-		#if(is.null(pos.stats))
-		#	pos.stats<-ifelse(twosided,2,4)
+		if(is.null(pos.stats))
+			pos.stats<-2
 		if(!pos.stats%in%(0:4))
 			stop("pos.stats must be an integer between 0 and 4.")
 		if(length(ids)==0)
