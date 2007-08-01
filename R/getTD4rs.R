@@ -9,7 +9,7 @@ getTD4rs<-function(snps,refsnp){
 		refs,sep="")
 	td<-paste("<TD><A HREF=\"",tmp,"\">",refs,"</A></TD>",sep="")
 	if(length(ids.nolink)>0)
-		td[ids.nolink]<-"nbsp;"
+		td[ids.nolink]<-"<TD>&nbsp;</TD>"
 	td
 }
 
