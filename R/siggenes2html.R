@@ -80,7 +80,7 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 	cat("<html>","<head>",paste("<title>",type," Analysis</title>",sep=""),"</head>",
 		paste("<body bgcolor=",bg.col," text=",text.col," link=",link.col,
 		">",sep=""),paste("<h1 align=center>",type,"Analysis </h1>"),
-		"<style type=text/css",
+		"<style type=text/css>",
 		"h3{ margin-top: 5px; margin-bottom: 2px; padding-left: 10px; text-indent: 10px;
 			word-spacing: 1px}", 
 		"li{ margin-top: 10px; padding-left: 0px; text-indent: 5px; word-spacing: 1px}",
