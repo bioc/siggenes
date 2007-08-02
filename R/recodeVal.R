@@ -22,10 +22,10 @@ recodeVal <- function(mat, lev){
 
 recodeLevel<-function(mat,lev){
 	if(is.list(lev))
-		return(recodeVal(data,lev))
+		return(recodeVal(mat,lev))
 	for(i in 1:length(lev))
-		data[data==lev[i]]<-i
-	data
+		mat[mat==lev[i]]<-i
+	mat
 }
 
 
