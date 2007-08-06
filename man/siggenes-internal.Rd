@@ -51,6 +51,7 @@
 \alias{findFDR}
 \alias{findNumber}
 \alias{checkInitialDelta}
+\alias{chisqClassSplitted}
 
 
 \title{Internal siggenes functions}

@@ -1,4 +1,4 @@
-cat.ebam<-function(data,cl,approx=FALSE,B=100,check.levels=TRUE,check.for.NN=FALSE,lev=NULL,
+cat.ebam<-function(data,cl,approx=FALSE,B=100,n.split=1,check.levels=TRUE,check.for.NN=FALSE,lev=NULL,
 		B.more=0.1,B.max=50000,n.subset=10,fast=FALSE,n.interval=NULL,df.ratio=3,
 		df.dens=NULL,knots.mode=NULL,type.nclass="wand",rand=NA){
 	data<-as.matrix(data)
@@ -21,7 +21,15 @@ cat.ebam<-function(data,cl,approx=FALSE,B=100,check.levels=TRUE,check.for.NN=FAL
 		stop("data must consist of integers between 1 and ",n.cat,".")
 	if(any(!(1:n.cat)%in%data))
 		stop("Some of the values between 1 and ",n.cat," are not in data.")
-	stats<-chisqClass(data,cl,n.cat,check=check.levels)
+	if(n.split<=0)
+		stop("n.split must be at least 1.")
+	if(n.split==1)
+		stats<-chisqClass(data,cl,n.cat,check=check.levels)
+	else{
+		if(!approx)
+			stop("Currently, splitting the variables is not supported in the permutation case.")
+		stats<-chisqClassSplitted(data,cl,n.cat,n.split,check=check.levels)
+	}
 	n.cl<-length(unique(cl))
 	msg<-c("EBAM Analysis for Categorical Data\n\n",
 		paste("Null Distribution:\n",

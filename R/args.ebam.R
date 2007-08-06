@@ -12,7 +12,7 @@ function(method){
 			"quote = FALSE, dec = \".\")\n")
 	if(method=="plot")
 		cat("function (x, y, pos.stats = NULL, sig.col = 3, sig.cex = 1,",
-			"pch = NULL,\n    cexStats = 0.8, main = NULL, xlab = NULL,",
+			"pch = NULL,\n    stats.cex = 0.8, main = NULL, xlab = NULL,",
 			"ylab = NULL, y.intersp = 1.3, ...)\n")
 }
 

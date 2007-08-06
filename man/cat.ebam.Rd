@@ -10,11 +10,11 @@
 }
 
 \usage{
-  cat.ebam(data, cl, approx = FALSE, B = 100, check.levels = TRUE, 
-    check.for.NN = FALSE, lev = NULL, B.more = 0.1, B.max = 50000, 
-    n.subset = 10, fast = FALSE, n.interval = NULL, df.ratio = 3,
-    df.dens = NULL, knots.mode = NULL, type.nclass = "wand",
-    rand = NA)
+  cat.ebam(data, cl, approx = FALSE, B = 100, n.split = 1,
+    check.levels = TRUE, check.for.NN = FALSE, lev = NULL, 
+    B.more = 0.1, B.max = 50000, n.subset = 10, fast = FALSE, 
+    n.interval = NULL, df.ratio = 3, df.dens = NULL, 
+    knots.mode = NULL, type.nclass = "wand", rand = NA)
 }
 
 
@@ -27,6 +27,11 @@
   \item{approx}{should the null distribution be approximated by a \eqn{\chi^2}{Chisquare}-distribution?}
   \item{B}{the number of permutations used in the estimation of the null distribution,
      and hence, in the computation of the expected \eqn{z}-values.}
+  \item{n.split}{number of chunks in which the variables are splitted in the computation
+     of the values of the test statistic. Currently, only available if \code{approx = TRUE}.
+     By default, the test scores of all variables are calculated simultaneously.
+     If the number of variables or observations is large, setting \code{n.split} to a
+     larger value than 1 can help to avoid memory problems}
   \item{check.levels}{if \code{TRUE}, it will be checked if all variables/SNPs have
      the same number of levels/categories}
   \item{check.for.NN}{if \code{TRUE}, it will be checked if any of the genotypes
