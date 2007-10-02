@@ -21,7 +21,7 @@ d.stat<-function(data,cl,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
-	if(length(unique(cl.mt))!=2)
+	if(!type.mt%in%c("t","t.equalvar"))
 		R.fold<-0
 	if(R.fold>0){
 		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)

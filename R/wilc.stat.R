@@ -17,7 +17,7 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,n
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
-	if(length(unique(cl.mt))!=2)
+	if(!type.mt%in%c("t","t.equalvar"))
 		R.fold<-0
 	if(R.fold>0){
 		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
