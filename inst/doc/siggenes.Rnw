@@ -713,7 +713,7 @@ t.stat <- function(data, cl){
     row.out <- rowttests(data, cl)
     d <- row.out$statistic
     m <- length(na.exclude(d))
-    d.bar <- qt(((1:m) - 0.5)/m, row.out$df)
+    d.bar <- qt(((1:m) - 0.5)/m, length(cl) - 2)
     p.value <- row.out$p.value
     vec.false <- m * p.value/2
     s <- row.out$dm/d
@@ -865,7 +865,7 @@ t.ebam<-function(data, cl){
     z.dens <- denspr(z)$y
     m <- length(z)
     vec.pos <- m * out$p.value / 2
-    z.null <- dt(z, out$df)
+    z.null <- dt(z, length(cl) - 2)
     msg<-paste("EBAM Analysis with t-Statistic Assuming Normality.\n\n")
     list(z = z, ratio = z.null/z.dens, vec.pos = vec.pos,
         vec.neg = vec.pos, msg = msg)

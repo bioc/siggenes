@@ -1,5 +1,6 @@
 Package: siggenes
-Version: 1.13.1
+Version: 1.13.2
+Date: 2008-01-06
 Title: Multiple testing using SAM and Efron's empirical Bayes approaches
 Author: Holger Schwender 
 Maintainer: Holger Schwender <holger.schw@gmx.de>
