@@ -1,6 +1,6 @@
 sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95,.05),
 		ncs.value="max",ncs.weights=NULL,gene.names=dimnames(data)[[1]],q.version=1,...){
-	if(is(data,"exprSet") | is(data,"ExpressionSet")){
+	if(is(data,"ExpressionSet")){
 		require(affy)
 		chip.name<-annotation(data)
 		if(is.character(cl) & length(cl)<=2)
@@ -30,5 +30,3 @@ sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95
 		s=d.out$s,s0=d.out$s0,mat.samp=d.out$mat.samp,p0=p0,mat.fdr=mat.fdr,q.value=q.value,
 		fold=d.out$fold,msg=d.out$msg,chip=chip.name)
 } 
- 
-

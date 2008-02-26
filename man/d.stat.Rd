@@ -16,14 +16,14 @@
       na.method = "mean", rand = NA)
 }
 \arguments{
-  \item{data}{a matrix, data frame or exprSet object. Each row of \code{data}
-    (or \code{exprs(data)}, respectively) must correspond to a gene, and
-    each column to a sample}
+  \item{data}{a matrix, data frame or \code{ExpressionSet} object. Each row of
+    \code{data} (or \code{exprs(data)}, respectively) must correspond to a gene,
+    and each column to a sample}
   \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
      labels of the samples. In the two class paired case, \code{cl} can also 
      be a matrix with \code{ncol(data)} rows and 2 columns. If \code{data} is
-     a exprSet object, \code{cl} can also be a character string. For details
-     on how \code{cl} should be specified, see \code{?sam}}
+     an \code{ExpressionSet} object, \code{cl} can also be a character string.
+     For details on how \code{cl} should be specified, see \code{?sam}}
   \item{var.equal}{if \code{FALSE} (default), Welch's t-statistic will be computed.
      If \code{TRUE}, the pooled variance will be used in the computation of
      the t-statistic}
@@ -104,7 +104,6 @@
 \value{
    an object of class SAM
 }
-
 
 \references{
    Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
