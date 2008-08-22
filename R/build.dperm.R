@@ -7,7 +7,7 @@ build.dperm<-function(X,tmp.samp,type.mt,s0,n.row,le.cl){
         	as.integer(le.cl), as.integer(tmp.samp[i,]), as.double(.mt.naNUM), 
         	t.num = double(n.row), t.denum=double(n.row),as.character(c(type.mt,"abs","y")), 
 		as.integer(max.cl), PACKAGE = "multtest")
-		d.perm[,i]<-sort(tmp$t.num/(tmp$t.denum+s0))
+		d.perm[,i]<-sort(tmp$t.num/(tmp$t.denum+s0),na.last=TRUE)
 	}
 	d.perm
 }	 
