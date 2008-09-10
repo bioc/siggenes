@@ -10,22 +10,22 @@
 }
 \usage{
  ebam2html(object, delta, filename, addStats = TRUE, addPlot = TRUE, 
-        addGenes = TRUE, findA0 = NULL, varName = NULL, ll = TRUE, 
-        refseq = TRUE, symbol = TRUE, omim = TRUE, ug = TRUE, 
-        chipname = "", cdfname = NULL, refsnp = NULL, n.digits = 3, 
-        bg.col = "white", text.col = "black", link.col = "blue", 
+        addGenes = TRUE, findA0 = NULL, varName = NULL, entrez = TRUE, 
+        refseq = TRUE, symbol = TRUE, omim = FALSE, ug = FALSE, 
+        chipname = "", cdfname = NULL, which.refseq = "NM", refsnp = NULL, 
+        n.digits = 3, bg.col = "white", text.col = "black", link.col = "blue", 
         plotArgs = plotArguments(), plotFindArgs = plotFindArguments(), 
         bg.plot.adjust = FALSE, plotname = NULL, plotborder = 0, 
-        tableborder = 1, new.window = TRUE, ...)
+        tableborder = 1, new.window = TRUE, load = TRUE, ...)
 
  sam2html(object, delta, filename, addStats = TRUE, addPlot = TRUE, 
-        addGenes = TRUE, varName = NULL, ll = TRUE, refseq = TRUE, 
-        symbol = TRUE, omim = TRUE, ug = TRUE, chipname = "", 
-        cdfname = NULL, refsnp = NULL, n.digits = 3, 
+        addGenes = TRUE, varName = NULL, entrez = TRUE, refseq = TRUE, 
+        symbol = TRUE, omim = FALSE, ug = FALSE, chipname = "", 
+        cdfname = NULL, which.refseq = "NM", refsnp = NULL, n.digits = 3, 
         bg.col = "white", text.col = "black", link.col = "blue", 
         plotArgs = plotArguments(), bg.plot.adjust = FALSE, 
         plotname = NULL, plotborder = 0, tableborder = 1, 
-        new.window = TRUE, ...)
+        new.window = TRUE, load = TRUE, ...)
 }
 \arguments{
   \item{object}{a SAM or an EBAM object}
@@ -44,7 +44,7 @@
   \item{varName}{character string indicating how the variables should be named. If \code{NULL},
         the variables will be referred to as SNPs in the output if 
         \code{method = cat.stat}, and as Genes otherwise}
-  \item{ll}{logical indicating if Entrez/Locus Links should be added to the output. Ignored if
+  \item{entrez}{logical indicating if Entrez links should be added to the output. Ignored if
         \code{addGenes = FALSE}}
   \item{refseq}{logical indicating if RefSeq links should be added to the output. Ignored
         if \code{addGenes = FALSE}}
@@ -62,6 +62,8 @@
         the nomenclatur of the Affymetrix chips (e.g., \code{"HG-U133A"} for the
         Affymetrix HG-U133A chip). If specified, links to the Affymetrix webpage for the
         interesting genes will be added to the output. Ignored if \code{addGenes = FALSE}}
+  \item{which.refseq}{character string or vector naming the first two letters of the RefSeq
+        links that should be displayed in the html file}
   \item{refsnp}{character vector containing the RefSNP IDs of the SNPs used in the SAM/EBAM
         analysis, where \code{names(refsnp)} specifies the names of these SNPs} 
   \item{n.digits}{integer specifying the number of decimal places used in the output}
@@ -89,6 +91,9 @@
   \item{tableborder}{integer specifying the thickness of the border of the table. Ignored if
         \code{addGenes = FALSE}}
   \item{new.window}{logical indicating if the links should be opened in a new window}
+  \item{load}{logical value indicating whether to attempt to load the required annotation data package
+        if it is not already loaded. For details, see the man page of \code{lookUp} in the package
+        \pkg{annotate}}
   \item{...}{further graphical arguments for the SAM/EBAM plot. See \code{\link{plot.default}} and 
         \code{\link{par}}. Ignored if \code{addPlot = FALSE}}
 }

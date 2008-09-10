@@ -20,7 +20,7 @@ for the differentially expressed genes when just one Delta value is specified
 <h3>Usage</h3>
 
 <pre>
-summary(object, delta = NULL, n.digits = 5, what = "both", ll = FALSE, chip = "",
+summary(object, delta = NULL, n.digits = 5, what = "both", entrez = FALSE, chip = "",
 	file = "", sep = "\t", quote = FALSE, dec=".")
 </pre>
 
@@ -46,13 +46,13 @@ an integer specifying the number of decimal places in the output</td></tr>
 either "both", "stats" or "genes". If "stats" general information is shown. If "genes" gene-specific
 information is given. If "both" both general and gene-specific information is shown. Will be ignored
 if <code>delta</code> is <code>NULL</code> or a vector</td></tr>
-<tr valign="top"><td><code>ll</code></td>
+<tr valign="top"><td><code>entrez</code></td>
 <td>
-logical. If <code>TRUE</code> both the locus links and the symbols of the genes will be added
+logical. If <code>TRUE</code> both the Entrez links and the symbols of the genes will be added
 to the output</td></tr>
 <tr valign="top"><td><code>chip</code></td>
 <td>
-character string naming the chip type used in this analysis. Only needed if <code>ll=TRUE</code>.
+character string naming the chip type used in this analysis. Only needed if <code>entrez = TRUE</code>.
 If the argument <code>data</code> of <code>sam(data,cl,...)</code> has been specified by an
 <code>ExpressionSet</code> object <code>chip</code> need not to be specified</td></tr>
 <tr valign="top"><td><code>file</code></td>

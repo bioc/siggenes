@@ -9,10 +9,10 @@
   and gene-specific information on the differentially expressed genes.
 }
 \usage{
- sam2excel(object, delta, file, excel.version=1, n.digits = 3, what = "both", ll = FALSE,
+ sam2excel(object, delta, file, excel.version=1, n.digits = 3, what = "both", entrez = FALSE,
         chip = "", quote = FALSE)
         
- ebam2excel(object, delta, file, excel.version=1, n.digits = 4, what = "both", ll = FALSE,
+ ebam2excel(object, delta, file, excel.version=1, n.digits = 4, what = "both", entrez = FALSE,
         chip = "", quote = FALSE)
 }
 \arguments{
@@ -28,7 +28,7 @@
   \item{what}{either \code{"both"}, \code{"stats"} or \code{"genes"}. If \code{"stats"} general 
         information will be shown. If \code{"genes"} gene-specific information will be given. 
         If \code{"both"} both general and gene-specific information will be shown}
-  \item{ll}{logical indicating if both the locus links and the symbols of the genes will be added
+  \item{entrez}{logical indicating if both the Entrez links and the symbols of the genes will be added
         to the output}
   \item{chip}{character string naming the chip type used in this analysis. Must
         be specified as in the meta-data section of Bioconductor (e.g., \code{"hgu133a"}

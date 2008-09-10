@@ -1,9 +1,10 @@
-siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,findA0=NULL,
-		varName=NULL,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,chipname="",
-		cdfname=NULL,refsnp=NULL,n.digits=3,bg.col="white",text.col="black",link.col="blue",
+siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,
+		findA0=NULL,varName=NULL,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,ug=FALSE,
+		chipname="",cdfname=NULL,refsnp=NULL,n.digits=3,
+		bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),plotFindArgs=plotFindArguments(),
 		bg.plot.adjust=FALSE,plotname=NULL,plotborder=0,tableborder=1,
-		new.window=TRUE,...){
+		new.window=TRUE,which.refseq="NM",load=TRUE,...){
 	type<-class(object)
 	isSAM<-type=="SAM"
 	if(length(delta)!=1)
@@ -12,23 +13,23 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 		stop("delta must be larger than 0.")
 	if(!isSAM && delta>=1)
 		stop("delta must be smaller than 1.")
-	if(any(c(ll,refseq,symbol,omim,ug))){
+	if(any(c(entrez,refseq,symbol,omim,ug))){
 		tmp<-ifelse(!isSAM,"z","d")
 		if(is.null(names(slot(object,tmp)))){
-			ll<-refseq<-symbol<-omim<-ug<-FALSE
+			entrez<-refseq<-symbol<-omim<-ug<-FALSE
 			warning("Since no gene names are specified by 'object'",
-				" 'll', 'refseq', 'symbol',\n","'omim' and 'ug' are set",
+				" 'entrez', 'refseq', 'symbol',\n","'omim' and 'ug' are set",
 				" to FALSE.",call.=FALSE)
 		}
 		if(chipname=="" & object@chip=="" & is.null(cdfname)){
-			ll<-refseq<-symbol<-omim<-ug<-FALSE
+			entrez<-refseq<-symbol<-omim<-ug<-FALSE
 			warning("Since the chip type has been specified neither",
 				" by the ",type," object\n","nor by 'chipname' or",
-				" 'cdfname', 'll', 'refseq', 'symbol',\n",
+				" 'cdfname', 'entrez', 'refseq', 'symbol',\n",
 				"'omim' and 'ug' are set to FALSE.",call.=FALSE)
 		}
 	}
-	if(any(c(ll,refseq,symbol,omim,ug)))
+	if(any(c(entrez,refseq,symbol,omim,ug)))
 		chipname<-check.chipname(chipname,object@chip,cdfname)
 	msg<-object@msg
 	h2<-unlist(strsplit(msg[1],"\n"))[1]
@@ -154,15 +155,16 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 	if(addGenes){
 		has.nonames<-all(rownames(mat.sig)==as.character(1:nrow(mat.sig)))
 		if(has.nonames)
-			tr<-make.tablecode(as.character(mat.sig[,"Row"]),ll=FALSE,
+			tr<-make.tablecode(as.character(mat.sig[,"Row"]),entrez=FALSE,
 				refseq=FALSE,symbol=FALSE,omim=FALSE,ug=FALSE,
-				chipname=chipname,dataframe=mat.sig[,-1],
+				chipname=chipname,dataframe=mat.sig[,-1],load=load,
 				new.window=new.window,tableborder=tableborder,name1stcol="Row")
 		else
-			tr<-make.tablecode(rownames(mat.sig),ll=ll,refseq=refseq,
+			tr<-make.tablecode(rownames(mat.sig),entrez=entrez,refseq=refseq,
 				symbol=symbol,omim=omim,ug=ug,chipname=chipname,
 				cdfname=cdfname,dataframe=mat.sig[,-1],
-				new.window=new.window,tableborder=tableborder,refsnp=refsnp)
+				new.window=new.window,tableborder=tableborder,refsnp=refsnp,
+				which.refseq=which.refseq,load=load)
 		cat("<p><font color=",bg.col," size=2> HALLO</font></p>","\n",sep="",
 			file=outfile)
 		cat("<h3 align=center>","Identified ",varName," (Using Delta = ",

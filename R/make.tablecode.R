@@ -1,12 +1,14 @@
-make.tablecode<-function(genenames,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,
+make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,
 		chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,tableborder=1,
-		name1stcol="Name",refsnp=NULL){
+		name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE){
 	require(annotate)
-	if(any(c(ll,refseq,symbol,omim,ug))){
+	if(!is.null(refsnp))
+		entrez<-refseq<-symbol<-omim<-ug<-FALSE
+	if(any(c(entrez,refseq,symbol,omim,ug))){
 		if(chipname=="" & is.null(cdfname))
 			stop("Either 'chipname' or 'cdfname' must be specified.")
 	}
-	if(!is.null(cdfname)){
+	if(!is.null(cdfname) && is.null(refsnp)){
 		require(affy)
 		clean<-cleancdfname(cdfname,addcdf=FALSE)
 		if(chipname=="")
@@ -25,7 +27,7 @@ make.tablecode<-function(genenames,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=
 	tr<-paste(tr,"\n")
 	th<-name1stcol
 	if(symbol){
-		sym<-getSYMBOL(genenames,chipname)
+		sym<-unlist(lookUp(genenames,chipname,"SYMBOL",load=load))
 		sym[is.na(sym)]<-"&nbsp;"
 		sym.cols<-paste("<TD>",sym,"</TD>\n",sep="")
 		th<-c(th,"Symbol")
@@ -36,36 +38,37 @@ make.tablecode<-function(genenames,ll=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=
 		th<-c(th,"RefSNP")
 		tr<-paste(tr,rs,"\n")
 	}
-	if(ll){
-		LL<-getLL(genenames,chipname)
+	if(entrez){
+		LL<-unlist(lookUp(genenames,chipname,"ENTREZID",load=load))
 		LL[is.na(LL)]<-"&nbsp;"
-		LL.cols<-getTDRows(LL,"ll")
+		LL.cols<-annotate:::getTDRows(LL,"en")
 		th<-c(th,"LocusLink")
 		tr<-paste(tr,LL.cols,"\n")
 	}
 	if(refseq){
-		tmp.refseq<-lookUp(genenames,chipname,"REFSEQ")
-		nm.select<-function(x) x[substring(x,1,2)%in%c("NM","nm")]
+		tmp.refseq<-lookUp(genenames,chipname,"REFSEQ",load=load)
+		which.refseq<-c(tolower(which.refseq),toupper(which.refseq))
+		nm.select<-function(x) x[substring(x,1,2)%in%which.refseq]
 		RefSeq<-lapply(tmp.refseq,nm.select)
 		RefSeq[lapply(RefSeq,length)==0]<-"&nbsp;"
-		refseq.cols<-getTDRows(RefSeq,"GB")
+		refseq.cols<-annotate:::getTDRows(RefSeq,"GB")
 		th<-c(th,"RefSeq")
 		tr<-paste(tr,refseq.cols,"\n")
 	}
 	any.na<-function(x){any(is.na(x))}
 	if(omim){
-		OMIM<-lookUp(genenames,chipname,"OMIM")
+		OMIM<-lookUp(genenames,chipname,"OMIM",load=load)
 		OMIM[unlist(lapply(OMIM,any.na))]<-"&nbsp;"
-		OMIM.cols<-getTDRows(OMIM,"omim")
+		OMIM.cols<-annotate:::getTDRows(OMIM,"omim")
 		th<-c(th,"OMIM")
 		tr<-paste(tr,OMIM.cols,"\n")
 	}
 	if(ug){
-		UG<-lookUp(genenames,chipname,"UNIGENE")
+		UG<-lookUp(genenames,chipname,"UNIGENE",load=load)
 		UG[lapply(UG,length)==0]<-"&nbsp;"
 		# Notloesung:
 		UG<-unlist(lapply(UG,function(x) x[1]))
-		UG.cols<-getTDRows(UG,"ug")
+		UG.cols<-annotate:::getTDRows(UG,"ug")
 		th<-c(th,"UniGene")
 		tr<-paste(tr,UG.cols,"\n")
 	}

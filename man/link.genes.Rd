@@ -5,20 +5,22 @@
   Generates a htmlpage with links to several public repositories for a list of genes.
 }
 \usage{
-  link.genes(genenames, filename, ll = TRUE, refseq = TRUE, symbol = TRUE,
-    omim = TRUE, ug = TRUE, chipname = "", cdfname = NULL, dataframe = NULL,
-    title = NULL, bg.col = "white", text.col = "black", link.col = "blue", 
-    tableborder = 1, new.window = TRUE)
+  link.genes(genenames, filename, entrez = TRUE, refseq = TRUE, symbol = TRUE,
+    omim = FALSE, ug = FALSE, which.refseq = "NM", chipname = "", cdfname = NULL, 
+    dataframe = NULL, title = NULL, bg.col = "white", text.col = "black", 
+    link.col = "blue", tableborder = 1, new.window = TRUE, load = TRUE)
 }
 \arguments{
   \item{genenames}{a character vector containing the names of the interesting genes}
   \item{filename}{a character string naming the file in which the output should be stored.
         Must have the suffix ".html"}
-  \item{ll}{logical indicating if Entrez/Locus Links should be added to the output}
+  \item{entrez}{logical indicating if Entrez links should be added to the output}
   \item{refseq}{logical indicating if RefSeq links should be added to the output}
   \item{symbol}{logical indicating if the gene symbols should be added to the output}
   \item{omim}{logical indicating if OMIM links should be added to the output}
   \item{ug}{logical indicating if UniGene links should be added to the output}
+  \item{which.refseq}{character string or vector naming the first two letters of the RefSeq
+        links that should be displayed in the html file}
   \item{chipname}{character string specifying the chip type used in the analysis. Must
         be specified as in the meta-data section of Bioconductor (e.g., \code{"hgu133a"}
         for the Affymetrix HG-U133A chip). Need not to be specified if \code{cdfname}
@@ -40,6 +42,9 @@
         for how colors can be specified}
   \item{tableborder}{integer specifying the thickness of the border of the table}
   \item{new.window}{logical indicating if the links should be opened in a new window}
+  \item{load}{logical value indicating whether to attempt to load the required annotation data package
+        if it is not already loaded. For details, see the man page of \code{lookUp} in the package
+        \pkg{annotate}}
 }
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}

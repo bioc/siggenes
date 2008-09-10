@@ -1,5 +1,5 @@
 `siggenes2excel` <-
-function(object,delta,file,excel.version=1,n.digits=3,what="both",ll=FALSE,
+function(object,delta,file,excel.version=1,n.digits=3,what="both",entrez=FALSE,
 		chip="",quote=FALSE){
 	if(!excel.version%in%c(1,2))
 		stop("'excel.version must be either 1 and 2.")
@@ -11,7 +11,7 @@ function(object,delta,file,excel.version=1,n.digits=3,what="both",ll=FALSE,
 		warning("Since the suffix of 'file' is not 'csv' this suffix is added ",
 			"to 'file'.",call.=FALSE)
 	}
-	summary(object,delta,n.digits=n.digits,what=what,ll=ll,chip=chip,
+	summary(object,delta,n.digits=n.digits,what=what,entrez=entrez,chip=chip,
 		file=file,sep=sep,quote=quote,dec=dec)
 }
 

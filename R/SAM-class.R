@@ -26,7 +26,7 @@ setMethod("print","SAM",
 
 
 setMethod("summary","SAM",
-	function(object,delta=NULL,n.digits=3,what="both",ll=FALSE,chip="",file="",
+	function(object,delta=NULL,n.digits=3,what="both",entrez=FALSE,chip="",file="",
 			sep="\t",quote=FALSE,dec="."){
 		list.args<-list(n.digits=n.digits,what=what,file=file,sep=sep,quote=quote,
 			dec=dec,msg=object@msg)
@@ -45,10 +45,10 @@ setMethod("summary","SAM",
 			sig.genes<-which(object@d>=mat.fdr[,"cutup"] | object@d<=mat.fdr[,"cutlow"])
 			mat.sig<-data.frame(NULL)
 			if(what%in%c("genes","both") & length(sig.genes)!=0){
-				if(chip=="" & object@chip=="" & ll){
-					ll<-FALSE
+				if(chip=="" & object@chip=="" & entrez){
+					entrez<-FALSE
 					warning("Since the chip type is neither specified by 'chip' ",
-						"nor by the SAM object,","\n","ll is set to FALSE.",
+						"nor by the SAM object,","\n","entrez is set to FALSE.",
 						call.=FALSE)
 				}
 				mat.sig<-cbind(Row=(1:length(object@d))[sig.genes],
@@ -59,22 +59,22 @@ setMethod("summary","SAM",
 				if(length(sig.genes)>1)
 					mat.sig<-mat.sig[rev(order(abs(mat.sig[,"d.value"]))),]
 				mat.sig<-as.data.frame(mat.sig)
-				if(ll & all(row.names(mat.sig)==as.character(1:nrow(mat.sig)))){
-					ll<-FALSE
+				if(entrez & all(row.names(mat.sig)==as.character(1:nrow(mat.sig)))){
+					entrez<-FALSE
 					warning("Since no gene names are available it is not",
-						" possible to obtain locus links.\n",
-						"'ll' is thus set to FALSE.",call.=FALSE)
+						" possible to obtain Entrez links.\n",
+						"'entrez' is thus set to FALSE.",call.=FALSE)
 				}
-				if(ll){
+				if(entrez){
 					if(chip=="")
 						chip<-object@chip
 					if(chip!=object@chip & object@chip!="")
 						stop("'chip' differs from the chip type of the SAM object.")
 					require(annotate)
-					LL<-getLL(row.names(mat.sig),chip)
+					LL<-unlist(lookUp(row.names(mat.sig),chip,"ENTREZID"))
 					sym<-getSYMBOL(row.names(mat.sig),chip)
 					mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,
-						LocusLink=LL,mat.sig[,-1])
+						Entrez=LL,mat.sig[,-1])
 				}
 			}
 			retval<-new("sumSAM",row.sig.genes=sig.genes,mat.fdr=mat.fdr,
@@ -104,7 +104,7 @@ setMethod("plot","SAM",
 
 setMethod("identify","SAM",
 	function(x,showText=TRUE,getInfo=TRUE,pos=4,cex=0.8,add.xy=numeric(2),n.digits=3,
-			ask=FALSE,ll=FALSE,browse=FALSE,chip="",...){
+			ask=FALSE,entrez=FALSE,browse=FALSE,chip="",...){
 		if(length(add.xy)!=2)
 			stop("add.xy must have length 2.")
 		d<-x@d
@@ -113,10 +113,10 @@ setMethod("identify","SAM",
 		sorted.d<-sort(d,index.return=TRUE)
 		d.sort<-sorted.d$x
 		mat.xy<-cbind(x@d.bar,d.sort)
-		if(getInfo & chip=="" & x@chip=="" & ll){
-			ll<-FALSE
+		if(getInfo & chip=="" & x@chip=="" & entrez){
+			entrez<-FALSE
 			warning("Since the chip type is neither specified by 'chip' nor by the ",
-				"SAM object,","\n","ll is set to FALSE.",call.=FALSE)
+				"SAM object,","\n","entrez is set to FALSE.",call.=FALSE)
 			}
 		repeat{
 			id.out<-identify(mat.xy,labels=names(d.sort),pos=TRUE,n=1,plot=FALSE)
@@ -146,20 +146,20 @@ setMethod("identify","SAM",
 					q.value=na.exclude(x@q.value)[which.d],
 					R.fold=x@fold[!is.na(d)][which.d])
 				mat.ided<-data.frame(round(mat.ided,n.digits))
-				if(ll){
+				if(entrez){
 					if(chip=="")
 						chip<-x@chip
 					if(chip!=x@chip & x@chip!="")
 						stop("'chip' differs from the chip type of the SAM object.")
 					require(annotate)
-					LL<-getLL(row.names(mat.ided),chip)
+					LL<-unlist(lookUp(row.names(mat.ided),chip,"ENTREZID"))
 					sym<-getSYMBOL(row.names(mat.ided),chip)
-					mat.ided<-data.frame(Symbol=sym,LocusLink=LL,mat.ided)
+					mat.ided<-data.frame(Symbol=sym,Entrez=LL,mat.ided)
 					if(browse){
 						for(i in 1:length(na.exclude(LL))){
-							browseURL(getQuery4LL(na.exclude(LL)[i]))
+							browseURL(annotate:::getQuery4LL(na.exclude(LL)[i]))
 							if(i<length(na.exclude(LL))){
-								answer2<-readline("Next LocusLink?")
+								answer2<-readline("Next Entrez link?")
 								if(tolower(answer2)%in%c("n","no"))
 									break
 							}

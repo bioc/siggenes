@@ -8,7 +8,7 @@ function(method){
 		cat("function (x, delta = NULL, n.digits = 4)\n")
 	if(method=="summary")
 		cat("function(object, delta = NULL, n.digits = 4, what = \"both\",",
-			"ll = FALSE,\n    chip = \"\", file = \"\", sep = \"\\t\",",
+			"entrez = FALSE,\n    chip = \"\", file = \"\", sep = \"\\t\",",
 			"quote = FALSE, dec = \".\")\n")
 	if(method=="plot")
 		cat("function (x, y, pos.stats = NULL, sig.col = 3, sig.cex = 1,",

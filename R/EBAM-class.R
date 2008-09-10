@@ -21,7 +21,7 @@ setMethod("print","EBAM",
 )
 
 setMethod("summary","EBAM",
-	function(object,delta=NULL,n.digits=4,what="both",ll=FALSE,chip="",file="",
+	function(object,delta=NULL,n.digits=4,what="both",entrez=FALSE,chip="",file="",
 			sep="\t",quote=FALSE,dec="."){
 		if(is.null(delta))
 			stop("delta must be specified.")
@@ -38,29 +38,29 @@ setMethod("summary","EBAM",
 			row.names(mat.sig)<-names(object@z)[sig.genes]
 			mat.sig<-mat.sig[rev(order(abs(mat.sig[,"z.value"]))),,drop=FALSE]
 			mat.sig<-as.data.frame(mat.sig)
-			if(ll){
+			if(entrez){
 				if(chip=="" & object@chip==""){
-					ll<-FALSE
+					entrez<-FALSE
 					warning("Since the chip type is neither specified by ",
 						"'chip' nor by the EBAM object,\n",
-						"ll is set to FALSE.",call.=FALSE)
+						"entrez is set to FALSE.",call.=FALSE)
 				}
 				if(all(row.names(mat.sig)==as.character(1:nrow(mat.sig)))){
-					ll<-FALSE
+					entrez<-FALSE
 					warning("Since no gene names are available, it is not",
-						" possible to obtain locus links.\n",
-						"Thus, 'll' is set to FALSE.",call.=FALSE)
+						" possible to obtain Entrez links.\n",
+						"Thus, 'entrez' is set to FALSE.",call.=FALSE)
 				}
 			}
-			if(ll){
+			if(entrez){
 				if(chip=="")
 					chip<-object@chip
 				if(chip!=object@chip & object@chip!="")
 					stop("'chip' differs from the chip type of the EBAM object.")
 				require(annotate)
-				LL<-getLL(row.names(mat.sig),chip)
+				LL<-unlist(lookUp(row.names(mat.sig),chip,"ENTREZID"))
 				sym<-getSYMBOL(row.names(mat.sig),chip)
-				mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,LocusLink=LL,
+				mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,Entrez=LL,
 					mat.sig[,-1])
 			} 
 		}
