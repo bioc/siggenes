@@ -6,9 +6,10 @@
 }
 \usage{
   link.genes(genenames, filename, entrez = TRUE, refseq = TRUE, symbol = TRUE,
-    omim = FALSE, ug = FALSE, which.refseq = "NM", chipname = "", cdfname = NULL, 
-    dataframe = NULL, title = NULL, bg.col = "white", text.col = "black", 
-    link.col = "blue", tableborder = 1, new.window = TRUE, load = TRUE)
+    omim = FALSE, ug = FALSE, fullname = FALSE, which.refseq = "NM",
+    chipname = "", cdfname = NULL, dataframe = NULL, title = NULL,
+    bg.col = "white", text.col = "black", link.col = "blue", tableborder = 1,
+    new.window = TRUE, load = TRUE)
 }
 \arguments{
   \item{genenames}{a character vector containing the names of the interesting genes}
@@ -19,6 +20,7 @@
   \item{symbol}{logical indicating if the gene symbols should be added to the output}
   \item{omim}{logical indicating if OMIM links should be added to the output}
   \item{ug}{logical indicating if UniGene links should be added to the output}
+  \item{fullname}{logical indicating whether the full gene names should be added to the output}
   \item{which.refseq}{character string or vector naming the first two letters of the RefSeq
         links that should be displayed in the html file}
   \item{chipname}{character string specifying the chip type used in the analysis. Must

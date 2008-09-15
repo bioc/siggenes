@@ -1,6 +1,6 @@
 siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,
 		findA0=NULL,varName=NULL,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,ug=FALSE,
-		chipname="",cdfname=NULL,refsnp=NULL,n.digits=3,
+		fullname=FALSE,chipname="",cdfname=NULL,refsnp=NULL,n.digits=3,
 		bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),plotFindArgs=plotFindArguments(),
 		bg.plot.adjust=FALSE,plotname=NULL,plotborder=0,tableborder=1,
@@ -13,23 +13,23 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 		stop("delta must be larger than 0.")
 	if(!isSAM && delta>=1)
 		stop("delta must be smaller than 1.")
-	if(any(c(entrez,refseq,symbol,omim,ug))){
+	if(any(c(entrez,refseq,symbol,omim,ug,fullname))){
 		tmp<-ifelse(!isSAM,"z","d")
 		if(is.null(names(slot(object,tmp)))){
-			entrez<-refseq<-symbol<-omim<-ug<-FALSE
+			entrez<-refseq<-symbol<-omim<-ug<-fullname<-FALSE
 			warning("Since no gene names are specified by 'object'",
-				" 'entrez', 'refseq', 'symbol',\n","'omim' and 'ug' are set",
-				" to FALSE.",call.=FALSE)
+				" 'entrez', 'refseq', 'symbol',\n","'omim', 'ug' and 'fullname' ",
+				"are set to FALSE.",call.=FALSE)
 		}
 		if(chipname=="" & object@chip=="" & is.null(cdfname)){
-			entrez<-refseq<-symbol<-omim<-ug<-FALSE
+			entrez<-refseq<-symbol<-omim<-ug<-fullname<-FALSE
 			warning("Since the chip type has been specified neither",
 				" by the ",type," object\n","nor by 'chipname' or",
 				" 'cdfname', 'entrez', 'refseq', 'symbol',\n",
-				"'omim' and 'ug' are set to FALSE.",call.=FALSE)
+				"'omim', 'ug' and 'fullname' are set to FALSE.",call.=FALSE)
 		}
 	}
-	if(any(c(entrez,refseq,symbol,omim,ug)))
+	if(any(c(entrez,refseq,symbol,omim,ug,fullname)))
 		chipname<-check.chipname(chipname,object@chip,cdfname)
 	msg<-object@msg
 	h2<-unlist(strsplit(msg[1],"\n"))[1]
@@ -156,13 +156,13 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 		has.nonames<-all(rownames(mat.sig)==as.character(1:nrow(mat.sig)))
 		if(has.nonames)
 			tr<-make.tablecode(as.character(mat.sig[,"Row"]),entrez=FALSE,
-				refseq=FALSE,symbol=FALSE,omim=FALSE,ug=FALSE,
+				refseq=FALSE,symbol=FALSE,omim=FALSE,ug=FALSE,fullname=FALSE,
 				chipname=chipname,dataframe=mat.sig[,-1],load=load,
 				new.window=new.window,tableborder=tableborder,name1stcol="Row")
 		else
 			tr<-make.tablecode(rownames(mat.sig),entrez=entrez,refseq=refseq,
-				symbol=symbol,omim=omim,ug=ug,chipname=chipname,
-				cdfname=cdfname,dataframe=mat.sig[,-1],
+				symbol=symbol,omim=omim,ug=ug,fullname=fullname,
+				chipname=chipname,cdfname=cdfname,dataframe=mat.sig[,-1],
 				new.window=new.window,tableborder=tableborder,refsnp=refsnp,
 				which.refseq=which.refseq,load=load)
 		cat("<p><font color=",bg.col," size=2> HALLO</font></p>","\n",sep="",

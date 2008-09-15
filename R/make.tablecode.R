@@ -1,10 +1,10 @@
 make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,
-		chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,tableborder=1,
-		name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE){
+		fullname=FALSE,chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,
+		tableborder=1,name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE){
 	require(annotate)
 	if(!is.null(refsnp))
-		entrez<-refseq<-symbol<-omim<-ug<-FALSE
-	if(any(c(entrez,refseq,symbol,omim,ug))){
+		entrez<-refseq<-symbol<-omim<-ug<-fullname<-FALSE
+	if(any(c(entrez,refseq,symbol,omim,ug,fullname))){
 		if(chipname=="" & is.null(cdfname))
 			stop("Either 'chipname' or 'cdfname' must be specified.")
 	}
@@ -34,6 +34,22 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		tr<-paste(tr,sym.cols)
 	}
 	if(!is.null(refsnp)){
+		if(is.data.frame(refsnp)){
+			ids.refsnp<-match(genenames,rownames(refsnp))
+			refsnp<-refsnp[ids.refsnp,,drop=FALSE]
+			col.rs<-which(colnames(refsnp)=="RefSNP")
+			if(length(col.rs)!=1)
+				stop("Exactly one column of refsnp, namely the column containing\n",
+					"the dbSNP rs-IDs, must be called 'RefSNP'.")
+			col.ps<-which(colnames(refsnp)%in%c("Probe-Set-ID","Probe.Set.ID",
+				"Probe_Set","Probe.Set"))
+			tmp.dat<-refsnp[,-c(col.rs,col.ps),drop=FALSE]
+			if(ncol(tmp.dat)>0)
+				dataframe<-if(is.null(data.frame)) tmp.dat 
+					else data.frame(dataframe, tmp.dat)
+			refsnp<-refsnp[,col.rs]
+			names(refsnp)<-genenames
+		}			
 		rs<-getTD4rs(genenames,refsnp)
 		th<-c(th,"RefSNP")
 		tr<-paste(tr,rs,"\n")
@@ -85,6 +101,13 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 			tmp<-paste("<TD align=\"right\">",dataframe[,i],"</TD>",sep="")
 			tr<-paste(tr,tmp,"\n")
 		}
+	}
+	if(fullname){
+		genedesc<-unlist(lookUp(genenames,chipname,"GENENAME",load=load))
+		genedesc[is.na(genedesc)]<-"&nbsp;"
+		genedesc.cols<-paste("<TD>",genedesc,"</TD>\n",sep="")
+		th<-c(th,"Gene Name")
+		tr<-paste(tr,genedesc.cols)
 	}
 	tr<-paste("<TR>\n",tr,"</TR>\n")
 	trth<-paste(c("<TR>\n",paste("<TH>",th,"</TH>\n",sep=""),"</TR>"),collapse=" ")

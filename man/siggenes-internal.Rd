@@ -53,6 +53,8 @@
 \alias{checkInitialDelta}
 \alias{chisqClassSplitted}
 
+\alias{buildSNPannotation}
+
 
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
