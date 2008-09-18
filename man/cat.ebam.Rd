@@ -11,8 +11,8 @@
 
 \usage{
   cat.ebam(data, cl, approx = FALSE, B = 100, n.split = 1,
-    check.levels = TRUE, check.for.NN = FALSE, lev = NULL, 
-    B.more = 0.1, B.max = 50000, n.subset = 10, fast = FALSE, 
+    check.for.NN = FALSE, lev = NULL, B.more = 0.1, 
+    B.max = 50000, n.subset = 10, fast = FALSE, 
     n.interval = NULL, df.ratio = 3, df.dens = NULL, 
     knots.mode = NULL, type.nclass = "wand", rand = NA)
 }
@@ -32,8 +32,6 @@
      By default, the test scores of all variables are calculated simultaneously.
      If the number of variables or observations is large, setting \code{n.split} to a
      larger value than 1 can help to avoid memory problems}
-  \item{check.levels}{if \code{TRUE}, it will be checked if all variables/SNPs have
-     the same number of levels/categories}
   \item{check.for.NN}{if \code{TRUE}, it will be checked if any of the genotypes
      is equal to "NN". Can be very time-consuming when the data set is high-dimensional}
   \item{lev}{numeric or character vector specifying the codings of the levels of the

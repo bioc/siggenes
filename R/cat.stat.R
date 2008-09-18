@@ -2,10 +2,10 @@ cat.stat<-function(data,cl,B=100,approx=FALSE,n.split=1,check.for.NN=FALSE,lev=N
 		B.more=0.1,B.max=50000,n.subset=10,rand=NA){
 	data<-as.matrix(data)
 	if(any(is.na(data)))
-		stop("No NAs allowed.")
+		stop("No missing values allowed.")
 	if(check.for.NN){
 		if(any(data=="NN" | data=="NoCall"))
-			stop("No mising calls allowed.")
+			stop("No missing calls allowed.")
 	}
 	if(ncol(data)!=length(cl))
 		stop("The number of columns of data must be equal to the length of cl.")
@@ -14,7 +14,7 @@ cat.stat<-function(data,cl,B=100,approx=FALSE,n.split=1,check.for.NN=FALSE,lev=N
 	if(mode(data)!="numeric")
 		mode(data)<-"numeric"
 	if(any(is.na(data)))
-		stop("data must contain integers.")
+		stop("No missing values allowed in 'data'.")
 	n.cat<-max(data)
 	if(any(!data%in%1:n.cat))
 		stop("data must consist of integers between 1 and ",n.cat,".")
