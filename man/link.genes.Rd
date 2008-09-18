@@ -7,9 +7,9 @@
 \usage{
   link.genes(genenames, filename, entrez = TRUE, refseq = TRUE, symbol = TRUE,
     omim = FALSE, ug = FALSE, fullname = FALSE, which.refseq = "NM",
-    chipname = "", cdfname = NULL, dataframe = NULL, title = NULL,
-    bg.col = "white", text.col = "black", link.col = "blue", tableborder = 1,
-    new.window = TRUE, load = TRUE)
+    chipname = "", cdfname = NULL, refsnp = NULL, max.associated = 2,
+    dataframe = NULL, title = NULL, bg.col = "white", text.col = "black", 
+    link.col = "blue", tableborder = 1, new.window = TRUE, load = TRUE)
 }
 \arguments{
   \item{genenames}{a character vector containing the names of the interesting genes}
@@ -24,13 +24,30 @@
   \item{which.refseq}{character string or vector naming the first two letters of the RefSeq
         links that should be displayed in the html file}
   \item{chipname}{character string specifying the chip type used in the analysis. Must
-        be specified as in the meta-data section of Bioconductor (e.g., \code{"hgu133a"}
-        for the Affymetrix HG-U133A chip). Need not to be specified if \code{cdfname}
-        is specified}
+        be specified as in the metadata section of Bioconductor (e.g., \code{"hgu133a"}
+        for the Affymetrix HG-U133A chip). Needs not to be specified if \code{cdfname}
+        is specified. For Affymetrix SNP chips (starting with the 500k array set), 
+        \code{chipname} can be specified by the metadata package name, i.e.\ either by
+        \code{"pd.genomewidesnp.5"}, by \code{"pd.genomewidesnp.6"}, by \code{"pd.mapping250k.nsp"},
+        or by \code{"pd.mapping250k.sty"}, to add links to the Affymetrix webpage of the SNPs
+        to the html output}
   \item{cdfname}{character string specifying the cdf name of the used chip. Must exactly follow
         the nomenclatur of the Affymetrix chips (e.g., \code{"HG-U133A"} for the
         Affymetrix HG-U133A chip). If specified, links to the Affymetrix webpage for the
-        interesting genes will be added to the output}
+        interesting genes will be added to the output. If SNP chips are considered, \code{chipname}
+        instead of \code{cdfname} must be specified for obtaining these links}
+  \item{refsnp}{either a character vector or a data frame. If the former, \code{refsnp} containis
+          the RefSNP IDs of the SNPs used in the SAM/EBAM analysis, where \code{names(refsnp)} specifies
+          the names of these SNPs, i.e.\ their probe set IDs. If a data frame, then one column of \code{refsnp} must contain
+          the RefSNP IDs of the SNPs, and the name of this column must be \code{RefSNP}. The other
+          columns can contain additional annotations such as the chromosome or the physical position
+          of each SNPs. The row names of \code{refsnp} must specify the SNPs, i.e.\ must be the
+          probe set IDs of the SNPs. See \code{\link{buildSNPannotation}} for an automatical way to construct
+          such a data frame given the corresponding metadata package} 
+  \item{max.associated}{integer specifying the maximum number of genes associated with the respective
+          SNP displayed in the html output. If all entries should be shown, set \code{max.associated = 0}.
+          This however might result in a very large html output. For details, see 
+          \code{\link{shortenGeneDescription}}}
   \item{dataframe}{matrix having one row for each interesting gene, i.e.\ \code{nrow(dataframe)}
         must be equal to \code{length(genenames)}. This matrix contains additional information 
         on the list of genes that should be added to the output. If \code{NULL} (default) no

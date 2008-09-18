@@ -1,10 +1,11 @@
 link.genes<-function(genenames,filename,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,
 		ug=FALSE,fullname=FALSE,which.refseq="NM",chipname="",cdfname=NULL,
-		dataframe=NULL,title=NULL,bg.col="white",text.col="black",link.col="blue",
-		tableborder=1,new.window=TRUE,load=TRUE){
+		refsnp=NULL,max.associated=2,dataframe=NULL,title=NULL,bg.col="white",
+		text.col="black",link.col="blue",tableborder=1,new.window=TRUE,load=TRUE){
 	tr<-make.tablecode(genenames,entrez=entrez,refseq=refseq,symbol=symbol,omim=omim,ug=ug,
 		fullname=fullname,chipname=chipname,cdfname=cdfname,which.refseq=which.refseq,
-		dataframe=dataframe,tableborder=tableborder,new.window=new.window,load=load)
+		refsnp=refsnp,max.associated=max.associated,dataframe=dataframe,
+		tableborder=tableborder,new.window=new.window,load=load)
 	suffix<-tolower(substring(filename,nchar(filename)-4,nchar(filename)))
 	if(suffix!=".html"){
 		filename<-paste(filename,"html",sep=".")
@@ -15,7 +16,8 @@ link.genes<-function(genenames,filename,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim
 	text.col<-col2hex(text.col)
 	link.col<-col2hex(link.col)
 	if(is.null(title))
-		title<-"Links for a Set of Genes to Public Repositories"
+		title<-paste("Links for a Set of",ifelse(is.null(refsnp),"Genes","SNPs"),
+			"to Public Repositories")
 	outfile<-file(filename,"w")
 	cat("<html>","<head>","<title>Links to Public Repositories</title>","</head>",
 		paste("<body bgcolor=",bg.col," text=",text.col," link=",link.col,">",

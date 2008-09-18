@@ -1,6 +1,6 @@
 sam2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,varName=NULL,
 		entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,ug=FALSE,fullname=FALSE,
-		chipname="",cdfname=NULL,which.refseq="NM",refsnp=NULL,
+		chipname="",cdfname=NULL,which.refseq="NM",refsnp=NULL,max.associated=2,
 		n.digits=3,bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),bg.plot.adjust=FALSE,plotname=NULL,
 		plotborder=0,tableborder=1,new.window=TRUE,load=TRUE,...){
@@ -11,10 +11,10 @@ sam2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRU
 	siggenes2html(object,delta,filename,addStats=addStats,addPlot=addPlot,addGenes=addGenes,
 		varName=varName,entrez=entrez,refseq=refseq,symbol=symbol,omim=omim,ug=ug,
 		fullname=fullname,chipname=chipname,cdfname=cdfname,refsnp=refsnp,
-		n.digits=n.digits,bg.col=bg.col,text.col=text.col,link.col=link.col,
-		plotArgs=plotArgs,which.refseq=which.refseq,bg.plot.adjust=bg.plot.adjust,
-		plotname=plotname,plotborder=plotborder,tableborder=tableborder,
-		new.window=new.window,load=load,...)
+		max.associated=max.associated,n.digits=n.digits,bg.col=bg.col,text.col=text.col,
+		link.col=link.col,plotArgs=plotArgs,which.refseq=which.refseq,
+		bg.plot.adjust=bg.plot.adjust,plotname=plotname,plotborder=plotborder,
+		tableborder=tableborder,new.window=new.window,load=load,...)
 }
 
 

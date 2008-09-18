@@ -12,8 +12,8 @@
 
 \usage{
   cat.stat(data, cl, B = 100, approx = FALSE, n.split = 1,
-    check.levels = TRUE, check.for.NN = FALSE, lev = NULL, 
-    B.more = 0.1, B.max = 50000, n.subset = 10, rand = NA)
+    check.for.NN = FALSE, lev = NULL, B.more = 0.1, 
+    B.max = 50000, n.subset = 10, rand = NA)
 }
 
 
@@ -31,13 +31,12 @@
      By default, the test scores of all variables are calculated simultaneously.
      If the number of variables or observations is large, setting \code{n.split} to a
      larger value than 1 can help to avoid memory problems}
-  \item{check.levels}{if \code{TRUE}, it will be checked if all variables/SNPs have
-     the same number of levels/categories}
   \item{check.for.NN}{if \code{TRUE}, it will be checked if any of the genotypes
-     is equal to "NN". Might be very time-consuming when the data set is high-dimensional}
+     is equal to "NN" or "NoCall". Might be very time-consuming when the data set is high-dimensional}
   \item{lev}{numeric or character vector specifying the codings of the levels of the
      variables/SNPs. Must only be specified if the variables are not coded by the
-     integers between 1 and the number of levels. Can also be a list. In this case,
+     integers between 1 and the number of levels. If the codings of the levels differ
+     between variables, a list can be used to specify the different codings. In this case,
      each element of this list must be a numeric or character vector specifying the codings,
      where all elements must have the same length}
   \item{B.more}{a numeric value. If the number of all possible permutations is smaller
@@ -59,7 +58,9 @@
   have the same number of levels/categories. 
 }
 \section{Warning}{This procedure will only work correctly if all SNPs/variables have the same
-  number of levels/categories.}
+  number of levels/categories. Therefore, it is stopped when the number of levels differ between
+  the variables.
+}
 
 
 \value{

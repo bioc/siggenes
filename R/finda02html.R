@@ -19,8 +19,8 @@ finda02html<-function(x,delta,file,plotArgs=plotFindArguments(),plotnames=NULL,
 	mat.a0<-format(mat.a0,digits=n.digits)
 	cat("<p><font color=",bg.col," size=2> HALLO</font></p>","\n",sep="",file=file)
 	cat("<h3>Specification of the Fudge Factor</h3>",sep="\n",file=file)
-	codeA0<-make.tablecode(rownames(mat.a0),ll=FALSE,refseq=FALSE,symbol=FALSE,omim=FALSE,
-		ug=FALSE,dataframe=mat.a0,new.window=FALSE,tableborder=tableborder,
+	codeA0<-make.tablecode(rownames(mat.a0),entrez=FALSE,refseq=FALSE,symbol=FALSE,
+		omim=FALSE,ug=FALSE,dataframe=mat.a0,new.window=FALSE,tableborder=tableborder,
 		name1stcol="&nbsp;")
 	cat("<p><font color=",bg.col," size=1> HALLO</font></p>","\n",sep="",file=file)
 	cat("<style type=text/css>","p{ margin-top: 2px; margin-bottom: 2px; word-spacing: 1px}",

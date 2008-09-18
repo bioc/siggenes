@@ -2,8 +2,8 @@
 function(x,CL,vec.ncl,n.obs,pam=FALSE){
 	x<-x%*%CL
 	r<-rowSums(x)
-	if(any(r==0))
-		stop("All rows of data must have the same number of categories.")
+	#if(any(r==0))
+	#	stop("All rows of data must have the same number of categories.")
 	tmp<-r%*%t(vec.ncl)/n.obs
 	#rowSums((x-tmp)^2/tmp)
 	if(pam)

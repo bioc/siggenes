@@ -1,11 +1,11 @@
-cat.stat<-function(data,cl,B=100,approx=FALSE,n.split=1,check.levels=TRUE,check.for.NN=FALSE,lev=NULL,
+cat.stat<-function(data,cl,B=100,approx=FALSE,n.split=1,check.for.NN=FALSE,lev=NULL,
 		B.more=0.1,B.max=50000,n.subset=10,rand=NA){
 	data<-as.matrix(data)
 	if(any(is.na(data)))
 		stop("No NAs allowed.")
 	if(check.for.NN){
-		if(any(data=="NN"))
-			stop("No NNs allowed.")
+		if(any(data=="NN" | data=="NoCall"))
+			stop("No mising calls allowed.")
 	}
 	if(ncol(data)!=length(cl))
 		stop("The number of columns of data must be equal to the length of cl.")
@@ -23,11 +23,11 @@ cat.stat<-function(data,cl,B=100,approx=FALSE,n.split=1,check.levels=TRUE,check.
 	if(n.split<=0)
 		stop("n.split must be at least 1.")
 	if(n.split==1)
-		stats<-chisqClass(data,cl,n.cat,check=check.levels)
+		stats<-chisqClass(data,cl,n.cat) #,check=check.levels)
 	else{
 		if(!approx)
 			stop("Currently, splitting the variables is not supported in the permutation case.")
-		stats<-chisqClassSplitted(data,cl,n.cat,n.split,check=check.levels)
+		stats<-chisqClassSplitted(data,cl,n.cat,n.split) #,check=check.levels)
 	}
 	n.cl<-length(unique(cl))
 	if(approx){

@@ -1,6 +1,6 @@
 buildSNPannotation<-function(pkg,rs=TRUE,allele=TRUE,gene=TRUE,chromosome=FALSE,
-		position=FALSE,strand=FALSE,cytoband=FALSE,lib.loc=NULL,others=NULL,
-		subset=NULL,pattern=NULL,na.rm=TRUE){
+		position=FALSE,strand=FALSE,cytoband=FALSE,max.genes=0,lib.loc=NULL,
+		others=NULL,subset=NULL,pattern=NULL,na.rm=TRUE){
 	require(pkg,character.only=TRUE,lib.loc=lib.loc) || stop(paste("Package",pkg,
 		"not available."))
 	conn<-db(get(pkg))
@@ -30,6 +30,8 @@ buildSNPannotation<-function(pkg,rs=TRUE,allele=TRUE,gene=TRUE,chromosome=FALSE,
 		str[str==1]<-"-"
 		out$Strand<-str
 	}
+	if(max.genes>0)
+		out<-shortenGeneDescription(out,max.length=max.genes)
 	if(!is.null(subset)){
 		ids<-match(subset,rn)
 		if(any(is.na(ids))){
@@ -45,4 +47,27 @@ buildSNPannotation<-function(pkg,rs=TRUE,allele=TRUE,gene=TRUE,chromosome=FALSE,
 	}
 	out
 }
+
+
+
+shortenGeneDescription<-function(dat,colname="Gene",max.length=2,sep="///",add.ldots=TRUE){
+	if(max.length<1)
+		stop("max.length must be at least 1.")
+	if(!is.data.frame(dat))
+		stop("dat must be a data frame.")
+	ids<-which(colnames(dat)==colname)
+	if(length(ids)!=1)
+		stop("Exactly one column of 'dat' must be called ",colname,".")
+	genes<-strsplit(dat[,ids],sep)
+	shorten<-function(x,limit,sep,add.ldots){
+		le<-length(x)
+		tmp<-paste(x[1:min(le,limit)],collapse=sep)
+		if(add.ldots && le>limit)
+			tmp<-paste(tmp,"...",sep=sep)
+		tmp
+	}
+	dat[,ids]<-sapply(genes,shorten,max.length,sep,add.ldots)
+	dat
+}
+
 	

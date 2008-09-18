@@ -1,6 +1,7 @@
 make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE,ug=TRUE,
 		fullname=FALSE,chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,
-		tableborder=1,name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE){
+		tableborder=1,name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE,
+		max.associated=2){
 	require(annotate)
 	if(!is.null(refsnp))
 		entrez<-refseq<-symbol<-omim<-ug<-fullname<-FALSE
@@ -8,19 +9,37 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		if(chipname=="" & is.null(cdfname))
 			stop("Either 'chipname' or 'cdfname' must be specified.")
 	}
-	if(!is.null(cdfname) && is.null(refsnp)){
-		require(affy)
-		clean<-cleancdfname(cdfname,addcdf=FALSE)
-		if(chipname=="")
-			chipname<-clean
-		if(clean!=chipname)
-			stop("'chipname' and 'cdfname' do not specify the same chip.")
-		tmp<-new("AffyBatch",cdfName=cdfname,annotation=clean)
-		gN<-geneNames(tmp)
+	if(!is.null(refsnp) & !is.null(cdfname))
+		stop("'cdfname' cannot be specified if SNPs are considered, i.e. when 'refsnp' ",
+			"is specified.")
+	if(chipname%in%c("pd.genomewidesnp.5","pd.genomewidesnp.6","pd.mapping250k.nsp",
+		"pd.mapping250k.sty"))
+		cdfname<-switch(chipname, "pd.genomewidesnp.5"="GenomeWideSNP5",
+			"pd.genomewidesnp.6"="GenomeWideSNP.6",
+			"pd.mapping250k.nsp"="Mendel_Nsp",
+			"pd.mapping250k.sty"="Mendel_Sty")
+	if(!is.null(cdfname)){
+		if(is.null(refsnp)){
+			require(affy)
+			clean<-cleancdfname(cdfname,addcdf=FALSE)
+			if(chipname=="")
+				chipname<-clean
+			if(clean!=chipname)
+				stop("'chipname' and 'cdfname' do not specify the same chip.")
+			tmp<-new("AffyBatch",cdfName=cdfname,annotation=clean)
+			gN<-geneNames(tmp)
+			isMap<-FALSE
+		}
+		else{
+			gN<-if(is.data.frame(refsnp)) rownames(refsnp) else names(refsnp)
+			if(is.null(gN))
+				stop("The vector (or data frame) refsnp has no (row)names.")
+			isMap<-TRUE
+		}
 		if(!all(genenames%in%gN))
 			stop("Some of the 'genenames' do not specify genes of the ",
 				cdfname," chip.")
-		tr<-getTD4Affy(genenames,cdfname)
+		tr<-getTD4Affy(genenames,cdfname,isMap=isMap)
 	}
 	else
 		tr<-paste("<TD>",genenames,"</TD>",sep="")
@@ -37,13 +56,16 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		if(is.data.frame(refsnp)){
 			ids.refsnp<-match(genenames,rownames(refsnp))
 			refsnp<-refsnp[ids.refsnp,,drop=FALSE]
-			col.rs<-which(colnames(refsnp)=="RefSNP")
+			cn.refsnp<-colnames(refsnp)
+			col.rs<-which(cn.refsnp=="RefSNP")
 			if(length(col.rs)!=1)
 				stop("Exactly one column of refsnp, namely the column containing\n",
 					"the dbSNP rs-IDs, must be called 'RefSNP'.")
-			col.ps<-which(colnames(refsnp)%in%c("Probe-Set-ID","Probe.Set.ID",
+			col.ps<-which(cn.refsnp%in%c("Probe-Set-ID","Probe.Set.ID",
 				"Probe_Set","Probe.Set"))
 			tmp.dat<-refsnp[,-c(col.rs,col.ps),drop=FALSE]
+			if(any(cn.refsnp=="Gene") && max.associated>=1)
+				tmp.dat<-shortenGeneDescription(tmp.dat,max.length=max.associated)
 			if(ncol(tmp.dat)>0)
 				dataframe<-if(is.null(data.frame)) tmp.dat 
 					else data.frame(dataframe, tmp.dat)

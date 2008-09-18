@@ -1,7 +1,7 @@
 siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,
 		findA0=NULL,varName=NULL,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,ug=FALSE,
-		fullname=FALSE,chipname="",cdfname=NULL,refsnp=NULL,n.digits=3,
-		bg.col="white",text.col="black",link.col="blue",
+		fullname=FALSE,chipname="",cdfname=NULL,refsnp=NULL,max.associated=2,
+		n.digits=3,bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),plotFindArgs=plotFindArguments(),
 		bg.plot.adjust=FALSE,plotname=NULL,plotborder=0,tableborder=1,
 		new.window=TRUE,which.refseq="NM",load=TRUE,...){
@@ -164,7 +164,7 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 				symbol=symbol,omim=omim,ug=ug,fullname=fullname,
 				chipname=chipname,cdfname=cdfname,dataframe=mat.sig[,-1],
 				new.window=new.window,tableborder=tableborder,refsnp=refsnp,
-				which.refseq=which.refseq,load=load)
+				which.refseq=which.refseq,load=load,max.associated=max.associated)
 		cat("<p><font color=",bg.col," size=2> HALLO</font></p>","\n",sep="",
 			file=outfile)
 		cat("<h3 align=center>","Identified ",varName," (Using Delta = ",
