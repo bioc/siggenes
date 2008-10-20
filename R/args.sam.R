@@ -7,7 +7,7 @@ args.sam<-function(method){
 		cat("function (x, delta = NULL, n.digits = 3)\n")
 	if(method=="summary")
 		cat("function(object, delta = NULL, n.digits = 5, what = \"both\",",
-			"entrez = FALSE,\n    chip = \"\", file = \"\", sep = \"\\t\",",
+			"entrez = FALSE,\n    bonf = FALSE, chip = \"\", file = \"\", sep = \"\\t\",",
 			"quote = FALSE, dec = \".\")\n")
 	if(method=="plot")
 		cat("function (x, y, pos.stats = NULL, sig.col = 3, xlim = NULL,",

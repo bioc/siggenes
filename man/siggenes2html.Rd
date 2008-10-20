@@ -22,8 +22,8 @@
  sam2html(object, delta, filename, addStats = TRUE, addPlot = TRUE, 
         addGenes = TRUE, varName = NULL, entrez = TRUE, refseq = TRUE, 
         symbol = TRUE, omim = FALSE, ug = FALSE, fullname = FALSE, 
-        chipname = "", cdfname = NULL, which.refseq = "NM", refsnp = NULL, 
-        max.associated = 2, n.digits = 3, bg.col = "white", 
+        bonf = FALSE, chipname = "", cdfname = NULL, which.refseq = "NM", 
+        refsnp = NULL, max.associated = 2, n.digits = 3, bg.col = "white", 
         text.col = "black", link.col = "blue", plotArgs = plotArguments(), 
         bg.plot.adjust = FALSE, plotname = NULL, plotborder = 0, 
         tableborder = 1, new.window = TRUE, load = TRUE, ...)
@@ -57,6 +57,8 @@
         \code{addGenes = FALSE}}
   \item{fullname}{logical indicating whether the full gene names should be added to the output.
         Ignored if \code{addGenes = FALSE}}
+  \item{bonf}{logical indicating whether Bonferroni adjusted p-values should be added to the
+        output. Ignored if \code{addGenes = FALSE}}
   \item{chipname}{character string specifying the chip type used in the analysis. Must
         be specified as in the meta-data section of Bioconductor (e.g., \code{"hgu133a"}
         for the Affymetrix HG-U133A chip). Needs not to be specified if \code{cdfname}

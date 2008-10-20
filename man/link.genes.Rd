@@ -48,8 +48,9 @@
           SNP displayed in the html output. If all entries should be shown, set \code{max.associated = 0}.
           This however might result in a very large html output. For details, see 
           \code{\link{shortenGeneDescription}}}
-  \item{dataframe}{matrix having one row for each interesting gene, i.e.\ \code{nrow(dataframe)}
-        must be equal to \code{length(genenames)}. This matrix contains additional information 
+  \item{dataframe}{data frame having one row for each interesting gene, i.e.\ \code{nrow(dataframe)}
+        must be equal to \code{length(genenames)}. The row names of \code{dataframe} must be equal to
+        \code{genenames}. This matrix contains additional information 
         on the list of genes that should be added to the output. If \code{NULL} (default) no
         information will be added to the link list}
   \item{title}{character string naming the title that should be used in the html page}

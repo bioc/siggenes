@@ -26,8 +26,8 @@ setMethod("print","SAM",
 
 
 setMethod("summary","SAM",
-	function(object,delta=NULL,n.digits=3,what="both",entrez=FALSE,chip="",file="",
-			sep="\t",quote=FALSE,dec="."){
+	function(object,delta=NULL,n.digits=3,what="both",entrez=FALSE,bonf=FALSE,
+			chip="",file="",sep="\t",quote=FALSE,dec="."){
 		list.args<-list(n.digits=n.digits,what=what,file=file,sep=sep,quote=quote,
 			dec=dec,msg=object@msg)
 		if(length(delta)!=1){
@@ -51,10 +51,13 @@ setMethod("summary","SAM",
 						"nor by the SAM object,","\n","entrez is set to FALSE.",
 						call.=FALSE)
 				}
+				if(bonf)
+					p.bonf <- p.adjust(object@p.value, "bonferroni")
 				mat.sig<-cbind(Row=(1:length(object@d))[sig.genes],
 					d.value=object@d[sig.genes],stdev=object@s[sig.genes],
 					rawp=object@p.value[sig.genes],
 					q.value=object@q.value[sig.genes],
+					Bonferroni = if(bonf) p.bonf[sig.genes], 
 					R.fold=object@fold[sig.genes])
 				if(length(sig.genes)>1)
 					mat.sig<-mat.sig[rev(order(abs(mat.sig[,"d.value"]))),]

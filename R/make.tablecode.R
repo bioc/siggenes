@@ -80,7 +80,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		LL<-unlist(lookUp(genenames,chipname,"ENTREZID",load=load))
 		LL[is.na(LL)]<-"&nbsp;"
 		LL.cols<-annotate:::getTDRows(LL,"en")
-		th<-c(th,"LocusLink")
+		th<-c(th,"Entrez")
 		tr<-paste(tr,LL.cols,"\n")
 	}
 	if(refseq){
@@ -116,8 +116,10 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		if(!is.data.frame(dataframe))
 			stop("'dataframe' must be a data.frame.")
 		if(nrow(dataframe)!=length(genenames))
-			stop("'The number of rows of 'data.frame' differ from the length",
+			stop("The number of rows of 'dataframe' differ from the length",
 				" of 'genenames'.")
+		if(any(rownames(dataframe)!=genenames))
+			stop("The row names of 'dataframe' must all be equal to 'genenames'.")
 		th<-c(th,colnames(dataframe))
 		for(i in 1:ncol(dataframe)){
 			tmp<-paste("<TD align=\"right\">",dataframe[,i],"</TD>",sep="")

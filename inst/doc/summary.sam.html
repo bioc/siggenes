@@ -20,8 +20,8 @@ for the differentially expressed genes when just one Delta value is specified
 <h3>Usage</h3>
 
 <pre>
-summary(object, delta = NULL, n.digits = 5, what = "both", entrez = FALSE, chip = "",
-	file = "", sep = "\t", quote = FALSE, dec=".")
+summary(object, delta = NULL, n.digits = 5, what = "both", entrez = FALSE, bonf = FALSE,
+	chip = "", file = "", sep = "\t", quote = FALSE, dec=".")
 </pre>
 
 
@@ -50,6 +50,9 @@ if <code>delta</code> is <code>NULL</code> or a vector</td></tr>
 <td>
 logical. If <code>TRUE</code> both the Entrez links and the symbols of the genes will be added
 to the output</td></tr>
+<tr valign="top"><td><code>bonf</code></td>
+<td>
+logical. If <code>TRUE</code> Bonferroni corrected p-values will be added to the output</td></tr>
 <tr valign="top"><td><code>chip</code></td>
 <td>
 character string naming the chip type used in this analysis. Only needed if <code>entrez = TRUE</code>.

@@ -4,7 +4,7 @@
 
 d.stat<-function(data,cl,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05),
 		include.zero=TRUE,n.subset=10,mat.samp=NULL,B.more=0.1,B.max=30000,
-		gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.replace=TRUE,
+		gene.names=NULL,R.fold=1,use.dm=TRUE,R.unlog=TRUE,na.replace=TRUE,
 		na.method="mean",rand=NA){
 	data<-as.matrix(data)
 	mode(data)<-"numeric"

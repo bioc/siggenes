@@ -25,5 +25,7 @@ pretty.mat.sig<-function(x,digits=3){
 	}
 	else
 		x[,"local.fdr"]<-formatSAM(x[,"local.fdr"],digits=digits)
+	if(any(colnames(x)=="Bonferroni"))
+		x[,"Bonferroni"]<-formatSAM(x[,"Bonferroni"],digits=digits)
 	format(x,digits=digits)
 }

@@ -12,7 +12,7 @@
   d.stat(data, cl, var.equal = FALSE, B = 100, med = FALSE, s0 = NA, 
       s.alpha = seq(0, 1, 0.05), include.zero = TRUE, n.subset = 10, 
       mat.samp = NULL, B.more = 0.1, B.max = 30000, gene.names = NULL,
-      R.fold = 1, use.dm = FALSE, R.unlog = TRUE, na.replace = TRUE, 
+      R.fold = 1, use.dm = TRUE, R.unlog = TRUE, na.replace = TRUE, 
       na.method = "mean", rand = NA)
 }
 \arguments{
@@ -83,8 +83,7 @@
      If \code{FALSE}, the fold change is determined
      by computing 2 to the power of \code{data} (if \code{R.unlog = TRUE}) and then calculating the ratio of the
      mean intensity in the group coded by 1 to the mean intensity in the group coded
-     by 0. The latter is the default, as this definition of the fold change is used in
-     Tusher et al.\ (2001)} 
+     by 0. The latter is the definition of the fold change used in Tusher et al.\ (2001)} 
   \item{R.unlog}{if \code{TRUE}, the anti-log of \code{data} will be used in the computation of the
      fold change. Otherwise, \code{data} is used. This transformation should be done
      when \code{data} is log2-tranformed (in a SAM analysis it is highly recommended

@@ -1,6 +1,6 @@
 siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGenes=TRUE,
 		findA0=NULL,varName=NULL,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=FALSE,ug=FALSE,
-		fullname=FALSE,chipname="",cdfname=NULL,refsnp=NULL,max.associated=2,
+		fullname=FALSE,chipname="",cdfname=NULL,refsnp=NULL,max.associated=2,bonf=FALSE,
 		n.digits=3,bg.col="white",text.col="black",link.col="blue",
 		plotArgs=plotArguments(),plotFindArgs=plotFindArguments(),
 		bg.plot.adjust=FALSE,plotname=NULL,plotborder=0,tableborder=1,
@@ -59,7 +59,7 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 	bg.col<-col2hex(bg.col)
 	text.col<-col2hex(text.col)
 	link.col<-col2hex(link.col)
-	sum.out<-summary(object,delta,n.digits=n.digits,chip=chipname)
+	sum.out<-summary(object,delta,n.digits=n.digits,bonf=bonf,chip=chipname)
 	mat.fdr<-pretty.mat.fdr(sum.out@mat.fdr,digits=n.digits)
 	mat.sig<-sum.out@mat.sig
 	if(!is.null(mat.sig))
@@ -73,10 +73,17 @@ siggenes2html<-function(object,delta,filename,addStats=TRUE,addPlot=TRUE,addGene
 	}
 	if(is.null(varName))
 		varName<-ifelse(isSNP,"SNPs","Genes")
-	if(isSAM && isSNP){
-		tmp.ids<-which(colnames(mat.sig)%in%c("stdev","R.fold"))
+	tmp.ids<-which(colnames(mat.sig)=="stdev")
+	mat.sig<-mat.sig[,-tmp.ids]
+	rmNA<-rowMeans(is.na(mat.sig))
+	if(any(rmNA==1)){
+		tmp.ids<-which(rmNA==1)
 		mat.sig<-mat.sig[,-tmp.ids]
 	}
+	#if(isSAM && isSNP){
+	#	tmp.ids<-which(colnames(mat.sig)%in%c("stdev","R.fold"))
+	#	mat.sig<-mat.sig[,-tmp.ids]
+	#}
 	outfile<-file(filename,"w")
 	cat("<html>","<head>",paste("<title>",type," Analysis</title>",sep=""),"</head>",
 		paste("<body bgcolor=",bg.col," text=",text.col," link=",link.col,
