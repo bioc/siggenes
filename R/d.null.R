@@ -16,10 +16,12 @@ d.null<-function(X,mat.samp,d,type.mt,s0,med=FALSE,n.subset=10){
 		tmp<-mat.samp[seq.samp[j]:(seq.samp[j+1]-1),,drop=FALSE]
 		#if(!is.matrix(tmp))
 		#	tmp<-matrix(tmp,1)
-		dperm.out<-build.dperm(X,tmp,type.mt,s0,n.row,le.cl)	
-		d.mat[,j]<-rowMeans(as.matrix(dperm.out),na.rm=TRUE)*nrow(tmp)
-		mat.pos[,j]<-rank(-c(dperm.out[dperm.out>=0],abs(d)),ties="first")[sum(dperm.out>=0)+(1:n.row)]-d.rank
-		mat.neg[,j]<-rank(c(dperm.out[dperm.out<0],-abs(d)),ties="first")[sum(dperm.out<0)+(1:n.row)]-d.rank
+		dperm.out <- build.dperm(X,tmp,type.mt,s0,n.row,le.cl)	
+		d.mat[,j] <- rowMeans(as.matrix(dperm.out), na.rm=TRUE) * nrow(tmp)
+		mat.pos[,j] <- rank(-c(dperm.out[dperm.out>=0],abs(d)), na.last=NA,
+			ties="first")[sum(dperm.out>=0, na.rm=TRUE) + (1:n.row)] - d.rank
+		mat.neg[,j] <- rank(c(dperm.out[dperm.out<0],-abs(d)), na.last=NA,
+			ties="first")[sum(dperm.out<0, na.rm=TRUE) + (1:n.row)] - d.rank
 	}
 	B<-nrow(mat.samp)
 	d.bar<-rowSums(as.matrix(d.mat))/B
