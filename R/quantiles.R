@@ -16,6 +16,5 @@ quantiles<-function(x,prob){
     if(length(int)>0)
         quan[prob.exclude][int]<-.5*(x.sort[nprob[int]]+x.sort[nprob[int]+1])
     return(quan)
-    }
+}
 
-    

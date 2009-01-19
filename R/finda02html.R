@@ -2,7 +2,7 @@ finda02html<-function(x,delta,file,plotArgs=plotFindArguments(),plotnames=NULL,
 		bg.plot.adjust=FALSE,bg.col=col2hex("white"),n.digits=4,tableborder=1,
 		plotborder=0){
 	if(!is(x,"FindA0"))
-		stop("findA0 must be an object of class FindA0.")
+		stop("x must be an object of class FindA0.")
 	if(length(plotnames)!=2)
 		stop("plotnames must have length 2.")
 	if(delta==x@delta){

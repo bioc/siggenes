@@ -8,38 +8,38 @@
   Should not be called directly, but via ebam(..., method = wilc.ebam).
 }
 \usage{
-   wilc.ebam(data, cl, approx50 = TRUE, ties.method = c("min", "random", 
+   wilc.ebam(x, y, approx50 = TRUE, ties.method = c("min", "random", 
        "max"), use.offset = TRUE, df.glm = 5, use.row = FALSE, rand = NA)
 }
 \arguments{
-  \item{data}{a matrix or a data frame. Each row of
-    \code{data} must correspond to a variable, and each column to a sample}
-  \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
-     labels of the samples. In the two class paired case, \code{cl} can also 
-     be a matrix with \code{ncol(data)} rows and 2 columns. For details
-     on how \code{cl} should be specified, see \code{\link{ebam}}}
+  \item{x}{a matrix or a data frame. Each row of
+    \code{x} must correspond to a variable (e.g., a gene), and each column to a sample (i.e.\ an observation).}
+  \item{y}{a numeric vector of length \code{ncol(x)} containing the class
+     labels of the samples. In the two class paired case, \code{y} can also 
+     be a matrix with \code{ncol(x)} rows and 2 columns. For details
+     on how \code{y} should be specified, see \code{\link{ebam}}.}
   \item{approx50}{if \code{TRUE}, the null distribution will be approximated by
      the standard normal distribution. Otherwise, the exact null distribution is
      computed. This argument will automatically be set to \code{FALSE} if there
-     are less than 50 samples in each of the groups}
+     are less than 50 samples in each of the groups.}
   \item{ties.method}{either \code{"min"} (default), \code{"random"}, or \code{"max"}. If
      \code{"random"}, the ranks of ties are randomly assigned. If \code{"min"} or \code{"max"},
      the ranks of ties are set to the minimum or maximum rank, respectively. For details, see
      the help of \code{\link{rank}}. If \code{use.row = TRUE}, then \code{ties.method = "max"}
-     is used. For the handling of Zeros, see Details}
+     is used. For the handling of Zeros, see Details.}
   \item{use.offset}{should an offset be used in the Poisson regression employed to estimate
      the density of the observed Wilcoxon rank sums? If \code{TRUE}, the log-transformed
-     values of the null density is used as offset}
+     values of the null density is used as offset.}
   \item{df.glm}{integer specifying the degrees of freedom of the natural cubic spline employed
-     in the Poisson regression}  
+     in the Poisson regression.}  
   \item{use.row}{if \code{TRUE}, \code{\link{rowWilcoxon}} is used to compute the Wilcoxon
-     rank statistics}
+     rank statistics.}
   \item{rand}{numeric value. If specified, i.e. not \code{NA}, the random number generator
-     will be set into a reproducible state}
+     will be set into a reproducible state.}
 }
 \details{
   Standardized versions of the Wilcoxon rank statistics are computed. This means that
-  \eqn{W*=(W-W_{mean})/W_{sd}}{W*=(W-mean(W))/sd(W)} is used as expression 
+  \eqn{W* = (W - W_{mean}) / W_{sd}}{W* = (W - mean(W)) / sd(W)} is used as expression 
   score \eqn{z}, where \eqn{W} is the usual Wilcoxon rank sum statistic or Wilcoxon
   signed rank statistic, respectively. 
   
@@ -54,7 +54,7 @@
   to \code{FALSE}. 
 }
 \value{
-   a list of statistics required by \code{ebam}
+   A list of statistics required by \code{ebam}.
 }
 
 \references{
@@ -69,7 +69,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{ebam}}
+  \code{\link{ebam}, \code{\link{wilc.stat}}}
 }  
 
 \keyword{htest}

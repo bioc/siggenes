@@ -12,7 +12,7 @@
 \arguments{
   \item{method}{a name or a character string specifying the method for which 
     the arguments or the help page, respectively, should be shown. Currently 
-    available are \code{print}, \code{plot}, and \code{summary}}
+    available are \code{print}, \code{plot}, and \code{summary}.}
 }
 \value{
   The arguments of the specified \code{method} are displayed or a html page

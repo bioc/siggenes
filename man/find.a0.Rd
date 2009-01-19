@@ -1,89 +1,89 @@
 \name{find.a0}
 \alias{find.a0}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{Computation of the Fudge Factor}
 \description{
   Suggests an optimal value for the fudge factor in an EBAM analysis as proposed
   by Efron et al. (2001).
 }
 \usage{
-  find.a0(data, cl, method = z.find, B = 100, delta = 0.9, quan.a0 = (0:5)/5, 
-      include.zero = TRUE, gene.names = dimnames(data)[[1]], n.chunk = 5, 
+  find.a0(x, y, method = z.find, B = 100, delta = 0.9, quan.a0 = (0:5)/5, 
+      include.zero = TRUE, gene.names = dimnames(x)[[1]], n.chunk = 5, 
       n.interval = 139, df.ratio = NULL, p0.estimation = c("splines", 
       "adhoc", "interval"), lambda = NULL, ncs.value = "max", 
       use.weights = FALSE, rand = NA, ...)
 }
 
 \arguments{
-  \item{data}{a matrix, data frame or an ExpressionSet object. 
-    Each row of \code{data} (or \code{exprs(data)}, respectively) must 
-    correspond to a gene, and each column to a sample}
-  \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
-     labels of the samples. In the two class paired case, \code{cl} can also 
-     be a matrix with \code{ncol(data)} rows and 2 columns. If \code{data} is
-     an ExpressionSet object, \code{cl} can also be a character string naming 
-     the column of \code{pData(data)} that contains the class labels of the samples.
+  \item{x}{a matrix, data frame or an ExpressionSet object. 
+    Each row of \code{x} (or \code{exprs(x)}, respectively) must 
+    correspond to a variable (e.g., a gene), and each column to a sample (i.e.\ an observation).}
+  \item{y}{a numeric vector of length \code{ncol(x)} containing the class
+     labels of the samples. In the two class paired case, \code{y} can also 
+     be a matrix with \code{ncol(x)} rows and 2 columns. If \code{x} is
+     an ExpressionSet object, \code{y} can also be a character string naming 
+     the column of \code{pData(x)} that contains the class labels of the samples.
      
-     In the one-class case, \code{cl} should be a vector of 1's. 
+     In the one-class case, \code{y} should be a vector of 1's. 
      
-     In the two class unpaired case, \code{cl} should be a vector containing 0's
+     In the two class unpaired case, \code{y} should be a vector containing 0's
      (specifying the samples of, e.g., the control group) and 1's (specifying,
      e.g., the case group). 
      
-     In the two class paired case, \code{cl} can be either a numeric vector or 
-     a numeric matrix. If it is a vector, then \code{cl} has to consist of the 
+     In the two class paired case, \code{y} can be either a numeric vector or 
+     a numeric matrix. If it is a vector, then \code{y} has to consist of the 
      integers between -1 and \eqn{-n/2} (e.g., before treatment group) and between 
      1 and \eqn{n/2} (e.g., after treatment group), where \eqn{n} is the length of
-     \code{cl} and \eqn{k} is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{cl} 
+     \code{y} and \eqn{k} is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{y} 
      is a matrix, one column should contain -1's and 1's specifying, e.g., the before 
      and the after treatment samples, respectively, and the other column should 
      contain integer between 1 and \eqn{n/2} specifying the \eqn{n/2} pairs of 
      observations.
      
-     In the multiclass case and if \code{method=cat.stat}, \code{cl} should be a 
+     In the multiclass case and if \code{method = cat.stat}, \code{y} should be a 
      vector containing integers between 1 and \eqn{g}, where \eqn{g} is the number 
      of groups.
         
-     For examples of how \code{cl} can be specified, see the manual of \pkg{siggenes}}
+     For examples of how \code{y} can be specified, see the manual of \pkg{siggenes}.}
   \item{method}{the name of a function for computing the numerator and the denominator
      of the test statistic of interest, and for specifying other objects required
      for the identification of the fudge factor. The default function \code{z.find}
      provides these objects for t- and F-statistics. It is, however, also possible
      to employ an user-written function. For how to write such a function, see the
-     vignette of \pkg{siggenes}}
-  \item{B}{the number of permutations used in the estimation of the null distribution}
+     vignette of \pkg{siggenes}.}
+  \item{B}{the number of permutations used in the estimation of the null distribution.}
   \item{delta}{a probability. All genes showing a posterior probability that is
-     larger than or equal to \code{delta} are called differentially expressed}
+     larger than or equal to \code{delta} are called differentially expressed.}
   \item{quan.a0}{a numeric vector indicating over which quantiles of the
      standard deviations of the genes the fudge factor \eqn{a_0}{a0} should be
-     optimized}
+     optimized.}
   \item{include.zero}{should \eqn{a_0=0}{a0 = 0}, i.e. the not-modified test statistic
      also be a possible choice for the fudge factor?}
-  \item{gene.names}{a character vector of length \code{nrow(data)} containing the
-     names of the genes. By default the row names of \code{data} are used}
+  \item{gene.names}{a character vector of length \code{nrow(x)} containing the
+     names of the genes. By default, the row names of \code{x} are used.}
   \item{n.chunk}{an integer specifying in how many subsets the \code{B} permutations
-     should be split when computing the permuted test scores}
+     should be split when computing the permuted test scores.}
   \item{n.interval}{the number of intervals used in the logistic regression with
-     repeated observations for estimating the ratio \eqn{f_0/f}{f0/f}}
+     repeated observations for estimating the ratio \eqn{f_0/f}{f0/f}.}
   \item{df.ratio}{integer specifying the degrees of freedom of the natural cubic
-     spline used in the logistic regression with repeated observations}
+     spline used in the logistic regression with repeated observations.}
   \item{p0.estimation}{either \code{"splines"} (default), \code{"interval"}, or \code{"adhoc"}. 
     If \code{"splines"}, the spline based method of Storey and Tibshirani (2003) is used to estimate
     \eqn{p_0}{p0}. If \code{\"adhoc"} (\code{"interval")}, the adhoc (interval based) 
-    method proposed by Efron et al.\ (2001) is used to estimate \eqn{p_0}{p0}}
+    method proposed by Efron et al.\ (2001) is used to estimate \eqn{p_0}{p0}.}
   \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda} values used in
     the estimation of \eqn{p_0}{p0}. If \code{NULL}, \code{lambda} is set to \code{seq(0, 0.95, 0.05)}
     if \code{p0.estimation = "splines"}, and to \code{0.5} if \code{p0.estimation = "interval"}.
-    Ignored if \code{p0.estimation = "adhoc"}. For details, see \code{\link{pi0.est}}}
+    Ignored if \code{p0.estimation = "adhoc"}. For details, see \code{\link{pi0.est}}.}
   \item{ncs.value}{a character string. Only used if \code{p0.estimation = "splines"} and
     \code{lambda} is a vector. Either \code{"max"} or \code{"paper"}. For details, see
-    \code{\link{pi0.est}}}
+    \code{\link{pi0.est}}.}
   \item{use.weights}{should weights be used in the spline based estimation of \eqn{p_0}{p0}? If
     \code{TRUE}, 1 - \code{lambda} is used as weights. For details, see \code{\link{pi0.est}}}
   \item{rand}{integer. If specified, i.e. not \code{NA}, the random number generator
-     will be set into a reproducible state}
+     will be set into a reproducible state.}
   \item{\dots}{further arguments for the function specified by \code{fun}. For
-     further arguments of \code{fun = z.find}, see \code{\link{z.find}}}
+     further arguments of \code{fun = z.find}, see \code{\link{z.find}}.}
 }
 \details{
   The suggested choice for the fudge factor is the value of \eqn{a_0}{a0} that
@@ -103,7 +103,7 @@
   than \code{delta}.
 }
 \value{
-  an object of class FindA0
+  An object of class FindA0.
 }
 
 \note{

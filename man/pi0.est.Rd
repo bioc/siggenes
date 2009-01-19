@@ -11,15 +11,15 @@
       ncs.weights = NULL)
 }
 \arguments{
-  \item{p}{a numeric vector containing the p-values of the genes}
+  \item{p}{a numeric vector containing the p-values of the genes.}
   \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda}
-     values used in the estimation of the prior probability}
+     values used in the estimation of the prior probability.}
   \item{ncs.value}{a character string. Only used if \code{lambda} is a
      vector. Either \code{"max"} or \code{"paper"}. For details, see 
-     \code{Details}}
+     \code{Details}.}
   \item{ncs.weights}{a numerical vector of the same length as \code{lambda}
      containing the weights used in the natural cubic spline fit. By default
-     no weights are used}
+     no weights are used.}
 }
 \details{
   For each value of \code{lambda}, \eqn{\pi_0(\lambda)}{pi0(lambda)} is
@@ -40,8 +40,8 @@
 }
 \value{
   \item{p0}{the estimate of the prior probability that a gene is not
-     differentially expressed}
-  \item{spline.out}{the output of \code{smooth.spline} used in this function}
+     differentially expressed.}
+  \item{spline.out}{the output of \code{smooth.spline} used in this function.}
 }
 \references{
    Storey, J.D., and Tibshirani, R. (2003). Statistical Significance for 
@@ -58,7 +58,7 @@
   data(golub)
 
   # Perform a SAM analysis.
-  sam.out<-sam(golub,golub.cl,B=100,rand=123)
+  sam.out<-sam(golub, golub.cl, B=100, rand=123)
 
   # Estimate the prior probability that a gene is not significant
   pi0.est(sam.out@p.value)

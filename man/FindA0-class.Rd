@@ -27,7 +27,7 @@
         for the fudge factor, where each row of \code{mat.posterior} corresponds to
         a gene, and each column to one of the values for \eqn{a_0}{a0}. The 
         probabilities in \code{mat.posterior} are computed using the monotonically
-        transformed test scores (see the Details section of \code{\link{find.a0}})}
+        transformed test scores (see the Details section of \code{\link{find.a0}}).}
      \item{\code{mat.center}:}{Object of class \code{"matrix"} representing the
         centers of the \code{nrow(mat.center)} intervals used in the logistic
         regression with repeated observations for estimating \eqn{f/f_0}{f/f0}
@@ -44,7 +44,7 @@
      \item{\code{z.norm}:}{Object of class \code{"numeric"} comprising the
         values of the \code{nrow(mat.z)} quantiles of the standard normal 
         distribution (if any \code{mat.z<0}) or an F-distribution (if all
-        \code{mat.z>=0}).}
+        \code{mat.z >= 0}).}
      \item{\code{p0}:}{Object of class \code{"numeric"} specifying the prior
         probability that a gene is not differentially expressed.}
      \item{\code{mat.a0}:}{Object of class \code{"data.frame"} comprising

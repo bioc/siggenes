@@ -1,27 +1,27 @@
 `find.a0` <-
-function(data,cl,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE,
-		gene.names=dimnames(data)[[1]],n.chunk=5,n.interval=139,df.ratio=NULL,
+function(x,y,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE,
+		gene.names=dimnames(x)[[1]],n.chunk=5,n.interval=139,df.ratio=NULL,
 		p0.estimation=c("splines","adhoc","interval"),lambda=NULL,ncs.value="max",
 		use.weights=FALSE,rand=NA,...){
 	if(length(delta)>1)
 		stop("For find.a0, only one value of delta is allowed.\n",
 			"Use print to obtain the number of interesting genes for other values ",
 			"of delta.")
-	if(is(data,"ExpressionSet")){
+	if(is(x,"ExpressionSet")){
 		require(affy,quietly=TRUE)
-		if(is.character(cl) & length(cl)<=2)
-			cl<-pData(data)[,cl]
-		data<-exprs(data)
-		chip.name<-annotation(data)
+		if(is.character(y) & length(y)<=2)
+			y<-pData(x)[,y]
+		x<-exprs(x)
+		chip.name<-annotation(x)
 	}
 	else
 		chip.name<-""
-	if(length(cl)!=ncol(data))
-		stop("The number of columns of data must be equal to the length of cl.")
+	if(length(y)!=ncol(x))
+		stop("The number of columns of x must be equal to the length of y.")
 	FUN<-match.fun(method)
 	if(!is.na(rand))
 		set.seed(rand)
-	out<-FUN(data,cl,B=B,...)
+	out<-FUN(x,y,B=B,...)
 	tmp.names<-names(out)
 	if(any(!c("r","s","z.fun","mat.samp")%in%tmp.names))
 		stop("The function specified by method must return a list consisting of\n",
@@ -33,22 +33,20 @@ function(data,cl,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE
 	n.genes<-length(r)
 	z.norm<-if(is.null(out$z.norm)) qnorm(((1:n.genes)-0.375)/(n.genes+0.25))
 		else out$z.norm
-	if(substitute(method)=="z.find"){
-		data<-out$data
-		cl<-out$cl
-	}
+	if(substitute(method)=="z.find")
+		x<-out$x
 	msg<-if(any(names(out)=="msg")) out$msg  else "" 
 	rm(out)
 	vec.a0<-checkQuantiles(s,quan.a0=quan.a0,include.zero=include.zero)
 	z.mat<-r/outer(s,vec.a0,"+")
 	succ.out<-apply(z.mat,2,getSuccesses,n.interval=n.interval)
-	tmp<-lapply(succ.out,function(x) x$success)
+	tmp<-lapply(succ.out,function(cc) cc$success)
 	mat.success<-matrix(unlist(tmp),nrow=n.interval)
-	ints<-lapply(succ.out,function(x) x$interval)
-	tmp<-lapply(succ.out,function(x) x$center)
+	ints<-lapply(succ.out,function(cc) cc$interval)
+	tmp<-lapply(succ.out,function(cc) cc$center)
 	mat.center<-matrix(unlist(tmp),nrow=n.interval)
 	succ.norm<-getSuccesses(z.norm,n.interval=n.interval)
-	fail.mats<-compFailureMat2(data,mat.samp,z.mat,ints,z.norm,succ.norm$interval,z.fun,
+	fail.mats<-compFailureMat2(x,mat.samp,z.mat,ints,z.norm,succ.norm$interval,z.fun,
 		vec.a0,n.chunk=n.chunk,n.interval=n.interval)
 	mat.fn<-fail.mats$mat.fail.norm
 	n.a0<-length(vec.a0)
@@ -60,7 +58,7 @@ function(data,cl,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE
 			df=df.ratio,z=z.norm)$ratio
 	type.p0<-match.arg(p0.estimation)
 	if(type.p0=="adhoc")
-		vec.p0<-apply(mat.ratio,2,function(x) min(1/x))
+		vec.p0<-apply(mat.ratio,2,function(aa) min(1/aa))
 	else
 		vec.p0<-apply(mat.fn,2,pi0.est2,success=succ.norm$success,z=succ.norm$center,
 			type=type.p0,lambda=lambda,ncs.value=ncs.value,use.weights=use.weights)

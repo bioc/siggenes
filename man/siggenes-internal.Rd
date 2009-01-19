@@ -61,4 +61,5 @@
    These functions are not meant to be directly called by the user.
 }
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
-\keyword{internal}{siggenes-internal}
+\keyword{internal}
+

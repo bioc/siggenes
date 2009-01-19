@@ -9,29 +9,29 @@
 }
 \arguments{
   \item{r}{a numeric vector. The numerator of the test statistic computed
-     for each gene is represented by one component of this vector}
+     for each gene is represented by one component of this vector.}
   \item{s}{a numeric vector. Each component of this vector corresponds
-     to the denominator of the test statistic of a gene}
+     to the denominator of the test statistic of a gene.}
   \item{alpha}{a numeric value or vector specifying quantiles of the
      \code{s} values. If \code{alpha} is numeric, this quantile of \code{s}
      will be used as fudge factor. Otherwise, the \code{alpha} quantile
      of the \code{s} values is computed that is optimal following the criterion
-     of Tusher et al. (2001)}
-  \item{include.zero}{If \code{TRUE}, \eqn{s_0=0}{s0=0} is also a possible
-     choice for the fudge factor}
+     of Tusher et al.\ (2001).}
+  \item{include.zero}{if \code{TRUE}, \eqn{s_0=0}{s0=0} is also a possible
+     choice for the fudge factor.}
 }
 
 
 \value{
-  \item{s.zero}{the value of the fudge factor \eqn{s_0}{s0}}
+  \item{s.zero}{the value of the fudge factor \eqn{s_0}{s0}.}
   \item{alpha.hat}{the optimal quantile of the \code{s} values. If 
-     \eqn{s_0=0}{s0=0}, \code{alpha.hat} will not be returned}
+     \eqn{s_0=0}{s0=0}, \code{alpha.hat} will not be returned.}
   \item{vec.cv}{the vector of the coefficients of variations. 
      Following Tusher et al. (2001), the optimal \code{alpha} quantile 
      is given by the quantile that leads to the smallest CV of the
-     modified test statistics}
+     modified test statistics.}
   \item{msg}{a character string summarizing the most important 
-     information about the fudge factor}
+     information about the fudge factor.}
 }
 
 \references{
@@ -43,7 +43,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-   \code{\link{SAM-class}},\code{\link{sam}},\code{\link{sam.dstat}}
+   \code{\link{SAM-class}},\code{\link{sam}}
 }
 
 \keyword{optimize}

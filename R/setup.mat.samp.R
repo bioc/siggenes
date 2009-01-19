@@ -6,7 +6,7 @@ setup.mat.samp<-function(cl,type.mt,B=1000,mat.samp=NULL,B.more=0.1,B.max=50000,
 		if(type.mt=="pairt")
 			mat.samp<-pairt.samp.transform(mat.samp)
 		if(ncol(mat.samp)!=n.cl)
-			stop("The number of columns of mat.samp must be equal to the length of cl.")
+			stop("The number of columns of mat.samp must be equal to the length of y.")
 		if(type.mt=="f")
 			mat.samp<-mat.samp-1		
 		a.out<-apply(mat.samp,1,function(a,y=cl) all(sort(a)==sort(y)))

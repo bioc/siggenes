@@ -12,7 +12,7 @@
 \arguments{
   \item{method}{a name or a character string specifying the method for which 
     the arguments or the help page, respectively, should be shown. Currently 
-    available are \code{print}, \code{plot}, \code{summary} and \code{identify}}
+    available are \code{print}, \code{plot}, \code{summary} and \code{identify}.}
 }
 \value{
   The arguments of the specified \code{method} are displayed or a html page
@@ -21,8 +21,7 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \seealso{
-   \code{\link{SAM-class}},\code{\link{sam}},\code{\link{sam.dstat}},
-   \code{\link{sam.wilc}},\code{\link{sam.snp}}
+   \code{\link{SAM-class}},\code{\link{sam}}
 }
 \examples{\dontrun{
    # Displays the arguments of the function summary

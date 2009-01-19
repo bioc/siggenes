@@ -8,20 +8,20 @@
   rows of a matrix simultaneously.
 }
 \usage{
-  rowWilcoxon(X, cl, rand = NA)
+  rowWilcoxon(X, y, rand = NA)
 }
 
 \arguments{
   \item{X}{a matrix in which each row corresponds to a variable, and each
-     column to an observation/sample}
-  \item{cl}{a numeric vector consisting of ones and zeros. The length of
-     \code{cl} must be equal to the number of observations. If \code{cl}
+     column to an observation/sample.}
+  \item{y}{a numeric vector consisting of ones and zeros. The length of
+     \code{y} must be equal to the number of observations. If \code{y}
      consists of zeros and ones, Wilcoxon Rank Sums are computed. If
-     \code{cl} contains only ones, Wilcoxon Signed Rank Statistics are
-     calculated}
+     \code{y} contains only ones, Wilcoxon Signed Rank Statistics are
+     calculated.}
   \item{rand}{Sets the random number generator into a reproducible state.
      Ignored if Wilcoxon rank sums are computed, or \code{X} contains
-     no Zeros}
+     no zeros.}
 }
 \details{
   If there are ties, then the ranks of the observations belonging to the same
@@ -29,7 +29,7 @@
   corresponding group.
 }
 \value{
-  a numeric vector containing Wilcoxon rank statistics for each row of \code{X}
+  A numeric vector containing Wilcoxon rank statistics for each row of \code{X}.
 }
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
@@ -39,4 +39,3 @@
 }  
 
 \keyword{htest}
-

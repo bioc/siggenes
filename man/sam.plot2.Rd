@@ -10,9 +10,9 @@
         lab = c(10, 10, 7), pch = NULL, sig.cex = 1, ...)
 }
 \arguments{
-  \item{object}{an object of class SAM}
+  \item{object}{an object of class SAM.}
   \item{delta}{a numeric value specifying the value of \eqn{\Delta}{Delta}
-     for which the SAM plot should be generated}
+     for which the SAM plot should be generated.}
   \item{pos.stats}{an integer between 0 and 2. If \code{pos.stats = 1}, general
      information as the number of significant genes and the estimated FDR for
      the specified value of \code{delta} will be plotted in the upper left corner
@@ -20,34 +20,34 @@
      the lower right corner. If \code{pos.stats = 0}, no information will be plotted.
      By default, \code{pos.stats=1} if the expression score \eqn{d} can be both 
      positive and negative, and \code{pos.stats = 2} if \eqn{d} can only take positive
-     values}
+     values.}
   \item{sig.col}{a specification of the color of the significant genes. If \code{sig.col}
      has length 1, all the points corresponding to significant genes are marked in the
      color specified by \code{sig.col}. If \code{length(sig.col) == 2}, the down-regulated
      genes, i.e. the genes with negative expression score \eqn{d}, are marked in the
      color specified by \code{sig.col}[1], and the up-regulated genes, i.e. the genes
      with positive \eqn{d}, are marked in the color specified by \code{sig.col}[2]. 
-     For a description of how colors are specified, see \code{\link{par}}}
+     For a description of how colors are specified, see \code{\link{par}}.}
   \item{xlim}{a numeric vector of length 2 specifying the x limits (minimum and maximum)
-     of the plot}
-  \item{ylim}{a numeric vector of length 2 specifying the y limits of the plot}
-  \item{main}{a character string naming the main title of the plot}
-  \item{xlab}{a character string naming the label of the x axis}
-  \item{ylab}{a character string naming the label of the y axis}
+     of the plot.}
+  \item{ylim}{a numeric vector of length 2 specifying the y limits of the plot.}
+  \item{main}{a character string naming the main title of the plot.}
+  \item{xlab}{a character string naming the label of the x axis.}
+  \item{ylab}{a character string naming the label of the y axis.}
   \item{pty}{a character specifying the type of plot region to be used. \code{"s"} (default)
-     generates a square plotting region, and \code{"m"} the maximal plotting region}
+     generates a square plotting region, and \code{"m"} the maximal plotting region.}
   \item{lab}{a numeric vector of length 3 specifying the approximate number of tickmarks
-     on the x axis and on the y axis and the label size}
+     on the x axis and on the y axis and the label size.}
   \item{pch}{either an integer specifying a symbol or a single character to be used as the
      default in plotting points. For a description of how \code{pch} can be specified, see
-     \code{\link{par}}}
+     \code{\link{par}}.}
   \item{sig.cex}{a numerical value giving the amount by which the symbols of the significant
-     genes should be scaled relative to the default}
+     genes should be scaled relative to the default.}
   \item{\dots}{further graphical parameters. See \code{\link{plot.default}} and 
-     \code{\link{par}}}
+     \code{\link{par}}.}
 }
 \value{
-  a SAM plot
+  A SAM plot.
 }
 
 
@@ -67,13 +67,13 @@
   
   # Perform a SAM analysis for the two class unpaired case assuming
   # unequal variances.
-  sam.out<-sam(golub,golub.cl,B=100,rand=123)
+  sam.out <- sam(golub, golub.cl, B=100, rand=123)
   
   # Generate a SAM plot for Delta = 2
-  sam.plot2(sam.out,2)
+  sam.plot2(sam.out, 2)
   
   # Alternatively way of generating the same SAM plot
-  plot(sam.out,2)
+  plot(sam.out, 2)
   
 }}
 \keyword{hplot}

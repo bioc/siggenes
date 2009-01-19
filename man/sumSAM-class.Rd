@@ -22,7 +22,7 @@
 \section{Slots}{
   \describe{
     \item{\code{row.sig.genes}:}{Object of class \code{"numeric"} consisting
-       of the row numbers of the significant genes in the data matrix}
+       of the row numbers of the significant genes in the data matrix.}
     \item{\code{mat.fdr}:}{Object of class \code{"matrix"} containing general
        information as the number of differentially expressed genes and the
        estimated FDR for either one or several values of Delta.}

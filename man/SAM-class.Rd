@@ -23,9 +23,9 @@
     \item{\code{d.bar}:}{Object of class \code{"numeric"} representing
        the expected expression scores under the null hypothesis.}
     \item{\code{vec.false}:}{Object of class \code{"numeric"} containing
-       the one-sided expected number of falsely called genes}
+       the one-sided expected number of falsely called genes.}
     \item{\code{p.value}:}{Object of class \code{"numeric"} consisting of
-       the p-values of the genes}
+       the p-values of the genes.}
     \item{\code{s}:}{Object of class \code{"numeric"} representing the
        standard deviations of the genes. If the standard deviations are
        not computed, \code{s} will be set to \code{numeric(0)}. }
@@ -110,8 +110,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{sam}},\code{\link{sam.dstat}},\code{\link{sam.wilc}},
-  \code{\link{sam.snp}},\code{\link{args.sam}},\code{\link{sam.plot2}},
+  \code{\link{sam}},\code{\link{args.sam}},\code{\link{sam.plot2}},
   \code{\link{delta.plot}}
 }
 \examples{\dontrun{
@@ -122,7 +121,7 @@
   
   # Perform a SAM analysis for the two class unpaired case assuming
   # unequal variances.
-  sam.out<-sam(golub,golub.cl,B=100,rand=123)
+  sam.out <- sam(golub, golub.cl, B=100, rand=123)
   sam.out
   
   # Alternative ways to show the output of sam.
@@ -133,24 +132,24 @@
   summary(sam.out)
   
   # Print the results of the SAM analysis for other values of Delta.
-  print(sam.out,seq(.2,2,.2))
+  print(sam.out, seq(.2, 2, .2))
   
   # Again, the same with additional information.
-  summary(sam.out,seq(.2,2,.2))
+  summary(sam.out, seq(.2, 2, .2))
     
   # Obtain the Delta plots for the default set of Deltas.
   plot(sam.out)
   
   # Generate the Delta plots for Delta = 0.2, 0.4, 0.6, ..., 2.
-  plot(sam.out,seq(0.2,0.4,2))
+  plot(sam.out, seq(0.2, 0.4, 2))
   
   # Obtain the SAM plot for Delta = 2.
-  plot(sam.out,2)
+  plot(sam.out, 2)
   
   # Get information about the genes called significant using 
   # Delta = 3 (since neither the gene names nor the chip type
   # has been specified ll is set to FALSE to avoid a warning).
-  sam.sum3<-summary(sam.out,3,ll=FALSE)
+  sam.sum3 <- summary(sam.out, 3, ll=FALSE)
   sam.sum3
   
   # Obtain the rows of the Golub et al. (1999) data set containing
@@ -158,7 +157,7 @@
   sam.sum3@row.sig.genes
   
   # and their names
-  golub.gnames[sam.sum3@row.sig.genes,3] 
+  golub.gnames[sam.sum3@row.sig.genes, 3] 
 
   # The matrix containing the d-values, q-values etc. of the
   # differentially expressed genes can be obtained by
