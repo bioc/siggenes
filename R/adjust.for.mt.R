@@ -4,7 +4,7 @@ adjust.for.mt<-function(data,cl,var.equal=FALSE,eb=FALSE,wilc=FALSE){
 	ana.type<-ifelse(eb,"EBAM","SAM")
 	n.cl<-length(cl)
 	if(n.cl!=ncol(data))
-		stop("The length of y must be equal to the number of columns of x.")
+		stop("The length of cl must be equal to the number of columns of data.")
 	lev<-unique(cl)
 	uni.cl<-length(lev)
 	if(any(lev<0)){
@@ -82,7 +82,7 @@ adjust.for.mt<-function(data,cl,var.equal=FALSE,eb=FALSE,wilc=FALSE){
 	}
 	if(is.null(type.mt))
 		stop("There is something wrong with the class labels.")
-	# mode(X)<-"numeric"
+	#mode(X)<-"numeric"
 	structure(list(X=X,cl.mt=cl.mt,type.mt=type.mt,msg=msg))
 }
  

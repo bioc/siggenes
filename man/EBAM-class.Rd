@@ -60,7 +60,7 @@
         posterior probabilities of the genes for a specified value of 
         \eqn{\Delta}{Delta}. For details, see \code{help.ebam(plot)}. For
         the arguments, see \code{args.ebam(plot)}.}
-     \item{print}{\code{signature(object = "EBAM)}: Prints general information
+     \item{print}{\code{signature(object = "EBAM")}: Prints general information
         such as the number of differentially expressed genes and the estimated
         FDR for several values of \eqn{\Delta}{Delta}. For details, see
         \code{help.ebam(print)}. Arguments can be listed by \code{args.ebam(print)}.} 
@@ -114,6 +114,7 @@
   # statistics for these variables such as their z-value and their
   # local FDR.
   summary(ebam.out, 0.9)
+  
 }}
 
 \keyword{classes}

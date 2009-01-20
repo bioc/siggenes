@@ -1,10 +1,11 @@
 \name{help.ebam}
 \alias{help.ebam}
 \alias{args.ebam}
-\title{Help files or argument list for EBAM-specific methods }
+\title{Help files or argument list for EBAM-specific methods}
 \description{Displays the help page or the argument list, respectively,
     for a EBAM-specific method.
 }
+    
 \usage{
    help.ebam(method)
    args.ebam(method)

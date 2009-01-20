@@ -1,7 +1,7 @@
 \name{help.finda0}
 \alias{help.finda0}
 \alias{args.finda0}
-\title{Help files or argument list for FindA0-specific methods }
+\title{Help files or argument list for FindA0-specific methods}
 \description{Displays the help page or the argument list, respectively,
     for a FindA0-specific method.
 }

@@ -10,10 +10,10 @@
   and the possibility to employ an user-written score function.
 }
 \usage{
-  ebam(x, y, method = z.ebam, delta = 0.9, which.a0 = NULL, p0 = NA, 
-       p0.estimation = c("splines", "interval", "adhoc"), lambda = NULL, 
-       ncs.value = "max", use.weights = FALSE, gene.names = dimnames(x)[[1]], 
-       ...)
+  ebam(x, cl, method = z.ebam, delta = 0.9, which.a0 = NULL, 
+       p0 = NA, p0.estimation = c("splines", "interval", "adhoc"), 
+       lambda = NULL, ncs.value = "max", use.weights = FALSE, 
+       gene.names = dimnames(x)[[1]], ...)
 }
 
 \arguments{
@@ -21,32 +21,32 @@
      object of class FindA0. If \code{x} is not a FindA0 object, then each row of \code{x} (or
      \code{exprs(x)}, respectively) must correspond to a variable (e.g., a gene), and each column to
      a sample.}
-  \item{y}{a specification of the class labels of the samples. Ignored if \code{x} is a FindA0 object.
-     Typically, \code{y} is specified by a vector of length \code{ncol(x)}.  
-     In the two class paired case, \code{y} can also 
+  \item{cl}{a specification of the class labels of the samples. Ignored if \code{x} is a FindA0 object.
+     Typically, \code{cl} is specified by a vector of length \code{ncol(x)}.  
+     In the two class paired case, \code{cl} can also 
      be a matrix with \code{ncol(x)} rows and 2 columns. If \code{x} is
-     an ExpressionSet object, \code{y} can also be a character string naming the column 
+     an ExpressionSet object, \code{cl} can also be a character string naming the column 
      of \code{pData(x)} that contains the class labels of the samples.
      
-     In the one-class case, \code{y} should be a vector of 1's. 
+     In the one-class case, \code{cl} should be a vector of 1's. 
      
-     In the two class unpaired case, \code{y} should be a vector containing 0's
+     In the two class unpaired case, \code{cl} should be a vector containing 0's
      (specifying the samples of, e.g., the control group) and 1's (specifying,
      e.g., the case group). 
      
-     In the two class paired case, \code{y} can be either a numeric vector or a numeric matrix. 
-     If it is a vector, then \code{y} has to consist of the integers between -1 and 
+     In the two class paired case, \code{cl} can be either a numeric vector or a numeric matrix. 
+     If it is a vector, then \code{cl} has to consist of the integers between -1 and 
      \eqn{-n/2} (e.g., before treatment group) and between 1 and \eqn{n/2} (e.g.,
-     after treatment group), where \eqn{n} is the length of \code{y} and \eqn{k}
-     is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{y} is a matrix, one
+     after treatment group), where \eqn{n} is the length of \code{cl} and \eqn{k}
+     is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{cl} is a matrix, one
      column should contain -1's and 1's specifying, e.g., the before and the after
      treatment samples, respectively, and the other column should contain integer
      between 1 and \eqn{n/2} specifying the \eqn{n/2} pairs of observations.
      
-     In the multiclass case and if \code{method = cat.stat}, \code{y} should be a vector 
+     In the multiclass case and if \code{method = cat.stat}, \code{cl} should be a vector 
      containing integers between 1 and \eqn{g}, where \eqn{g} is the number of groups.
       
-     For examples of how \code{y} can be specified, see the manual of \pkg{siggenes}.}
+     For examples of how \code{cl} can be specified, see the manual of \pkg{siggenes}.}
   \item{method}{a character string or name specifying the method or function that should be
      used in the computation of the expression score \eqn{z}. If \code{method = z.ebam},
      a modified t- or F-statistic, respectively, will be computed as proposed by Efron et al. (2001).
@@ -67,7 +67,7 @@
     differentially expressed. If \code{NA}, \code{p0} will be estimated automatically.}
   \item{p0.estimation}{either \code{"splines"} (default), \code{"interval"}, or \code{"adhoc"}. 
     If \code{"splines"}, the spline based method of Storey and Tibshirani (2003) is used to estimate
-    \eqn{p_0}{p0}. If \code{\"adhoc"} (\code{"interval")}, the adhoc (interval based) method 
+    \eqn{p_0}{p0}. If \code{"adhoc"} (\code{"interval"}), the adhoc (interval based) method 
     proposed by Efron et al.\ (2001) is used to estimate \eqn{p_0}{p0}.}
   \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda} values used in
     the estimation of \eqn{p_0}{p0}. If \code{NULL}, \code{lambda} is set to \code{seq(0, 0.95, 0.05)}

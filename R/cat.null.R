@@ -1,14 +1,14 @@
 "cat.null" <-
-function(x,mat.samp,d,n.subset,n.cat){
+function(data,mat.samp,d,n.subset,n.cat){
 	B<-nrow(mat.samp)
 	vecB<-c(seq(1,B,n.subset),B+1)
 	vecB<-unique(vecB)
 	n.B<-length(vecB)-1
-	n.var<-nrow(x)
+	n.var<-nrow(data)
 	vec.dperm<-vec.false<-numeric(n.var)
 	d.rank<-rank(-d,ties="first")
 	for(i in 1:n.B){
-		tmp<-compPermStat(x,mat.samp[vecB[i]:(vecB[i+1]-1),,drop=FALSE],n.cat)
+		tmp<-compPermStat(data,mat.samp[vecB[i]:(vecB[i+1]-1),,drop=FALSE],n.cat)
 		tmp<-apply(tmp,2,sort)
 		vec.dperm<-vec.dperm+rowSums(tmp)
 		tmp2<-c(as.vector(tmp),d)

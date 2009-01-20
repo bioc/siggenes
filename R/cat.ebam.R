@@ -1,36 +1,36 @@
-cat.ebam<-function(x,y,approx=FALSE,B=100,n.split=1,check.for.NN=FALSE,lev=NULL,
+cat.ebam<-function(data,cl,approx=FALSE,B=100,n.split=1,check.for.NN=FALSE,lev=NULL,
 		B.more=0.1,B.max=50000,n.subset=10,fast=FALSE,n.interval=NULL,df.ratio=3,
 		df.dens=NULL,knots.mode=NULL,type.nclass="wand",rand=NA){
-	x<-as.matrix(x)
-	if(any(is.na(x)))
-		stop("No NAs allowed.")
+	data<-as.matrix(data)
+	#if(any(is.na(data)))
+	#	stop("No NAs allowed.")
 	if(check.for.NN){
-		if(any(x=="NN"))
+		if(any(data=="NN"))
 			stop("No NNs allowed.")
 	}
-	if(ncol(x)!=length(y))
-		stop("The number of columns of x must be equal to the length of y.")
+	if(ncol(data)!=length(cl))
+		stop("The number of columns of data must be equal to the length of cl.")
 	if(!is.null(lev))
-		x<-recodeLevel(x,lev)
-	if(mode(x)!="numeric")
-		mode(x)<-"numeric"
-	if(any(is.na(x)))
-		stop("x must contain integers.")
-	n.cat<-max(x)
-	if(any(!x%in%1:n.cat))
-		stop("x must consist of integers between 1 and ",n.cat,".")
-	if(any(!(1:n.cat)%in%x))
-		stop("Some of the values between 1 and ",n.cat," are not in x.")
+		data<-recodeLevel(data,lev)
+	if(mode(data)!="numeric")
+		mode(data)<-"numeric"
+	if(any(is.na(data)))
+		stop("No missing values allowed in data.")
+	n.cat<-max(data)
+	if(any(!data%in%1:n.cat))
+		stop("data must consist of integers between 1 and ",n.cat,".")
+	if(any(!(1:n.cat)%in%data))
+		stop("Some of the values between 1 and ",n.cat," are not in data.")
 	if(n.split<=0)
 		stop("n.split must be at least 1.")
 	if(n.split==1)
-		stats<-chisqClass(x,y,n.cat)    #,check=check.levels)
+		stats<-chisqClass(data,cl,n.cat)    #,check=check.levels)
 	else{
 		if(!approx)
 			stop("Currently, splitting the variables is not supported in the permutation case.")
-		stats<-chisqClassSplitted(x,y,n.cat,n.split)    #,check=check.levels)
+		stats<-chisqClassSplitted(data,cl,n.cat,n.split)    #,check=check.levels)
 	}
-	n.cl<-length(unique(y))
+	n.cl<-length(unique(cl))
 	msg<-c("EBAM Analysis for Categorical Data\n\n",
 		paste("Null Distribution:\n",
 		ifelse(approx,"Approximation by ChiSquare Distribution",
@@ -44,8 +44,8 @@ cat.ebam<-function(x,y,approx=FALSE,B=100,n.split=1,check.for.NN=FALSE,lev=NULL,
 	if(is.null(n.interval))
 		n.interval<-139
 	out<-getSuccesses(stats,n.interval=n.interval)
-	mat.samp<-setup.mat.samp(y,"f",B=B,B.more=B.more,B.max=B.max,rand=rand)
-	fail.out<-compFailure(x,mat.samp,stats,out$interval,n.subset=n.subset,
+	mat.samp<-setup.mat.samp(cl,"f",B=B,B.more=B.more,B.max=B.max,rand=rand)
+	fail.out<-compFailure(data,mat.samp,stats,out$interval,n.subset=n.subset,
 		fast=fast,n.cat=n.cat)
 	ratio<-compRatio(out$center,out$success,fail.out$vec.fail,df=df.ratio,z=stats)$ratio
 	if(fast)

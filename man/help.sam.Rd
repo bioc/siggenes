@@ -1,7 +1,7 @@
 \name{help.sam}
 \alias{help.sam}
 \alias{args.sam}
-\title{Help files or argument list for SAM-specific methods }
+\title{Help files or argument list for SAM-specific methods}
 \description{Displays the help page or the argument list, respectively,
     for a SAM-specific method.
 }

@@ -78,7 +78,7 @@
         value of \eqn{\Delta}{Delta} and a set of possible values for the fudge
         factor. For details, see \code{help.finda0(plot)}. For
         the arguments, see \code{args.finda0(plot)}.}
-     \item{print}{\code{signature(object = "FindA0)}: Prints the number of 
+     \item{print}{\code{signature(object = "FindA0")}: Prints the number of 
         differentially expressed genes and the estimated
         FDR for each of the possible values of the fudge factor specified by 
         \code{vec.a0}. For details, see \code{help.finda0(print)}. 
@@ -102,6 +102,3 @@
 \seealso{\code{\link{find.a0}}, \code{\link{ebam}}, \code{\link{EBAM-class}}}
 
 \keyword{classes}
-
-
-      

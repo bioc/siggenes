@@ -12,20 +12,20 @@
   respectively.
 }
 \usage{
-  z.ebam(x, y, a0 = NULL, quan.a0 = NULL, B = 100, var.equal = FALSE, 
+  z.ebam(data, cl, a0 = NULL, quan.a0 = NULL, B = 100, var.equal = FALSE, 
       B.more = 0.1, B.max = 30000, n.subset = 10, fast = FALSE, 
       n.interval = 139, df.ratio = NULL, rand = NA)
   
-  z.find(x, y, B = 100, var.equal = FALSE, B.more = 0.1, 
+  z.find(data, cl, B = 100, var.equal = FALSE, B.more = 0.1, 
       B.max = 30000)
 }
 
 \arguments{
-  \item{x}{a matrix, data frame or ExpressionSet object. Each row of \code{x}
-    (or \code{exprs(x)}) must correspond to a variable (e.g., a gene),
+  \item{data}{a matrix, data frame or ExpressionSet object. Each row of \code{data}
+    (or \code{exprs(data)}) must correspond to a variable (e.g., a gene),
     and each column to a sample (i.e.\ observation).}
-  \item{y}{a numeric vector of length \code{ncol(x)} containing the yass
-     labels of the samples. For details on how \code{y} should be specified, 
+  \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
+     labels of the samples. For details on how \code{cl} should be specified, 
      see \code{\link{ebam}}.}
   \item{a0}{a numeric value specifying the fudge factor.}
   \item{quan.a0}{a numeric value between 0 and 1 specifying the quantile of the

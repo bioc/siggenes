@@ -18,7 +18,7 @@
      the specified value of \code{delta} will be plotted in the upper left corner
      of the plot. If \code{pos.stats = 2}, these information will be plotted in
      the lower right corner. If \code{pos.stats = 0}, no information will be plotted.
-     By default, \code{pos.stats=1} if the expression score \eqn{d} can be both 
+     By default, \code{pos.stats = 1} if the expression score \eqn{d} can be both 
      positive and negative, and \code{pos.stats = 2} if \eqn{d} can only take positive
      values.}
   \item{sig.col}{a specification of the color of the significant genes. If \code{sig.col}

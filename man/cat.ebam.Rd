@@ -10,7 +10,7 @@
 }
 
 \usage{
-  cat.ebam(x, y, approx = FALSE, B = 100, n.split = 1,
+  cat.ebam(data, cl, approx = FALSE, B = 100, n.split = 1,
     check.for.NN = FALSE, lev = NULL, B.more = 0.1, 
     B.max = 50000, n.subset = 10, fast = FALSE, 
     n.interval = NULL, df.ratio = 3, df.dens = NULL, 
@@ -19,9 +19,9 @@
 
 
 \arguments{
-  \item{x}{a matrix or data frame. Each row must correspond to a variable (e.g., a SNP), and
+  \item{data}{a matrix or data frame. Each row must correspond to a variable (e.g., a SNP), and
      each column to a sample (i.e.\ an observation).}
-  \item{y}{a numeric vector of length \code{ncol(x)} indicating to which class
+  \item{cl}{a numeric vector of length \code{ncol(data)} indicating to which class
      a sample belongs. Must consist of the
      integers between 1 and \eqn{c}, where \eqn{c} is the number of different groups.}
   \item{approx}{should the null distribution be approximated by a \eqn{\chi^2}{ChiSquare}-distribution?}

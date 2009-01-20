@@ -8,16 +8,16 @@
   Should not be called directly, but via ebam(..., method = wilc.ebam).
 }
 \usage{
-   wilc.ebam(x, y, approx50 = TRUE, ties.method = c("min", "random", 
+   wilc.ebam(data, cl, approx50 = TRUE, ties.method = c("min", "random", 
        "max"), use.offset = TRUE, df.glm = 5, use.row = FALSE, rand = NA)
 }
 \arguments{
-  \item{x}{a matrix or a data frame. Each row of
-    \code{x} must correspond to a variable (e.g., a gene), and each column to a sample (i.e.\ an observation).}
-  \item{y}{a numeric vector of length \code{ncol(x)} containing the class
-     labels of the samples. In the two class paired case, \code{y} can also 
-     be a matrix with \code{ncol(x)} rows and 2 columns. For details
-     on how \code{y} should be specified, see \code{\link{ebam}}.}
+  \item{data}{a matrix or a data frame. Each row of
+    \code{data} must correspond to a variable (e.g., a gene), and each column to a sample (i.e.\ an observation).}
+  \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
+     labels of the samples. In the two class paired case, \code{cl} can also 
+     be a matrix with \code{ncol(data)} rows and 2 columns. For details
+     on how \code{cl} should be specified, see \code{\link{ebam}}.}
   \item{approx50}{if \code{TRUE}, the null distribution will be approximated by
      the standard normal distribution. Otherwise, the exact null distribution is
      computed. This argument will automatically be set to \code{FALSE} if there

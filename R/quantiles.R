@@ -18,3 +18,4 @@ quantiles<-function(x,prob){
     return(quan)
 }
 
+    

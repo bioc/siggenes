@@ -1,6 +1,6 @@
 pairt.cl.transform<-function(mat,n.row){
 	if(!all(dim(mat)==c(n.row,2)))
-		stop("y must be either a vector or a ncol(data) x 2 matrix.")
+		stop("cl must be either a vector or a ncol(data) x 2 matrix.")
 	if(mode(as.matrix(mat))=="character"){
 		vec1<-if(!all(substring(paste(mat[,1],collapse=""),1:sum(nchar(mat[,1])),
 			1:sum(nchar(mat[,1])))%in%c(as.character(0:9),".","-"))) 
@@ -15,17 +15,17 @@ pairt.cl.transform<-function(mat,n.row){
 	n.tab1<-length(tab1)
 	n.tab2<-length(tab2)
 	if(n.tab1!=2 && n.tab2!=2)
-		stop("One of the columns of y must contain 2 different values.")
+		stop("One of the columns of cl must contain 2 different values.")
 	if(n.tab1!=n.row/2 && n.tab2!=n.row/2)
-		stop("One of the columns of y must contain ",n.row/2," different values.")
+		stop("One of the columns of cl must contain ",n.row/2," different values.")
 	if(any(table(mat[,1],mat[,2])!=rep(1,n.row)))
-		stop("There is something wrong with the y matrix.")
+		stop("There is something wrong with the cl matrix.")
 	vec.sign<-if(n.tab1==2) mat[,1] else mat[,2]
 	vec.pair<-if(n.tab1==n.row/2) mat[,1] else mat[,2]
 	sort.sign<-sort(unique(vec.sign))
 	sort.pair<-sort(unique(vec.pair))
 	if(!all(sort.sign==c(-1,1))){
-		warning("Expected values of one of the columns of y are -1 and 1.","\n",
+		warning("Expected values of one of the columns of cl are -1 and 1.","\n",
 			as.character(sort.sign[1])," is thus set to -1, and ", 
 			as.character(sort.sign[2])," to 1.",call.=FALSE)
 		vec.sign<-ifelse(vec.sign==sort.sign[1],-1,1)
@@ -43,8 +43,8 @@ pairt.cl.transform<-function(mat,n.row){
 			mnc[,1],ifelse(mnc[,2]!=mnc[nrow(mnc),2],"), ",")."),sep="",collapse=""),
 			call.=FALSE)
 	}
-	y<-as.numeric(vec.sign)*as.numeric(vec.pair)
-	y
+	cl<-as.numeric(vec.sign)*as.numeric(vec.pair)
+	cl
 }
 	 
  

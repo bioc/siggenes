@@ -1,5 +1,5 @@
 `ebam` <-
-function(x,y,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
+function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 		p0.estimation=c("splines","interval","adhoc"),lambda=NULL,ncs.value="max",
 		use.weights=FALSE,gene.names=dimnames(x)[[1]],...){
 	xclass<-class(x)
@@ -10,24 +10,24 @@ function(x,y,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 		chip.name<-x@chip
 	}
 	else{
-		if(missing(y))
-			stop("y must be specified if x is a matrix, a data frame, ",
+		if(missing(cl))
+			stop("cl must be specified if x is a matrix, a data frame, ",
 				"or an ExpressionSet object.")
 		if(is(x,"ExpressionSet")){
 			require(affy,quietly=TRUE)
 			chip.name<-annotation(x)
-			if(is.character(y) & length(y)<=2)
-			y<-pData(x)[,y]
+			if(is.character(cl) & length(cl)<=2)
+			cl<-pData(x)[,cl]
 			x<-exprs(x)
 		}
 		else
 			chip.name<-""
-		if(is.factor(y))
-			y<-as.character(y)
-		if(ncol(x)!=length(y))
-			stop("The number of columns of data must be equal to the length of y.")
+		if(is.factor(cl))
+			cl<-as.character(cl)
+		if(ncol(x)!=length(cl))
+			stop("The number of columns of data must be equal to the length of cl.")
 		FUN<-match.fun(method)
-		out<-FUN(x,y,...)
+		out<-FUN(x,cl,...)
 	}
 	check.out<-checkFUNout(out)
 	if(is.na(p0))

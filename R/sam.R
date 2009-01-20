@@ -1,18 +1,18 @@
-sam<-function(x,y,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95,.05),
-		ncs.value="max",ncs.weights=NULL,gene.names=dimnames(x)[[1]],q.version=1,...){
-	if(is(x,"ExpressionSet")){
+sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95,.05),
+		ncs.value="max",ncs.weights=NULL,gene.names=dimnames(data)[[1]],q.version=1,...){
+	if(is(data,"ExpressionSet")){
 		require(affy)
-		chip.name<-annotation(x)
-		if(is.character(y) & length(y)<=2)
-			y<-pData(x)[,y]
-		x<-exprs(x)
+		chip.name<-annotation(data)
+		if(is.character(cl) & length(cl)<=2)
+			cl<-pData(data)[,cl]
+		data<-exprs(data)
 	}
 	else
 		chip.name<-""
-	if(is.factor(y))
-		y<-as.character(y)
+	if(is.factor(cl))
+		cl<-as.character(cl)
 	FUN<-match.fun(method)
-	d.out<-FUN(x,y,...)
+	d.out<-FUN(data,cl,...)
 	if(is.na(p0))
 		p0<-pi0.est(na.exclude(d.out$p),lambda=lambda,ncs.value=ncs.value,
 			ncs.weights=ncs.weights)$p0

@@ -10,16 +10,16 @@
 }
 
 \usage{
-  cat.stat(x, y, B = 100, approx = FALSE, n.split = 1,
+  cat.stat(data, cl, B = 100, approx = FALSE, n.split = 1,
     check.for.NN = FALSE, lev = NULL, B.more = 0.1, 
     B.max = 50000, n.subset = 10, rand = NA)
 }
 
 
 \arguments{
-  \item{x}{a matrix or data frame. Each row must correspond to a variable (e.g., a SNP), and
+  \item{data}{a matrix or data frame. Each row must correspond to a variable (e.g., a SNP), and
      each column to a sample (i.e.\ observation).}
-  \item{y}{a numeric vector of length \code{ncol(x)} indicating to which class
+  \item{cl}{a numeric vector of length \code{ncol(data)} indicating to which class
      a sample belongs. Must consist of the
      integers between 1 and \eqn{c}, where \eqn{c} is the number of different groups.}
   \item{B}{the number of permutations used in the estimation of the null distribution,

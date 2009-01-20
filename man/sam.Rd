@@ -9,39 +9,39 @@
   and the possibility to employ an user-written score function.
 }
 \usage{
-  sam(x, y, method = d.stat, delta = NULL, n.delta = 10, p0 = NA,
+  sam(data, cl, method = d.stat, delta = NULL, n.delta = 10, p0 = NA,
       lambda = seq(0, 0.95, 0.05), ncs.value = "max", ncs.weights = NULL,
-      gene.names = dimnames(x)[[1]], q.version = 1, ...)
+      gene.names = dimnames(data)[[1]], q.version = 1, ...)
 }
 \arguments{
-  \item{x}{a matrix, a data frame, or an ExpressionSet object. Each row of \code{x}
-    (or \code{exprs(x)}, respectively) must correspond to a variable (e.g., a gene), and
+  \item{data}{a matrix, a data frame, or an ExpressionSet object. Each row of \code{data}
+    (or \code{exprs(data)}, respectively) must correspond to a variable (e.g., a gene), and
     each column to a sample (i.e.\ an observation).}
-  \item{y}{a vector of length \code{ncol(x)} containing the class
-     labels of the samples. In the two class paired case, \code{y} can also 
-     be a matrix with \code{ncol(x)} rows and 2 columns. If \code{x} is
-     an ExpressionSet object, \code{y} can also be a character string naming the column
-     of \code{pData(x)} that contains the class labels of the samples.
+  \item{cl}{a vector of length \code{ncol(data)} containing the class
+     labels of the samples. In the two class paired case, \code{cl} can also 
+     be a matrix with \code{ncol(data)} rows and 2 columns. If \code{data} is
+     an ExpressionSet object, \code{cl} can also be a character string naming the column
+     of \code{pData(data)} that contains the class labels of the samples.
      
-     In the one-class case, \code{y} should be a vector of 1's. 
+     In the one-class case, \code{cl} should be a vector of 1's. 
      
-     In the two class unpaired case, \code{y} should be a vector containing 0's
+     In the two class unpaired case, \code{cl} should be a vector containing 0's
      (specifying the samples of, e.g., the control group) and 1's (specifying,
      e.g., the case group). 
      
-     In the two class paired case, \code{y} can be either a numeric vector or a numeric matrix. 
-     If it is a vector, then \code{y} has to consist of the integers between -1 and 
+     In the two class paired case, \code{cl} can be either a numeric vector or a numeric matrix. 
+     If it is a vector, then \code{cl} has to consist of the integers between -1 and 
      \eqn{-n/2} (e.g., before treatment group) and between 1 and \eqn{n/2} (e.g.,
-     after treatment group), where \eqn{n} is the length of \code{y} and \eqn{k}
-     is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{y} is a matrix, one
+     after treatment group), where \eqn{n} is the length of \code{cl} and \eqn{k}
+     is paired with \eqn{-k}, \eqn{k=1,\dots,n/2}. If \code{cl} is a matrix, one
      column should contain -1's and 1's specifying, e.g., the before and the after
      treatment samples, respectively, and the other column should contain integer
      between 1 and \eqn{n/2} specifying the \eqn{n/2} pairs of observations.
      
-     In the multiclass case and if \code{method = cat.stat}, \code{y} should be a vector containing integers
+     In the multiclass case and if \code{method = cat.stat}, \code{cl} should be a vector containing integers
      between 1 and \eqn{g}, where \eqn{g} is the number of groups.
         
-     For examples of how \code{y} can be specified, see the manual of \pkg{siggenes}.}
+     For examples of how \code{cl} can be specified, see the manual of \pkg{siggenes}.}
   \item{method}{a character string or a name specifying the method/function that should be used
      in the computation of the expression scores \eqn{d}. If \code{method = d.stat},
      a modified t-statistic or F-statistic, respectively, will be computed
@@ -49,7 +49,7 @@
      Wilcoxon rank sum statistic or Wilcoxon signed rank statistic will be used
      as expression score. For an analysis of categorical data such as SNP data, 
      \code{method} can be set to \code{cat.stat}. In this case Pearson's
-     Chi-squared statistic is computed for each row. It is also possible to use
+     ChiSquare statistic is computed for each row. It is also possible to use
      an user-written function to compute the expression scores.
      For details, see \code{Details}.}
   \item{delta}{a numeric vector specifying a set of values for the threshold 
@@ -69,8 +69,8 @@
   \item{ncs.weights}{a numerical vector of the same length as \code{lambda}
      containing the weights used in the estimation of \eqn{\pi_0}{pi0}. By default
      no weights are used. For details, see \code{?pi0.est}.}
-  \item{gene.names}{a character vector of length \code{nrow(x)} containing the
-     names of the genes. By default the row names of \code{x} are used.}
+  \item{gene.names}{a character vector of length \code{nrow(data)} containing the
+     names of the genes. By default the row names of \code{data} are used.}
   \item{q.version}{a numeric value indicating which version of the q-value should
      be computed. If \code{q.version=2}, the original version of the q-value, i.e.
      min\{pFDR\}, will be computed. If \code{q.version=1}, min\{FDR\} will be used
@@ -86,7 +86,7 @@
   with either a modified t-statistic or a Wilcoxon rank statistic, a multiclass analysis
   with a modified F statistic, and an analysis of categorical data). It is, however, also 
   possible to write your own function for another type of analysis. The required arguments
-  of this function must be \code{x} and \code{y}. This function can also have other
+  of this function must be \code{data} and \code{cl}. This function can also have other
   arguments. The output of this function must be a list containing the following objects:
   \describe{
      \item{\code{d}:}{a numeric vector consisting of the expression scores of the genes.}
@@ -103,7 +103,7 @@
         of the genes. If no standard deviation can be calculated, set \code{s = numeric(0)}.}
      \item{\code{s0}:}{a numeric value specifying the fudge factor. If no fudge factor is calculated,
         set \code{s0 = numeric(0)}.}
-     \item{\code{mat.samp}:}{a matrix with B rows and \code{ncol(x)} columns, where B is the number
+     \item{\code{mat.samp}:}{a matrix with B rows and \code{ncol(data)} columns, where B is the number
         of permutations, containing the permutations used in the computation of the permuted
         d-values. If such a matrix is not computed, set \code{mat.samp = matrix(numeric(0))}.}
      \item{\code{msg}:}{a character string or vector containing information about, e.g., which type of analysis

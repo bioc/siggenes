@@ -38,7 +38,8 @@
         instead of \code{cdfname} must be specified for obtaining these links.}
   \item{refsnp}{either a character vector or a data frame. If the former, \code{refsnp} containis
           the RefSNP IDs of the SNPs used in the SAM/EBAM analysis, where \code{names(refsnp)} specifies
-          the names of these SNPs, i.e.\ their probe set IDs. If a data frame, then one column of \code{refsnp} must contain
+          the names of these SNPs, i.e.\ their probe set IDs. If a data frame, then one column of
+          \code{refsnp} must contain
           the RefSNP IDs of the SNPs, and the name of this column must be \code{RefSNP}. The other
           columns can contain additional annotations such as the chromosome or the physical position
           of each SNPs. The row names of \code{refsnp} must specify the SNPs, i.e.\ must be the

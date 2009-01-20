@@ -1,26 +1,26 @@
-wilc.stat<-function(x,y,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.replace=TRUE,
+wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.replace=TRUE,
 		na.method="mean",approx50=TRUE,ties.method=c("min","random","max"),use.row=FALSE,rand=NA){
 	if(!is.na(rand))
 		set.seed(rand)
-	x<-as.matrix(x)
-	mode(x)<-"numeric"
-	n.genes<-nrow(x)
+	data<-as.matrix(data)
+	mode(data)<-"numeric"
+	n.genes<-nrow(data)
 	excluded.genes<-logical(n.genes)
-	if(any(rowSums(is.na(x))>0)){
-		na.out<-na.handling(x,na.replace=na.replace,na.method=na.method)
-		x<-na.out$X
+	if(any(rowSums(is.na(data))>0)){
+		na.out<-na.handling(data,na.replace=na.replace,na.method=na.method)
+		data<-na.out$X
 		excluded.genes[na.out$NA.genes]<-TRUE
 		rm(na.out)
 	}
-	adjust.out<-adjust.for.mt(x,y,wilc=TRUE)
-	dat<-adjust.out$X
+	adjust.out<-adjust.for.mt(data,cl,wilc=TRUE)
+	X<-adjust.out$X
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
 	if(!type.mt%in%c("t","t.equalvar"))
 		R.fold<-0
 	if(R.fold>0){
-		mat.fold<-Rfold.cal(x,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
+		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
 		n.fulfill<-sum(mat.fold[,2])
 		if(n.fulfill==0)
 			stop("None of the genes has a fold change larger than ",R.fold,".")
@@ -33,37 +33,37 @@ wilc.stat<-function(x,y,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.re
 		if(n.fulfill<nrow(mat.fold)){
 			fc.genes<-which(mat.fold[,2]==0)
 			fold.out<-fold.out[-fc.genes]
-			dat<-dat[-fc.genes,]
+			X<-X[-fc.genes,]
 			excluded.genes[!excluded.genes][fc.genes]<-TRUE
 		}
 	}
 	else
 		fold.out<-numeric(0)
-	rm(x,adjust.out)
+	rm(data,adjust.out)
 	n.cl<-length(cl.mt)
-	x2<-function(z){
-		z*z
+	x2<-function(x){
+		x*x
 	}
 	if(type.mt=="pairt"){
 		n.cl<-n.cl/2
-		dat<-dat[,2*(1:n.cl)-1]-dat[,2*(1:n.cl)]
-		varX<-rowSums(x2(dat-rowMeans(dat)))/(n.cl-1)
+		X<-X[,2*(1:n.cl)-1]-X[,2*(1:n.cl)]
+		varX<-rowSums(x2(X-rowMeans(X)))/(n.cl-1)
 	}
 	else{
-		varX<-rowSums(x2(dat[,cl.mt==0]-rowMeans(dat[,cl.mt==0])))+
-			rowSums(x2(dat[,cl.mt==1]-rowMeans(dat[,cl.mt==1])))
+		varX<-rowSums(x2(X[,cl.mt==0]-rowMeans(X[,cl.mt==0])))+
+			rowSums(x2(X[,cl.mt==1]-rowMeans(X[,cl.mt==1])))
 		varX<-varX/(n.cl-1)
 	}
 	if(sum(varX<10^-10)){
 		var0.genes<-which(varX<10^-10)
-		dat<-dat[-var0.genes,]
+		X<-X[-var0.genes,]
 		if(R.fold>0)
 			fold.out<-fold.out[-var0.genes]
 		excluded.genes[!excluded.genes][var0.genes]<-TRUE
 		warning("There are ",length(var0.genes)," genes with zero variance. These genes are removed,",
 			"\n","and their d-values are set to NA.",call.=FALSE)
 	}
-	n.row<-nrow(dat)
+	n.row<-nrow(X)
 	ties.method<-match.arg(ties.method)
 	if(type.mt=="t"){
 		n0<-sum(cl.mt==0)
@@ -73,11 +73,11 @@ wilc.stat<-function(x,y,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.re
 		W.max<-n1*(2*n0+n1+1)/2
 		W.var<-n1*n0*(n.cl+1)/12
 		if(use.row)
-			W<-rowWilcoxon(dat,cl.mt)
+			W<-rowWilcoxon(X,cl.mt)
 		else{
 			X.rank<-matrix(0,n.row,n.cl)
 			for(i in 1:n.row)
-				X.rank[i,]<-rank(dat[i,],ties.method=ties.method)
+				X.rank[i,]<-rank(X[i,],ties.method=ties.method)
 			W<-rowSums(X.rank[,cl.mt==1])
 		}
 		W.norm<-(W-W.mean)/sqrt(W.var)
@@ -98,19 +98,19 @@ wilc.stat<-function(x,y,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,na.re
 		W.max<-n.cl*(n.cl+1)/2
 		W.mean<-W.max/2
 		W.var<-n.cl*(n.cl+1)*(2*n.cl+1)/24
-		if(sum(dat==0)>0){
-			warning("There are ",sum(dat==0)," observation pairs having a difference of zero.",
+		if(sum(X==0)>0){
+			warning("There are ",sum(X==0)," observation pairs having a difference of zero.",
 				"\n","These differences are randomly set to either 1e-06 or -1e-06.",
 				call.=FALSE)
-			dat[dat==0]<-sample(c(1e-06,-1e-06),sum(dat==0),rep=TRUE)
+			X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),rep=TRUE)
 		}
 		if(use.row)
-			W<-rowWilcoxon(dat,rep(1,n.cl))
+			W<-rowWilcoxon(X,rep(1,n.cl))
 		else{
 			X.rank<-matrix(0,n.row,n.cl)
 			for(i in 1:n.row)
-				X.rank[i,]<-rank(abs(dat[i,]),ties.method=ties.method)
-			W<-rowSums(X.rank*(dat>0))
+				X.rank[i,]<-rank(abs(X[i,]),ties.method=ties.method)
+			W<-rowSums(X.rank*(X>0))
 		}
 		W.norm<-(W-W.mean)/sqrt(W.var)
 		if(n.cl<50)

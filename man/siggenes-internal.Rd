@@ -54,7 +54,6 @@
 \alias{chisqClassSplitted}
 
 
-
 \title{Internal siggenes functions}
 \description{Internal siggenes functions.}
 \details{

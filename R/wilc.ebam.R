@@ -1,20 +1,18 @@
-wilc.ebam<-function(x,y,approx50=TRUE,ties.method=c("min","random","max"),use.offset=TRUE,
+wilc.ebam<-function(data,cl,approx50=TRUE,ties.method=c("min","random","max"),use.offset=TRUE,
 		df.glm=5,use.row=FALSE,rand=NA){
 	require(splines)
 	if(!is.na(rand))
 		set.seed(rand)
-	x<-as.matrix(x)
-	if(mode(x)!="numeric")
-		stop("The values in x must be numeric.")
-	if(any(is.na(x)))
+	data<-as.matrix(data)
+	mode(data)<-"numeric"
+	if(any(is.na(data)))
 		stop("No missing values allowed.")
-	adjust.out<-adjust.for.mt(x,y,wilc=TRUE,eb=TRUE)
-	rm(x)
+	adjust.out<-adjust.for.mt(data,cl,wilc=TRUE,eb=TRUE)
 	X<-adjust.out$X
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
-	rm(adjust.out)
+	rm(data,adjust.out)
 	n.row<-nrow(X)
 	n.cl<-length(cl.mt)
 	ties.method<-match.arg(ties.method)

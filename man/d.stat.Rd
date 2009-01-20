@@ -9,21 +9,21 @@
   Should not be called directly, but via the function sam.
 }
 \usage{
-  d.stat(x, y, var.equal = FALSE, B = 100, med = FALSE, s0 = NA, 
+  d.stat(data, cl, var.equal = FALSE, B = 100, med = FALSE, s0 = NA, 
       s.alpha = seq(0, 1, 0.05), include.zero = TRUE, n.subset = 10, 
       mat.samp = NULL, B.more = 0.1, B.max = 30000, gene.names = NULL,
       R.fold = 1, use.dm = TRUE, R.unlog = TRUE, na.replace = TRUE, 
       na.method = "mean", rand = NA)
 }
 \arguments{
-  \item{x}{a matrix, data frame or \code{ExpressionSet} object. Each row of
-    \code{x} (or \code{exprs(x)}, respectively) must correspond to a variable (e.g., a gene),
+  \item{data}{a matrix, data frame or \code{ExpressionSet} object. Each row of
+    \code{data} (or \code{exprs(data)}, respectively) must correspond to a variable (e.g., a gene),
     and each column to a sample (i.e.\ an observation).}
-  \item{y}{a numeric vector of length \code{ncol(x)} containing the class
-     labels of the samples. In the two class paired case, \code{y} can also 
-     be a matrix with \code{ncol(x)} rows and 2 columns. If \code{x} is
-     an \code{ExpressionSet} object, \code{y} can also be a character string.
-     For details on how \code{y} should be specified, see \code{?sam}.}
+  \item{cl}{a numeric vector of length \code{ncol(data)} containing the class
+     labels of the samples. In the two class paired case, \code{cl} can also 
+     be a matrix with \code{ncol(data)} rows and 2 columns. If \code{data} is
+     an \code{ExpressionSet} object, \code{cl} can also be a character string.
+     For details on how \code{cl} should be specified, see \code{?sam}.}
   \item{var.equal}{if \code{FALSE} (default), Welch's t-statistic will be computed.
      If \code{TRUE}, the pooled variance will be used in the computation of
      the t-statistic.}
@@ -47,14 +47,14 @@
   \item{n.subset}{a numeric value indicating how many permutations are considered
      simultaneously when computing the p-value and the number of falsely called
      genes. If \code{med = TRUE}, \code{n.subset} will be set to 1.}
-  \item{mat.samp}{a matrix having \code{ncol(x)} columns except for the two class
-     paired case in which \code{mat.samp} has \code{ncol(x)}/2 columns. 
+  \item{mat.samp}{a matrix having \code{ncol(data)} columns except for the two class
+     paired case in which \code{mat.samp} has \code{ncol(data)}/2 columns. 
      Each row specifies one permutation of the group labels used in the computation
      of the expected expression scores \eqn{\bar{d}}{d.bar}. If not specified 
-     (\code{mat.samp=NULL}), a matrix having \code{B} rows and \code{ncol(x)} is
+     (\code{mat.samp=NULL}), a matrix having \code{B} rows and \code{ncol(data)} is
      generated automatically and used in the computation of \eqn{\bar{d}}{d.bar}. In
      the two class unpaired case and the multiclass case, each row of \code{mat.samp} 
-     must contain the same group labels as \code{y}. In the one class and the two 
+     must contain the same group labels as \code{cl}. In the one class and the two 
      class paired case, each row must contain -1's and 1's. In the one class case, 
      the expression values are multiplied by these -1's and 1's. In the two class paired
      case, each column corresponds to one observation pair whose difference is multiplied
@@ -64,7 +64,7 @@
      Otherwise, \code{B} permutations are used. This avoids that \code{B} permutations
      will be used -- and not all permutations -- if the number of all possible permutations
      is just a little larger than \code{B}.}
-  \item{gene.names}{a character vector of length \code{nrow(x)} containing the
+  \item{gene.names}{a character vector of length \code{nrow(data)} containing the
      names of the genes.}
   \item{B.max}{a numeric value. If the number of all possible permutations is smaller
      than or equal to \code{B.max}, \code{B} randomly selected permutations will be used
@@ -81,12 +81,12 @@
   \item{use.dm}{if \code{TRUE}, the fold change is computed by 2 to the power of the difference between
      the mean log2 intensities of the two groups, i.e.\ 2 to the power of the numerator of the test statistic. 
      If \code{FALSE}, the fold change is determined
-     by computing 2 to the power of \code{x} (if \code{R.unlog = TRUE}) and then calculating the ratio of the
+     by computing 2 to the power of \code{data} (if \code{R.unlog = TRUE}) and then calculating the ratio of the
      mean intensity in the group coded by 1 to the mean intensity in the group coded
      by 0. The latter is the definition of the fold change used in Tusher et al.\ (2001).} 
-  \item{R.unlog}{if \code{TRUE}, the anti-log of \code{x} will be used in the computation of the
-     fold change. Otherwise, \code{x} is used. This transformation should be done
-     when \code{x} is log2-tranformed (in a SAM analysis it is highly recommended
+  \item{R.unlog}{if \code{TRUE}, the anti-log of \code{data} will be used in the computation of the
+     fold change. Otherwise, \code{data} is used. This transformation should be done
+     when \code{data} is log2-tranformed (in a SAM analysis it is highly recommended
      to use log2-transformed expression data). Ignored if \code{use.dm = TRUE}.}
   \item{na.replace}{if \code{TRUE}, missing values will be removed by the genewise/rowwise
      statistic specified by \code{na.method}. If a gene has less than 2 non-missing

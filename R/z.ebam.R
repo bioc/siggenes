@@ -1,17 +1,17 @@
 `z.ebam` <-
-function(x,y,a0=NULL,quan.a0=NULL,B=100,var.equal=FALSE,B.more=0.1,B.max=30000,
+function(data,cl,a0=NULL,quan.a0=NULL,B=100,var.equal=FALSE,B.more=0.1,B.max=30000,
 		n.subset=10,fast=FALSE,n.interval=139,df.ratio=NULL,rand=NA){
 	if(!is.na(rand))
 		set.seed(rand)
-	out<-z.find(x,y,B=B,var.equal=var.equal,B.more=B.more,B.max=B.max)
+	out<-z.find(data,cl,B=B,var.equal=var.equal,B.more=B.more,B.max=B.max)
 	a0<-checkA0(out$s,a0=a0,quan.a0=quan.a0)
 	z<-out$r/(a0+out$s)
-	x<-out$x
+	data<-out$data
 	mat.samp<-out$mat.samp
 	msg<-out$msg
 	type.mt<-out$type.mt
 	out<-getSuccesses(z,n.interval=n.interval)
-	fail.out<-compFailure(x,mat.samp,z,out$interval,a0=a0,type.mt=type.mt,
+	fail.out<-compFailure(data,mat.samp,z,out$interval,a0=a0,type.mt=type.mt,
 		n.subset=n.subset,fast=fast)
 	if(is.null(df.ratio))
 		df.ratio<-ifelse(any(z<0),5,3)

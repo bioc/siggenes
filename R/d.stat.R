@@ -2,30 +2,30 @@
 .mt.naNUM<- -93074815
 
 
-d.stat<-function(x,y,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05),
+d.stat<-function(data,cl,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05),
 		include.zero=TRUE,n.subset=10,mat.samp=NULL,B.more=0.1,B.max=30000,
 		gene.names=NULL,R.fold=1,use.dm=TRUE,R.unlog=TRUE,na.replace=TRUE,
 		na.method="mean",rand=NA){
-	x<-as.matrix(x)
-	if(mode(x)!="numeric")
-		stop("x must contain numeric values.")
-	n.genes<-nrow(x)
+	data<-as.matrix(data)
+	if(mode(data)!="numeric")
+		stop("data must contain numeric values.")
+	n.genes<-nrow(data)
 	excluded.genes<-logical(n.genes)
-	if(any(rowSums(is.na(x))>0)){
-		na.out<-na.handling(x,na.replace=na.replace,na.method=na.method)
-		x<-na.out$X
+	if(any(rowSums(is.na(data))>0)){
+		na.out<-na.handling(data,na.replace=na.replace,na.method=na.method)
+		data<-na.out$X
 		excluded.genes[na.out$NA.genes]<-TRUE
 		rm(na.out)
 	}
-	adjust.out<-adjust.for.mt(x,y,var.equal=var.equal)
-	dat<-adjust.out$X
+	adjust.out<-adjust.for.mt(data,cl,var.equal=var.equal)
+	X<-adjust.out$X
 	cl.mt<-adjust.out$cl.mt
 	type.mt<-adjust.out$type.mt
 	msg<-adjust.out$msg
 	if(!type.mt%in%c("t","t.equalvar"))
 		R.fold<-0
 	if(R.fold>0){
-		mat.fold<-Rfold.cal(x,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
+		mat.fold<-Rfold.cal(data,cl.mt,unlog=R.unlog,R.fold=R.fold,use.dm=use.dm)
 		n.fulfill<-sum(mat.fold[,2])
 		if(n.fulfill==0)
 			stop("None of the variables has a fold change larger than ",R.fold,".")
@@ -38,21 +38,21 @@ d.stat<-function(x,y,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05)
 		if(n.fulfill<nrow(mat.fold)){
 			fc.genes<-which(mat.fold[,2]==0)
 			fold.out<-fold.out[-fc.genes]
-			dat<-dat[-fc.genes,]
+			X<-X[-fc.genes,]
 			excluded.genes[!excluded.genes][fc.genes]<-TRUE
 		}
 	}			
 	else
 		fold.out<-numeric(0)
-	rm(x,adjust.out)
-	mt1.out<-mt.teststat.num.denum(dat,cl.mt,test=type.mt)
+	rm(data,adjust.out)
+	mt1.out<-mt.teststat.num.denum(X,cl.mt,test=type.mt)
 	r<-mt1.out$teststat.num
 	s<-mt1.out$teststat.denum
 	if(any(round(s,10)==0)){
 		var0.genes<-which(round(s,10)==0)
 		r<-r[-var0.genes]
 		s<-s[-var0.genes]
-		dat<-dat[-var0.genes,]
+		X<-X[-var0.genes,]
 		if(R.fold>0)
 			fold.out<-fold.out[-var0.genes]
 		excluded.genes[!excluded.genes][var0.genes]<-TRUE
@@ -67,15 +67,16 @@ d.stat<-function(x,y,var.equal=FALSE,B=100,med=FALSE,s0=NA,s.alpha=seq(0,1,0.05)
 	else
 		msg<-c(msg,paste("s0 =",round(s0,4),"\n\n"))
 	d<-r/(s+s0)
+	#d.sort<-sort(d)
 	mat.samp<-setup.mat.samp(cl.mt,type.mt,B=B,mat.samp=mat.samp,B.more=B.more,B.max=B.max,rand=rand)
 	B.full<-round(ifelse(type.mt=="pairt",2^(length(cl.mt)/2),
 		exp(lgamma(length(cl.mt)+1)-sum(lgamma(table(cl.mt)+1)))))
 	msg<-c(msg,paste("Number of permutations:",nrow(mat.samp),
 		ifelse(nrow(mat.samp)==B.full,"(complete permutation)",""),"\n\n"),
 		paste(ifelse(med,"MEDIAN","MEAN"),"number of falsely called variables is computed.\n\n"))
-	dnull.out<-d.null(dat,mat.samp,d,type.mt,s0,med=med,n.subset=n.subset)
+	dnull.out<-d.null(X,mat.samp,d,type.mt,s0,med=med,n.subset=n.subset)
 	d.bar<-dnull.out$d.bar
-	if(nrow(dat)==n.genes){
+	if(nrow(X)==n.genes){
 		p.value<-dnull.out$p.value
 		vec.false<-dnull.out$vec.false
 	}
