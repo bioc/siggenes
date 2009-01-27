@@ -51,12 +51,13 @@
           the RefSNP IDs of the SNPs, and the name of this column must be \code{RefSNP}. The other
           columns can contain additional annotations such as the chromosome or the physical position
           of each SNPs. The row names of \code{refsnp} must specify the SNPs, i.e.\ must be the
-          probe set IDs of the SNPs. See \code{\link{buildSNPannotation}} for an automatical way to construct
-          such a data frame given the corresponding metadata package.} 
+          probe set IDs of the SNPs. Using \code{buildSNPannotation} from the package \pkg{scrime}
+          such a data frame can be
+          generated automatically from the metadata package corresponding to the considered SNP chip.} 
   \item{max.associated}{integer specifying the maximum number of genes associated with the respective
           SNP displayed in the html output. If all entries should be shown, set \code{max.associated = 0}.
           This however might result in a very large html output. For details, see 
-          \code{\link{shortenGeneDescription}}.}
+          \code{shortenGeneDescription} in the package \pkg{scrime}.}
   \item{n.digits}{integer specifying the number of decimal places used in the output.}
   \item{title}{character string naming the title that should be used in the html page.}
   \item{bg.col}{specification of the background color of the html page. See \code{?par} for

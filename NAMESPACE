@@ -12,6 +12,5 @@ export(args.ebam, args.finda0, args.sam, ebam, ebam2excel, ebam2html,
 	plotArguments, sam, sam2excel, sam2html, sam.plot2,
 	d.stat, cat.stat, wilc.stat,
 	z.ebam, cat.ebam, wilc.ebam, z.find, denspr, rowWilcoxon, rowRanksWilc,
-	na.handling, nclass.wand, findDelta, qvalue.cal, chisqClass,
-	buildSNPannotation, shortenGeneDescription)
+	na.handling, nclass.wand, findDelta, qvalue.cal, chisqClass)
 

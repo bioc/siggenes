@@ -43,12 +43,13 @@
           the RefSNP IDs of the SNPs, and the name of this column must be \code{RefSNP}. The other
           columns can contain additional annotations such as the chromosome or the physical position
           of each SNPs. The row names of \code{refsnp} must specify the SNPs, i.e.\ must be the
-          probe set IDs of the SNPs. See \code{\link{buildSNPannotation}} for an automatical way to construct
-          such a data frame given the corresponding metadata package.} 
+          probe set IDs of the SNPs. Using \code{buildSNPannotation} from the package \pkg{scrime}
+          such a data frame can be
+          generated automatically from the metadata package corresponding to the considered SNP chip.} 
   \item{max.associated}{integer specifying the maximum number of genes associated with the respective
           SNP displayed in the html output. If all entries should be shown, set \code{max.associated = 0}.
           This however might result in a very large html output. For details, see 
-          \code{\link{shortenGeneDescription}}.}
+          \code{shortenGeneDescription} in the package \pkg{scrime}.}
   \item{dataframe}{data frame having one row for each interesting gene, i.e.\ \code{nrow(dataframe)}
         must be equal to \code{length(genenames)}. The row names of \code{dataframe} must be equal to
         \code{genenames}. This matrix contains additional information 

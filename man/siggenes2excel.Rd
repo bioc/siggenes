@@ -32,7 +32,7 @@
         to the output.}
   \item{chip}{character string naming the chip type used in this analysis. Must
         be specified as in the meta-data section of Bioconductor (e.g., \code{"hgu133a"}
-        for the Affymetrix HG-U133A chip). Only needed if \code{ll=TRUE}. 
+        for the Affymetrix HG-U133A chip). Only needed if \code{ll = TRUE}. 
         If the argument \code{data} in \code{sam(data, cl, ...)} has been specified 
         by an \code{ExpressionSet} object \code{chip} need not to be specified.}
   \item{quote}{logical indicating if character strings and factors should be surrounded by 
