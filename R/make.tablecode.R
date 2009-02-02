@@ -64,8 +64,10 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 			col.ps<-which(cn.refsnp%in%c("Probe-Set-ID","Probe.Set.ID",
 				"Probe_Set","Probe.Set"))
 			tmp.dat<-refsnp[,-c(col.rs,col.ps),drop=FALSE]
-			if(any(cn.refsnp=="Gene") && max.associated>=1)
+			if(any(cn.refsnp=="Gene") && max.associated>=1){
+				require(scrime)
 				tmp.dat<-shortenGeneDescription(tmp.dat,max.length=max.associated)
+			}
 			if(ncol(tmp.dat)>0)
 				dataframe<-if(is.null(data.frame)) tmp.dat 
 					else data.frame(dataframe, tmp.dat)

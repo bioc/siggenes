@@ -17,11 +17,15 @@
 }
 
 \arguments{
-  \item{x}{either a matrix, a data frame or an ExpressionSet object, or the output of find.a0, i.e.\ an
-     object of class FindA0. If \code{x} is not a FindA0 object, then each row of \code{x} (or
-     \code{exprs(x)}, respectively) must correspond to a variable (e.g., a gene), and each column to
+  \item{x}{either a matrix, a data frame or an ExpressionSet object, or the output of \code{\link{find.a0}}, 
+     i.e.\ an object of class \code{FindA0}. Can also be a list (if \code{method = chisq.ebam} or 
+     \code{method = trend.ebam}). For the latter case, see \code{\link{chisq.ebam}}. 
+     If \code{x} is not a FindA0 object, then each row of \code{x} (or
+     \code{exprs(x)}, respectively) must correspond to a variable (e.g., a gene or a SNP), and each column to
      a sample.}
-  \item{cl}{a specification of the class labels of the samples. Ignored if \code{x} is a FindA0 object.
+  \item{cl}{a specification of the class labels of the samples. Ignored if \code{x} is a \code{FindA0} object.
+     Needs not to be specified if \code{x} is a list.
+     
      Typically, \code{cl} is specified by a vector of length \code{ncol(x)}.  
      In the two class paired case, \code{cl} can also 
      be a matrix with \code{ncol(x)} rows and 2 columns. If \code{x} is
@@ -43,17 +47,28 @@
      treatment samples, respectively, and the other column should contain integer
      between 1 and \eqn{n/2} specifying the \eqn{n/2} pairs of observations.
      
-     In the multiclass case and if \code{method = cat.stat}, \code{cl} should be a vector 
-     containing integers between 1 and \eqn{g}, where \eqn{g} is the number of groups.
+     In the multiclass case and if \code{method = chisq.ebam} or \code{method = trend.ebam}, 
+     \code{cl} should be a vector containing integers between 1 and \eqn{g}, where \eqn{g} is 
+     the number of groups. In the two latter cases, \code{cl} needs not to be specified, if
+     \code{x} is a list. For details, see \code{\link{chisq.ebam}}.
       
      For examples of how \code{cl} can be specified, see the manual of \pkg{siggenes}.}
   \item{method}{a character string or name specifying the method or function that should be
-     used in the computation of the expression score \eqn{z}. If \code{method = z.ebam},
+     used in the computation of the expression score \eqn{z}. 
+     
+     If \code{method = z.ebam},
      a modified t- or F-statistic, respectively, will be computed as proposed by Efron et al. (2001).
+     
      If \code{method = wilc.ebam}, a (standardized) Wilcoxon sum / signed rank statistic will
-     be used as expression score. For an analysis of categorical data such as SNP data,
-     \code{method} can be set to \code{cat.ebam}. In this case, Pearson's Chi-squared statistic
-     is computed for each row.
+     be used as expression score. 
+     
+     For an analysis of categorical data such as SNP data,
+     \code{method} can be set to \code{\link{chisq.ebam}}. In this case, Pearson's Chi-squared statistic
+     is computed for each row. 
+     
+     If the variables are ordinal and a trend test should be applied 
+     (e.g., in the two-class case, the Cochran-Armitage trend test), \code{method = trend.ebam}
+     can be employed.
      
      It is also possible to employ an user-written function for computing an user-specified
      expression score. For details, see the vignette of \pkg{siggenes}.}
@@ -82,7 +97,7 @@
      the row names of the matrix / data frame comprised by \code{x} are used.}
   \item{\dots}{further arguments of the specific EBAM methods. If \code{method = z.ebam}, see 
     \code{\link{z.ebam}}. If \code{method = wilc.ebam}, see \code{\link{wilc.ebam}}. If
-    \code{method = cat.ebam}, see \code{\link{cat.ebam}}.}
+    \code{method = chisq.ebam}, see \code{\link{chisq.ebam}}.}
 }
 \value{
   An object of class EBAM.
@@ -104,7 +119,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{\code{\link{EBAM-class}}, \code{\link{find.a0}}, \code{\link{z.ebam}},
-   \code{\link{wilc.ebam}}, \code{\link{cat.ebam}}}
+   \code{\link{wilc.ebam}}, \code{\link{chisq.ebam}}}
 \examples{\dontrun{
   # Load the data of Golub et al. (1999) contained in the package multtest.
   data(golub)

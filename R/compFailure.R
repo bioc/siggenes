@@ -15,9 +15,11 @@ function(data,mat.samp,z,interval,a0=0,type.mt=NULL,n.subset=5,fast=FALSE,n.cat=
 	else
 		vec.pos<-vec.neg<-NULL
 	for(i in 1:n.seq){
-		tmp.samp<-mat.samp[seq.samp[i]:(seq.samp[i+1]-1),]
+		tmp.samp<-mat.samp[seq.samp[i]:(seq.samp[i+1]-1),,drop=FALSE]
 		if(is.null(n.cat))
 			z.perm<-build.dperm(data,tmp.samp,type.mt,a0,n.row,le.cl)
+		else if(n.cat<0)
+			z.perm <- compPermTrendStat(data, tmp.samp, -n.cat)
 		else
 			z.perm<-compPermStat(data,tmp.samp,n.cat)
 		z.perm<-as.vector(z.perm)

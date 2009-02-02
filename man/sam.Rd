@@ -16,12 +16,17 @@
 \arguments{
   \item{data}{a matrix, a data frame, or an ExpressionSet object. Each row of \code{data}
     (or \code{exprs(data)}, respectively) must correspond to a variable (e.g., a gene), and
-    each column to a sample (i.e.\ an observation).}
+    each column to a sample (i.e.\ an observation).
+    
+    Can also be a list (if \code{method = chisq.stat} or 
+     \code{method = trend.stat}). For details on how to specify data in this case, 
+     see \code{\link{chisq.stat}}.}
   \item{cl}{a vector of length \code{ncol(data)} containing the class
      labels of the samples. In the two class paired case, \code{cl} can also 
      be a matrix with \code{ncol(data)} rows and 2 columns. If \code{data} is
      an ExpressionSet object, \code{cl} can also be a character string naming the column
-     of \code{pData(data)} that contains the class labels of the samples.
+     of \code{pData(data)} that contains the class labels of the samples. If \code{data}
+     is a list, \code{cl} needs not to be specified. 
      
      In the one-class case, \code{cl} should be a vector of 1's. 
      
@@ -38,18 +43,31 @@
      treatment samples, respectively, and the other column should contain integer
      between 1 and \eqn{n/2} specifying the \eqn{n/2} pairs of observations.
      
-     In the multiclass case and if \code{method = cat.stat}, \code{cl} should be a vector containing integers
-     between 1 and \eqn{g}, where \eqn{g} is the number of groups.
+     In the multiclass case and if \code{method = chisq.stat}, \code{cl} should be a vector containing integers
+     between 1 and \eqn{g}, where \eqn{g} is the number of groups. (In the case of \code{\link{chisq.stat}},
+     \code{cl} needs not to be specified if \code{data} is a list of groupwise matrices.)
         
      For examples of how \code{cl} can be specified, see the manual of \pkg{siggenes}.}
   \item{method}{a character string or a name specifying the method/function that should be used
-     in the computation of the expression scores \eqn{d}. If \code{method = d.stat},
+     in the computation of the expression scores \eqn{d}. 
+     
+     If \code{method = d.stat},
      a modified t-statistic or F-statistic, respectively, will be computed
-     as proposed by Tusher et al. (2001). If \code{method = wilc.stat}, a
+     as proposed by Tusher et al. (2001). 
+     
+     If \code{method = wilc.stat}, a
      Wilcoxon rank sum statistic or Wilcoxon signed rank statistic will be used
-     as expression score. For an analysis of categorical data such as SNP data, 
-     \code{method} can be set to \code{cat.stat}. In this case Pearson's
-     ChiSquare statistic is computed for each row. It is also possible to use
+     as expression score. 
+     
+     For an analysis of categorical data such as SNP data, 
+     \code{method} can be set to \code{chisq.stat}. In this case Pearson's
+     ChiSquare statistic is computed for each row. 
+     
+     If the variables are ordinal and a trend test should be applied 
+     (e.g., in the two-class case, the Cochran-Armitage trend test), \code{method = trend.stat}
+     can be employed.
+     
+     It is also possible to use
      an user-written function to compute the expression scores.
      For details, see \code{Details}.}
   \item{delta}{a numeric vector specifying a set of values for the threshold 
@@ -72,14 +90,14 @@
   \item{gene.names}{a character vector of length \code{nrow(data)} containing the
      names of the genes. By default the row names of \code{data} are used.}
   \item{q.version}{a numeric value indicating which version of the q-value should
-     be computed. If \code{q.version=2}, the original version of the q-value, i.e.
-     min\{pFDR\}, will be computed. If \code{q.version=1}, min\{FDR\} will be used
+     be computed. If \code{q.version = 2}, the original version of the q-value, i.e.
+     min\{pFDR\}, will be computed. If \code{q.version = 1}, min\{FDR\} will be used
      in the calculation of the q-value. Otherwise, the q-value is not computed.
      For details, see \code{?qvalue.cal}.}
   \item{\dots}{further arguments of the specific SAM methods. If \code{method = d.stat},
      see the help of \code{\link{d.stat}}. If \code{method = wilc.stat}, see the help
-     of \code{\link{wilc.stat}}. If \code{method = cat.stat}, see the help of
-     \code{\link{cat.stat}}.}
+     of \code{\link{wilc.stat}}. If \code{method = chisq.stat}, see the help of
+     \code{\link{chisq.stat}}.}
 }
 \details{
   \code{sam} provides SAM procedures for several types of analysis (one and two class analyses
@@ -143,7 +161,7 @@
 
 \seealso{
   \code{\link{SAM-class}},\code{\link{d.stat}},\code{\link{wilc.stat}},
-  \code{\link{cat.stat}}
+  \code{\link{chisq.stat}}
 }
 \examples{\dontrun{
   # Load the package multtest and the data of Golub et al. (1999)

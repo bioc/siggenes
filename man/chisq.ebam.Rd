@@ -1,4 +1,5 @@
-\name{cat.ebam}
+\name{chisq.ebam}
+\alias{chisq.ebam}
 \alias{cat.ebam}
 
 \title{EBAM Analysis for Categorical Data}
@@ -6,36 +7,48 @@
   Generates the required statistics for an Empirical Bayes Analysis of Microarrays (EBAM)
   of categorical data such as SNP data.
   
-  Should not be called directly, but via ebam(..., method = cat.ebam).
+  Should not be called directly, but via ebam(..., method = chisq.ebam).
+  
+  This function replaces \code{cat.ebam}.
 }
-
 \usage{
-  cat.ebam(data, cl, approx = FALSE, B = 100, n.split = 1,
-    check.for.NN = FALSE, lev = NULL, B.more = 0.1, 
-    B.max = 50000, n.subset = 10, fast = FALSE, 
-    n.interval = NULL, df.ratio = 3, df.dens = NULL, 
-    knots.mode = NULL, type.nclass = "wand", rand = NA)
+chisq.ebam(data, cl, approx = NULL, B = 100, n.split = 1, 
+   check.for.NN = FALSE, lev = NULL, B.more = 0.1, B.max = 50000,
+   n.subset = 10, fast = FALSE, n.interval = NULL, df.ratio = 3,
+   df.dens = NULL, knots.mode = NULL, type.nclass = "wand",
+   rand = NA)
 }
-
 
 \arguments{
-  \item{data}{a matrix or data frame. Each row must correspond to a variable (e.g., a SNP), and
-     each column to a sample (i.e.\ an observation).}
+  \item{data}{a matrix, data frame, or list. If a matrix or data frame, then each row 
+     must correspond to a variable (e.g., a SNP), and each column to a sample (i.e.\ an observation).
+     If the number of observations is huge it is better to specify \code{data} as a list consisting
+     of matrices, where each matrix represents one group and summarizes
+     how many observations in this group show which level at which variable. These matrices can
+     be generated using the function \code{rowTables} from the package \pkg{scrime}. For details on
+     how to specify this list, see the examples section on this man page, and the help for 
+     \code{rowChisqMultiClass} in the package \pkg{scrime}.}
   \item{cl}{a numeric vector of length \code{ncol(data)} indicating to which class
-     a sample belongs. Must consist of the
-     integers between 1 and \eqn{c}, where \eqn{c} is the number of different groups.}
-  \item{approx}{should the null distribution be approximated by a \eqn{\chi^2}{ChiSquare}-distribution?}
+     a sample belongs. Must consist of the integers between 1 and \eqn{c}, where 
+     \eqn{c} is the number of different groups. Needs only to be specified if \code{data}
+     is a matrix or a data frame.}
+  \item{approx}{should the null distribution be approximated by a \eqn{\chi^2}{ChiSquare}-distribution?
+     Currently only available if \code{data} is a matrix or data frame. If not specified, 
+     \code{approx = FALSE} is used, and the null distribution is estimated by employing a 
+     permutation method.}
   \item{B}{the number of permutations used in the estimation of the null distribution,
      and hence, in the computation of the expected \eqn{z}-values.}
   \item{n.split}{number of chunks in which the variables are splitted in the computation
-     of the values of the test statistic. Currently, only available if \code{approx = TRUE}.
+     of the values of the test statistic. Currently, only available if \code{approx = TRUE}
+     and \code{data} is a matrix or data frame.
      By default, the test scores of all variables are calculated simultaneously.
      If the number of variables or observations is large, setting \code{n.split} to a
      larger value than 1 can help to avoid memory problems.}
   \item{check.for.NN}{if \code{TRUE}, it will be checked if any of the genotypes
      is equal to "NN". Can be very time-consuming when the data set is high-dimensional.}
   \item{lev}{numeric or character vector specifying the codings of the levels of the
-     variables/SNPs. Must only be specified if the variables are not coded by the
+     variables/SNPs. Can only be specified if \code{data} is a matrix or a data frame.
+     Must only be specified if the variables are not coded by the
      integers between 1 and the number of levels. Can also be a list. In this case,
      each element of this list must be a numeric or character vector specifying the codings,
      where all elements must have the same length.}
@@ -45,7 +58,7 @@
   \item{B.max}{a numeric value. If the number of all possible permutations is smaller
      than or equal to \code{B.max}, \code{B} randomly selected permutations will be used
      in the computation of the null distribution. Otherwise, \code{B} random draws
-     of the group labels are used.}  
+     of the group labels are used.}   
   \item{n.subset}{a numeric value indicating in how many subsets the \code{B} 
      permutations are divided when computing the permuted \eqn{z}-values. Please note
      that the meaning of \code{n.subset} differs between the SAM and the EBAM functions.}
@@ -99,21 +112,61 @@
 
 
 \references{
-   Efron, B., Tibshirani, R., Storey, J.D. and Tusher, V. (2001). 
+   Efron, B., Tibshirani, R., Storey, J.D., and Tusher, V. (2001). 
    Empirical Bayes Analysis of a Microarray Experiment, \emph{JASA}, 
    96, 1151-1160.
    
-   Schwender, H. (2007). Empirical Bayes Analysis of Single Nucleotide
-   Polymorphisms. \emph{Technical Report}, Department of Statistics,
-   University of Dortmund. To appear soon.
+   Schwender, H. and Ickstadt, K. (2008). Empirical Bayes Analysis 
+   of Single Nucleotide Polymorphisms. \emph{BMC Bioinformatics}, 9, 144.
    
-   Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
+   Schwender, H., Krause, A., and Ickstadt, K. (2003). Comparison of
    the Empirical Bayes and the Significance Analysis of Microarrays.
    \emph{Technical Report}, SFB 475, University of Dortmund, Germany.
 }
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{EBAM-class}},\code{\link{ebam}, \code{\link{cat.stat}}}
+  \code{\link{EBAM-class}},\code{\link{ebam}, \code{\link{chisq.stat}}}
 }
+
+\examples{\dontrun{
+  # Generate a random 1000 x 40 matrix consisting of the values
+  # 1, 2, and 3, and representing 1000 variables and 40 observations.
+  
+  mat <- matrix(sample(3, 40000, TRUE), 1000)
+  
+  # Assume that the first 20 observations are cases, and the
+  # remaining 20 are controls.
+  
+  cl <- rep(1:2, e=20)
+  
+  # Then an EBAM analysis for categorical data can be done by
+  
+  out <- ebam(mat, cl, method=chisq.ebam, approx=TRUE)
+  out
+  
+  # approx is set to TRUE to approximate the null distribution
+  # by the ChiSquare-distribution (usually, for such a small
+  # number of observations this might not be a good idea
+  # as the assumptions behind this approximation might not
+  # be fulfilled).
+  
+  # The same results can also be obtained by employing
+  # contingency tables, i.e. by specifying data as a list.
+  # For this, we need to generate the tables summarizing
+  # groupwise how many observations show which level at
+  # which variable. These tables can be obtained by
+  
+  library(scrime)
+  cases <- rowTables(mat[, cl==1])
+  controls <- rowTables(mat[, cl==2])
+  ltabs <- list(cases, controls)
+  
+  # And the same EBAM analysis as above can then be 
+  # performed by 
+  
+  out2 <- ebam(ltabs, method=chisq.ebam, approx=TRUE)
+  out2
+}}
+
 \keyword{htest}

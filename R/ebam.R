@@ -3,16 +3,28 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 		p0.estimation=c("splines","interval","adhoc"),lambda=NULL,ncs.value="max",
 		use.weights=FALSE,gene.names=dimnames(x)[[1]],...){
 	xclass<-class(x)
-	if(!xclass%in%c("FindA0","ExpressionSet","matrix","data.frame"))
-		stop("x must be an object of class FindA0, ExpressionSet, matrix, or data.frame.")
-	if(xclass=="FindA0"){
-		out<-ebamA0(x,which.a0=which.a0)
-		chip.name<-x@chip
+	if(!xclass%in%c("FindA0","ExpressionSet","matrix","data.frame", "list"))
+		stop("x must be an object of class FindA0, ExpressionSet,\n",
+			"matrix, data.frame, or list.")
+	FUN<-match.fun(method)
+	if(missing(cl)){
+		if(xclass=="FindA0"){
+			out<-ebamA0(x,which.a0=which.a0)
+			chip.name<-x@chip
+		}
+		else{
+			chip.name <- ""
+			usedFun <- deparse(substitute(method))
+			if(usedFun %in% c("chisq.ebam", "trend.ebam")){
+				if(xclass!="list")
+					stop("x must be a list.")
+				out <- FUN(x, ...)
+			}
+			else
+				stop("cl needs to be specified.")
+		}
 	}
 	else{
-		if(missing(cl))
-			stop("cl must be specified if x is a matrix, a data frame, ",
-				"or an ExpressionSet object.")
 		if(is(x,"ExpressionSet")){
 			require(affy,quietly=TRUE)
 			chip.name<-annotation(x)
@@ -26,7 +38,6 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 			cl<-as.character(cl)
 		if(ncol(x)!=length(cl))
 			stop("The number of columns of data must be equal to the length of cl.")
-		FUN<-match.fun(method)
 		out<-FUN(x,cl,...)
 	}
 	check.out<-checkFUNout(out)
@@ -42,7 +53,7 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 	posterior[posterior<0]<-0
 	mat<-compNumber(out$z,posterior,p0,check.out$B,delta=delta,vec.pos=check.out$vec.pos,
 		vec.neg=check.out$vec.neg)	
-	new("EBAM",z=out$z,posterior=posterior,p0=p0,local=p0*out$ratio,mat.fdr=mat,
+	new("EBAM",z=out$z,posterior=posterior,p0=p0,local=1-posterior,mat.fdr=mat,
 		a0=check.out$a0,mat.samp=check.out$mat.samp,vec.pos=check.out$vec.pos,
 		vec.neg=check.out$vec.neg,msg=check.out$msg,chip=chip.name)		
 		

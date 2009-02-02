@@ -9,10 +9,22 @@ sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95
 	}
 	else
 		chip.name<-""
-	if(is.factor(cl))
-		cl<-as.character(cl)
 	FUN<-match.fun(method)
-	d.out<-FUN(data,cl,...)
+	if(missing(cl)){
+		usedFun <- deparse(substitute(method))
+		if(usedFun %in% c("chisq.stat", "trend.stat")){
+			if(!inherits(data, "list"))
+				stop("data must be a list.")
+			d.out <- FUN(data, ...)
+		}
+		else
+			stop("cl needs to be specified.")
+	}
+	else{				
+		if(is.factor(cl))
+			cl<-as.character(cl)
+		d.out<-FUN(data,cl,...)
+	}
 	if(is.na(p0))
 		p0<-pi0.est(na.exclude(d.out$p),lambda=lambda,ncs.value=ncs.value,
 			ncs.weights=ncs.weights)$p0
