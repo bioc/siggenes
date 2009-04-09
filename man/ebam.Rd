@@ -104,15 +104,13 @@
 }
 \references{ 
    Efron, B., Tibshirani, R., Storey, J.D. and Tusher, V. (2001). Empirical Bayes Analysis
-   of a Microarray Experiment, \emph{JASA}, 96, 1151--1160.
+   of a Microarray Experiment. \emph{JASA}, 96, 1151-1160.
     
-   Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
-   the Empirical Bayes and the Significance Analysis of Microarrays.
-   \emph{Technical Report}, SFB 475, University of Dortmund, Germany.
-   \url{http://www.sfb475.uni-dortmund.de/berichte/tr44-03.pdf}.
+   Schwender, H., Krause, A., and Ickstadt, K. (2006). Identifying Interesting Genes with siggenes.
+   \emph{RNews}, 6(5), 45-50.
    
    Storey, J.D. and Tibshirani, R. (2003). Statistical Significance for Genome-Wide
-   Studies. Proceedings of the National Academy of Sciences, 100, 9440--9445.
+   Studies. \emph{Proceedings of the National Academy of Sciences}, 100, 9440-9445.
 }
 
 

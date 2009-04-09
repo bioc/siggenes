@@ -7,6 +7,16 @@ function(object,fdr,delta=NULL,isSAM=TRUE,prec=6,verbose=FALSE,first=TRUE){
 		mat.fdr<-compNumber(object@z,object@posterior,object@p0,nrow(object@mat.samp),
 			delta=delta,vec.pos=object@vec.pos,vec.neg=object@vec.neg)[,1:3]
 	vec.fdr<-mat.fdr[,"FDR"]
+	if(is.null(delta))
+		delta <- mat.fdr[,"Delta"]
+	tmp.ids <- 2:length(vec.fdr)
+	if(any(vec.fdr[tmp.ids] - vec.fdr[tmp.ids - 1] > 0)){
+		dec <- FALSE
+		warning("Since the FDR does not always decrease with increasing delta\n",
+			"the results of findDelta should be considered with caution.")
+	}
+	else
+		dec <- TRUE
 	if(first){
 		if(all(vec.fdr>fdr)){
 			cat("For Delta <= ",delta[length(delta)],", all FDRs are larger than ",fdr,".\n",sep="")
@@ -17,7 +27,7 @@ function(object,fdr,delta=NULL,isSAM=TRUE,prec=6,verbose=FALSE,first=TRUE){
 			return(mat.fdr[1,])
 		}
 		if(verbose)
-			cat(" Starting search between:","\n","Delta",delta[1],"    FDR:",vec.fdr[1],"\n",
+			cat(" Starting search between:","\n","Delta:",delta[1],"    FDR:",vec.fdr[1],"\n",
 				"Delta:",delta[10],"    FDR:",vec.fdr[10],"\n")
 	}
 	if(any(vec.fdr==fdr)){
@@ -27,7 +37,9 @@ function(object,fdr,delta=NULL,isSAM=TRUE,prec=6,verbose=FALSE,first=TRUE){
 		print(round(mat.fdr[thres,,drop=FALSE],prec))
 		return(mat.fdr[thres,])
 	}
-	thres<-max(which(vec.fdr>fdr))
+	ids.larger <- which(vec.fdr > fdr)
+	thres <- if(dec) max(ids.larger)  else  min(which(!tmp.ids %in% ids.larger))  # - 1
+                                          # tmp.ids starts at 2 (see above). Therefore, not -1		
 	delta.new<-round(seq(delta[thres],delta[thres+1],le=10),prec)
 	if(all(delta==delta.new)){
 		if(verbose)
@@ -38,7 +50,7 @@ function(object,fdr,delta=NULL,isSAM=TRUE,prec=6,verbose=FALSE,first=TRUE){
 	}
 	delta<-delta.new
 	if(verbose)
-		cat("\n","Now searching between:","\n","Delta",delta[1],"    FDR:",vec.fdr[thres],"\n",
+		cat("\n","Now searching between:","\n","Delta:",delta[1],"    FDR:",vec.fdr[thres],"\n",
 			"Delta:",delta[10],"    FDR:",vec.fdr[thres+1],"\n")
 	findNumber(object,fdr,delta=delta,isSAM=isSAM,prec=prec,verbose=verbose,first=FALSE)
 }

@@ -15,7 +15,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 	if(chipname%in%c("pd.genomewidesnp.5","pd.genomewidesnp.6","pd.mapping250k.nsp",
 		"pd.mapping250k.sty"))
 		cdfname<-switch(chipname, "pd.genomewidesnp.5"="GenomeWideSNP5",
-			"pd.genomewidesnp.6"="GenomeWideSNP.6",
+			"pd.genomewidesnp.6"="GenomeWideSNP_6",
 			"pd.mapping250k.nsp"="Mendel_Nsp",
 			"pd.mapping250k.sty"="Mendel_Sty")
 	if(!is.null(cdfname)){

@@ -145,9 +145,8 @@
 }
 
 \references{
-   Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
-   the Empirical Bayes and the Significance Analysis of Microarrays.
-   \emph{Technical Report}, SFB 475, University of Dortmund, Germany.
+   Schwender, H., Krause, A., and Ickstadt, K. (2006). Identifying Interesting Genes with siggenes.
+   \emph{RNews}, 6(5), 45-50.
 
    Schwender, H. (2004). Modifying Microarray Analysis Methods for 
    Categorical Data -- SAM and PAM for SNPs. To appear in: \emph{Proceedings
