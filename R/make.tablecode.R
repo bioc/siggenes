@@ -45,7 +45,9 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		tr<-paste("<TD>",genenames,"</TD>",sep="")
 	tr<-paste(tr,"\n")
 	th<-name1stcol
-	if(symbol){
+	outDBcheck <- checkDBs(entrez, refseq, symbol, omim, ug, fullname, chipname, load=load)
+	rm(entrez, refseq, symbol, omim, ug, fullname)
+	if(outDBcheck$symbol){
 		sym<-unlist(lookUp(genenames,chipname,"SYMBOL",load=load))
 		sym[is.na(sym)]<-"&nbsp;"
 		sym.cols<-paste("<TD>",sym,"</TD>\n",sep="")
@@ -78,32 +80,32 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		th<-c(th,"RefSNP")
 		tr<-paste(tr,rs,"\n")
 	}
-	if(entrez){
+	if(outDBcheck$entrez){
 		LL<-unlist(lookUp(genenames,chipname,"ENTREZID",load=load))
 		LL[is.na(LL)]<-"&nbsp;"
 		LL.cols<-annotate:::getTDRows(LL,"en")
 		th<-c(th,"Entrez")
 		tr<-paste(tr,LL.cols,"\n")
 	}
-	if(refseq){
+	if(outDBcheck$refseq){
 		tmp.refseq<-lookUp(genenames,chipname,"REFSEQ",load=load)
 		which.refseq<-c(tolower(which.refseq),toupper(which.refseq))
 		nm.select<-function(x) x[substring(x,1,2)%in%which.refseq]
 		RefSeq<-lapply(tmp.refseq,nm.select)
 		RefSeq[lapply(RefSeq,length)==0]<-"&nbsp;"
-		refseq.cols<-annotate:::getTDRows(RefSeq,"GB")
+		refseq.cols<-annotate:::getTDRows(RefSeq,"gb")
 		th<-c(th,"RefSeq")
 		tr<-paste(tr,refseq.cols,"\n")
 	}
 	any.na<-function(x){any(is.na(x))}
-	if(omim){
+	if(outDBcheck$omim){
 		OMIM<-lookUp(genenames,chipname,"OMIM",load=load)
 		OMIM[unlist(lapply(OMIM,any.na))]<-"&nbsp;"
 		OMIM.cols<-annotate:::getTDRows(OMIM,"omim")
 		th<-c(th,"OMIM")
 		tr<-paste(tr,OMIM.cols,"\n")
 	}
-	if(ug){
+	if(outDBcheck$ug){
 		UG<-lookUp(genenames,chipname,"UNIGENE",load=load)
 		UG[lapply(UG,length)==0]<-"&nbsp;"
 		# Notloesung:
@@ -128,7 +130,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 			tr<-paste(tr,tmp,"\n")
 		}
 	}
-	if(fullname){
+	if(outDBcheck$fullname){
 		genedesc<-unlist(lookUp(genenames,chipname,"GENENAME",load=load))
 		genedesc[is.na(genedesc)]<-"&nbsp;"
 		genedesc.cols<-paste("<TD>",genedesc,"</TD>\n",sep="")
@@ -142,7 +144,6 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		sep=""),tr,"</table>\n")
 	tr	
 }
-
 
 
 
