@@ -11,8 +11,8 @@ function(data,cl,method=z.find,B=100,delta=0.9,quan.a0=(0:5)/5,include.zero=TRUE
 		require(affy,quietly=TRUE)
 		if(is.character(cl) & length(cl)<=2)
 			cl<-pData(data)[,cl]
-		data<-exprs(data)
 		chip.name<-annotation(data)
+		data<-exprs(data)
 	}
 	else
 		chip.name<-""

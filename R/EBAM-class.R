@@ -58,7 +58,7 @@ setMethod("summary","EBAM",
 				if(chip!=object@chip & object@chip!="")
 					stop("'chip' differs from the chip type of the EBAM object.")
 				require(annotate)
-				LL<-unlist(lookUp(row.names(mat.sig),chip,"ENTREZID"))
+				LL<-unlist(lookUp(row.names(mat.sig),chip,"ENTREZID", load=TRUE))
 				sym<-getSYMBOL(row.names(mat.sig),chip)
 				mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,Entrez=LL,
 					mat.sig[,-1])

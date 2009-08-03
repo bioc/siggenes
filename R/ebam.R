@@ -29,7 +29,7 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 			require(affy,quietly=TRUE)
 			chip.name<-annotation(x)
 			if(is.character(cl) & length(cl)<=2)
-			cl<-pData(x)[,cl]
+				cl<-pData(x)[,cl]
 			x<-exprs(x)
 		}
 		else
