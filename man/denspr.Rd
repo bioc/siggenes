@@ -7,7 +7,7 @@
 }
 \usage{
   denspr(x, n.interval = NULL, df = 5, knots.mode = TRUE, 
-      type.nclass = c("wand", "scott", "FD"))
+      type.nclass = c("wand", "scott", "FD"), addx=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector containing the observations for which the density
@@ -25,12 +25,15 @@
   \item{type.nclass}{character string specifying the procedure used to compute the
      number of cells of the histogram. Ignored if \code{n.interval} is specified.
      By default, the method of Wand (1994) with 
-     \code{level = 1} (see the help page of \code{dpih} in the package \pkg{KernSmooth})) is used.
+     \code{level = 1} (see the help page of \code{dpih} in the package \pkg{KernSmooth}) is used.
      For the other choices, see \code{\link{nclass.scott}}.}
+  \item{addx}{should \code{x} be added to the output? Necessary when the estimated density
+     should be plotted by \code{plot(out)} or \code{lines(out)}, where \code{out} is
+     the output of \code{denspr}.}
 }
 
 \value{
-  A list consisting of 
+  An object of class \code{denspr} consisting of 
   \item{y}{a numeric vector of the same length as \code{x} containing the estimated density
      for each of the observations}
   \item{center}{a numeric vector specifying the midpoints of the cells of the histogram}
@@ -38,7 +41,8 @@
      of observations of the corresponding cells}
   \item{x.mode}{the estimated mode}
   \item{ns.out}{the output of \code{ns}}
-  \item{type}{the method used to estimate the numbers of cells.}
+  \item{type}{the method used to estimate the numbers of cells}
+  \item{x}{the input vector \code{x} if \code{addx = TRUE}; otherwise, \code{NULL}.}
 }
 
 \references{
@@ -52,5 +56,17 @@
 \author{Holger Schwender,\email{holger.schw@gmx.de}}
 
 \seealso{\code{\link{cat.ebam}}}
+
+\examples{\dontrun{
+# Generating some random data.
+x <- rnorm(10000)
+out <- denspr(x, addx=TRUE)
+plot(out)
+
+# Or for an asymmetric density.
+x <- rchisq(10000, 2)
+out <- denspr(x, df=3, addx=TRUE)
+plot(out)
+}}
 
 \keyword{smooth}

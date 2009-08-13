@@ -23,5 +23,9 @@ S3method(trend.ebam, default)
 S3method(trend.ebam, data.frame)
 S3method(trend.ebam, list)
 
+S3method(plot, denspr)
+S3method(lines, denspr)
+
+
 
 
