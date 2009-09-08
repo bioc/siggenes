@@ -57,7 +57,7 @@
 }
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \seealso{
-  \code{\link{SAM-class}},\code{\link{sam},\code{\link{md.plot}}}
+  \code{\link{SAM-class}},\code{\link{sam}},\code{\link{md.plot}}
 }
 \examples{\dontrun{
   # Load the package multtest and the data of Golub et al. (1999)

@@ -66,7 +66,7 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \seealso{
-  \code{\link{sam}, \code{\link{sam.plot2}}}
+  \code{\link{sam}}, \code{\link{sam.plot2}}
 }
 \examples{\dontrun{
   # Load the package multtest and the data of Golub et al. (1999)

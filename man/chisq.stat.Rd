@@ -91,7 +91,7 @@ chisq.stat(data, cl, approx = NULL, B = 100, n.split = 1,
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{SAM-class}},\code{\link{sam}, \code{\link{chisq.ebam}}, \code{\link{trend.stat}}}
+  \code{\link{SAM-class}},\code{\link{sam}}, \code{\link{chisq.ebam}}, \code{\link{trend.stat}}
 }
 \examples{\dontrun{
   # Generate a random 1000 x 40 matrix consisting of the values

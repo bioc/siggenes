@@ -126,7 +126,7 @@ chisq.ebam(data, cl, approx = NULL, B = 100, n.split = 1,
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{EBAM-class}},\code{\link{ebam}, \code{\link{chisq.stat}}}
+  \code{\link{EBAM-class}},\code{\link{ebam}}, \code{\link{chisq.stat}}
 }
 
 \examples{\dontrun{

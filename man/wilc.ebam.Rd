@@ -69,7 +69,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{ebam}, \code{\link{wilc.stat}}}
+  \code{\link{ebam}}, \code{\link{wilc.stat}}
 }  
 
 \keyword{htest}

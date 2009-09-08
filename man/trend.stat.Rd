@@ -79,7 +79,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{SAM-class}},\code{\link{sam}, \code{\link{chisq.stat}}, \code{\link{trend.ebam}}}
+  \code{\link{SAM-class}},\code{\link{sam}}, \code{\link{chisq.stat}}, \code{\link{trend.ebam}}
 }
 \examples{\dontrun{
   # Generate a random 1000 x 40 matrix consisting of the values

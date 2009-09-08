@@ -118,7 +118,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{EBAM-class}},\code{\link{ebam}, \code{\link{trend.stat}}, \code{\link{chisq.ebam}}}
+  \code{\link{EBAM-class}},\code{\link{ebam}}, \code{\link{trend.stat}}, \code{\link{chisq.ebam}}
 }
 
 \examples{\dontrun{

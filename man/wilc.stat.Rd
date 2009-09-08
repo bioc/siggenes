@@ -95,7 +95,7 @@
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
 \seealso{
-  \code{\link{SAM-class}},\code{\link{sam}, \code{\link{wilc.ebam}}}
+  \code{\link{SAM-class}},\code{\link{sam}}, \code{\link{wilc.ebam}}
 }  
 
 \keyword{htest}
