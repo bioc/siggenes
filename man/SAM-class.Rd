@@ -147,9 +147,8 @@
   plot(sam.out, 2)
   
   # Get information about the genes called significant using 
-  # Delta = 3 (since neither the gene names nor the chip type
-  # has been specified ll is set to FALSE to avoid a warning).
-  sam.sum3 <- summary(sam.out, 3, ll=FALSE)
+  # Delta = 3.
+  sam.sum3 <- summary(sam.out, 3)
   sam.sum3
   
   # Obtain the rows of the Golub et al. (1999) data set containing
