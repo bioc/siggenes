@@ -41,17 +41,6 @@ limma2sam <- function(fit, coef, moderate = TRUE, sam.control=samControl()){
 		fold=2^num, msg=msg, chip="")
 }
 
-samControl <- function(delta=NULL, n.delta=10, p0=NA, lambda=seq(0,0.95,0.05), ncs.value="max",
-		ncs.weights=NULL, q.version=1){
-	list(delta=delta, n.delta=n.delta, p0=p0, lambda=lambda, ncs.value=ncs.value,
-		ncs.weights=ncs.weights, q.version=q.version)
-}
-
-ebamControl <- function(p0=NA, p0.estimation=c("splines","interval","adhoc"), lambda=NULL,
-		ncs.value="max", use.weights=FALSE){
-	list(p0=p0, p0.estimation=match.arg(p0.estimation), lambda=lambda, ncs.value=ncs.value,
-		use.weights=use.weights)
-}
 
 limma2ebam <- function(fit, coef, moderate=TRUE, delta=0.9, ebam.control=ebamControl()){
 	if(!is(fit,"MArrayLM"))

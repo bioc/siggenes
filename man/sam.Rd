@@ -9,9 +9,8 @@
   and the possibility to employ an user-written score function.
 }
 \usage{
-  sam(data, cl, method = d.stat, delta = NULL, n.delta = 10, p0 = NA,
-      lambda = seq(0, 0.95, 0.05), ncs.value = "max", ncs.weights = NULL,
-      gene.names = dimnames(data)[[1]], q.version = 1, ...)
+  sam(data, cl, method = d.stat, control=samControl(),
+      gene.names = dimnames(data)[[1]], ...)
 }
 \arguments{
   \item{data}{a matrix, a data frame, or an ExpressionSet object. Each row of \code{data}
@@ -70,30 +69,10 @@
      It is also possible to use
      an user-written function to compute the expression scores.
      For details, see \code{Details}.}
-  \item{delta}{a numeric vector specifying a set of values for the threshold 
-     \eqn{\Delta}{Delta} that should be used. If \code{NULL}, \code{n.delta}
-     \eqn{\Delta}{Delta} values will be computed automatically.}
-  \item{n.delta}{a numeric value specifying the number of \eqn{\Delta}{Delta} values
-     that will be computed over the range of all possible values for \eqn{\Delta}{Delta}
-     if \code{delta} is not specified.}
-  \item{p0}{a numeric value specifying the prior probability \eqn{\pi_0}{pi0} 
-     that a gene is not differentially expressed. If \code{NA}, \code{p0} will
-     be computed by the function \code{pi0.est}.}
-  \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda}
-     values used in the estimation of the prior probability. For details, see
-     \code{?pi0.est}.}
-  \item{ncs.value}{a character string. Only used if \code{lambda} is a
-     vector. Either \code{"max"} or \code{"paper"}. For details, see \code{?pi0.est}.}
-  \item{ncs.weights}{a numerical vector of the same length as \code{lambda}
-     containing the weights used in the estimation of \eqn{\pi_0}{pi0}. By default
-     no weights are used. For details, see \code{?pi0.est}.}
+  \item{control}{further optional arguments for controlling the SAM analysis. For
+     these arguments, see \code{\link{samControl}}.}
   \item{gene.names}{a character vector of length \code{nrow(data)} containing the
      names of the genes. By default the row names of \code{data} are used.}
-  \item{q.version}{a numeric value indicating which version of the q-value should
-     be computed. If \code{q.version = 2}, the original version of the q-value, i.e.
-     min\{pFDR\}, will be computed. If \code{q.version = 1}, min\{FDR\} will be used
-     in the calculation of the q-value. Otherwise, the q-value is not computed.
-     For details, see \code{?qvalue.cal}.}
   \item{\dots}{further arguments of the specific SAM methods. If \code{method = d.stat},
      see the help of \code{\link{d.stat}}. If \code{method = wilc.stat}, see the help
      of \code{\link{wilc.stat}}. If \code{method = chisq.stat}, see the help of
@@ -138,12 +117,6 @@
   An object of class SAM.
 }
 
-\note{ 
-   SAM was deveoped by Tusher et al. (2001).
-    
-   !!! There is a patent pending for the SAM technology at Stanford University. !!!
-}
-
 \references{
    Schwender, H., Krause, A., and Ickstadt, K. (2006). Identifying Interesting Genes with siggenes.
    \emph{RNews}, 6(5), 45-50.
@@ -160,7 +133,7 @@
 
 \seealso{
   \code{\link{SAM-class}},\code{\link{d.stat}},\code{\link{wilc.stat}},
-  \code{\link{chisq.stat}}
+  \code{\link{chisq.stat}, \code{\link{samControl}}}
 }
 \examples{\dontrun{
   # Load the package multtest and the data of Golub et al. (1999)
@@ -186,9 +159,8 @@
   plot(sam.out, 2)
   
   # Get information about the genes called significant using 
-  # Delta = 3 (since neither the gene names nor the chip type
-  # has been specified ll is set to FALSE to avoid a warning)
-  sam.sum3 <- summary(sam.out, 3, ll=FALSE)
+  # Delta = 3.
+  sam.sum3 <- summary(sam.out, 3, entrez=FALSE)
   
   # Obtain the rows of golub containing the genes called
   # differentially expressed

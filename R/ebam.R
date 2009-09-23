@@ -1,7 +1,5 @@
-`ebam` <-
-function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
-		p0.estimation=c("splines","interval","adhoc"),lambda=NULL,ncs.value="max",
-		use.weights=FALSE,gene.names=dimnames(x)[[1]],...){
+`ebam` <- function(x, cl, method=z.ebam, delta=.9, which.a0=NULL, control=ebamControl(),
+		gene.names=dimnames(x)[[1]], ...){
 	xclass<-class(x)
 	if(!xclass%in%c("FindA0","ExpressionSet","matrix","data.frame", "list"))
 		stop("x must be an object of class FindA0, ExpressionSet,\n",
@@ -41,9 +39,12 @@ function(x,cl,method=z.ebam,delta=.9,which.a0=NULL,p0=NA,
 		out<-FUN(x,cl,...)
 	}
 	check.out<-checkFUNout(out)
-	if(is.na(p0))
-		p0<-pi0.est3(out,p0.estimation,exact=check.out$exact,lambda=lambda,
-			ncs.value=ncs.value,use.weights=use.weights)
+	if(is.na(control$p0))
+		p0 <- pi0.est3(out, control$p0.estimation, exact=check.out$exact,
+			lambda=control$lambda, ncs.value=control$ncs.value,
+			use.weights=control$use.weights)
+	else
+		p0 <- control$p0
 	if(!is.null(gene.names)){
 		names(out$z)<-names(out$ratio)<-substring(gene.names,1,50)
 		if(length(check.out$vec.pos)!=0)

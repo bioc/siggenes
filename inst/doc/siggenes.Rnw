@@ -36,22 +36,6 @@ Microarrays (EBAM) suggested by Efron et al.\ (2001).
 \end{abstract}
 
 
-\vspace*{48pt} \centerline{\large \bf{PLEASE NOTE}} \vspace*{18pt}
-\noindent Since there is a patent pending for the Significance
-Analysis of Microarrays (SAM), this package is only free for
-non-commercial users. Commercial users \textbf{MUST} have a
-valid license for the full (Excel) version of the SAM software
-programmed at Stanford University, see
-\texttt{http://www-stat.stanford.edu/$\sim$tibs/ SAM/index.html}.
-
-The results of the SAM analyses might differ between the
-Excel version and \texttt{siggenes}. These differences are due
-to the fact that these two versions of SAM have been implemented
-independently from each other.
-
-\newpage
-
-
 \section{Introduction}
 
 Both the Significance Analysis of Microarrays (SAM) proposed by
@@ -119,14 +103,15 @@ While a SAM analysis starts by calling the function \texttt{sam}, an EBAM
 analysis starts -- depending on whether an optimal choice for the fudge
 factor $a_0$ should be specified or not -- either with \texttt{find.a0} or 
 \texttt{ebam}. This is due to the fact that in SAM the fudge factor -- if required --
-is computed during the actual analysis, whereas in EBAM it has to be determined before
+is computed during the actual analysis, whereas in EBAM it has to be determined prior to
 the actual analysis.
 
 In \texttt{siggenes}, functions for performing a SAM or an EBAM analysis with
 mo\-de\-ra\-ted $t$-statistics (one-class or two-class, paired or unpaired, assuming
 equal or unequal group-variances), a moderated $F$-statistic, Wilcoxon rank statistics (one-class
 or two-class, paired or unpaired), and
-Pearson's $\chi^2$-statistic (for analyzing categorical data such as SNP data) are
+Pearson's $\chi^2$-statistic as well as the Cochran-Armitage trend test statistic $C$
+(for analyzing categorical data such as SNP data) are
 available. \texttt{siggenes} also provides the possibility to write your own function
 for using your own test score in \texttt{sam}, \texttt{find.a0} and \texttt{ebam} (see
 Chapter \ref{own} for how to write such functions).
@@ -146,7 +131,8 @@ Test Score & \texttt{sam} &\texttt{ebam} & \texttt{find.a0}\\
 $t$&\texttt{d.stat}&\texttt{z.ebam}&\texttt{z.find}\\
 $F$&\texttt{d.stat}&\texttt{z.ebam}&\texttt{z.find}\\
 Wilcoxon&\texttt{wilc.stat}&\texttt{wilc.ebam}&\hspace*{2ex}--\\
-$\chi^2$&\texttt{cat.stat}&\texttt{cat.ebam}&\hspace*{2ex}--\\
+$\chi^2$&\texttt{chisq.stat}&\texttt{chisq.ebam}&\hspace*{2ex}--\\
+$C$&\texttt{trend.stat}&\texttt{trend.ebam}&\hspace*{2ex}--\\
 \hline
 \end{tabular}
 \end{table}
@@ -173,15 +159,17 @@ args(d.stat)
 returns the additional arguments for a SAM analysis with a moderated $t$- or $F$-statistic. These
 arguments can also be specified in \texttt{sam} because of the \texttt{...} in \texttt{sam}.
 
-Note that all these functions have many arguments. However, most of these arguments can 
-typically be ignored, as they are only provided for very special purposes (e.g., for
-trying to reproduce the results of an application of the Excel SAM version), and their defaults
-typically work well. For \texttt{sam}, e.g., it is only necessary to know what the arguments
-\texttt{data}, \texttt{cl}, \texttt{method} mean. For \texttt{d.stat}, the most important
-arguments are again \texttt{data} and \texttt{cl} (see Section \ref{required}). 
-Additionally, \texttt{B}, \texttt{var.equal},
-and \texttt{rand} might also be important. All the other arguments should only be changed
-if their meaning is completely understood, as their defaults have been chosen sensibly.
+Note that one of the arguments of \texttt{sam} (and of \texttt{ebam} and \texttt{find.a0}) is
+\texttt{control}, which is essentially a list of further arguments for controlling the respective
+analysis. These further arguments can typically be ignored, as they are only provided for very special purposes 
+(e.g., for trying to reproduce the results of an application of the Excel SAM version), and their defaults
+typically work well. All these arguments should only be changed if their meaning is completely understood,
+as their defaults have been chosen sensibly. 
+
+For \texttt{d.stat}, the most important arguments are \texttt{data} and \texttt{cl} (see Section \ref{required}). 
+Additionally, \texttt{B}, \texttt{var.equal}, and \texttt{rand} might also be of importance. 
+All the other arguments should only be changed if their meaning is completely understood, 
+as their defaults have been chosen sensibly.
 
 To obtain, e.g., the general help file for an EBAM analysis, use
 

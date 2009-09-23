@@ -9,10 +9,8 @@
 \usage{
   find.a0(data, cl, method = z.find, B = 100, delta = 0.9, 
       quan.a0 = (0:5)/5, include.zero = TRUE, 
-      gene.names = dimnames(data)[[1]], n.chunk = 5, 
-      n.interval = 139, df.ratio = NULL, p0.estimation = c("splines", 
-      "adhoc", "interval"), lambda = NULL, ncs.value = "max", 
-      use.weights = FALSE, rand = NA, ...)
+      control = find.a0Control(), gene.names = dimnames(data)[[1]],
+      rand = NA, ...)
 }
 
 \arguments{
@@ -60,27 +58,10 @@
      optimized.}
   \item{include.zero}{should \eqn{a_0=0}{a0 = 0}, i.e. the not-modified test statistic
      also be a possible choice for the fudge factor?}
+  \item{control}{further arguments for controlling the EBAM analysis with \code{find.a0}.
+     For these arguments, see \code{\link{find.a0Control}}.}
   \item{gene.names}{a character vector of length \code{nrow(data)} containing the
      names of the genes. By default, the row names of \code{data} are used.}
-  \item{n.chunk}{an integer specifying in how many subsets the \code{B} permutations
-     should be split when computing the permuted test scores.}
-  \item{n.interval}{the number of intervals used in the logistic regression with
-     repeated observations for estimating the ratio \eqn{f_0/f}{f0/f}.}
-  \item{df.ratio}{integer specifying the degrees of freedom of the natural cubic
-     spline used in the logistic regression with repeated observations.}
-  \item{p0.estimation}{either \code{"splines"} (default), \code{"interval"}, or \code{"adhoc"}. 
-    If \code{"splines"}, the spline based method of Storey and Tibshirani (2003) is used to estimate
-    \eqn{p_0}{p0}. If \code{"adhoc"} (\code{"interval"}), the adhoc (interval based) 
-    method proposed by Efron et al.\ (2001) is used to estimate \eqn{p_0}{p0}.}
-  \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda} values used in
-    the estimation of \eqn{p_0}{p0}. If \code{NULL}, \code{lambda} is set to \code{seq(0, 0.95, 0.05)}
-    if \code{p0.estimation = "splines"}, and to \code{0.5} if \code{p0.estimation = "interval"}.
-    Ignored if \code{p0.estimation = "adhoc"}. For details, see \code{\link{pi0.est}}.}
-  \item{ncs.value}{a character string. Only used if \code{p0.estimation = "splines"} and
-    \code{lambda} is a vector. Either \code{"max"} or \code{"paper"}. For details, see
-    \code{\link{pi0.est}}.}
-  \item{use.weights}{should weights be used in the spline based estimation of \eqn{p_0}{p0}? If
-    \code{TRUE}, 1 - \code{lambda} is used as weights. For details, see \code{\link{pi0.est}}}
   \item{rand}{integer. If specified, i.e. not \code{NA}, the random number generator
      will be set into a reproducible state.}
   \item{\dots}{further arguments for the function specified by \code{fun}. For
@@ -125,7 +106,7 @@
 
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 
-\seealso{\code{\link{ebam}}, \code{\link{FindA0-class}}}
+\seealso{\code{\link{ebam}}, \code{\link{FindA0-class}}, \code{\link{find.a0Control}}}
 \examples{\dontrun{
   # Load the data of Golub et al. (1999) contained in the package multtest.
   data(golub)

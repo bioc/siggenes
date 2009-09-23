@@ -1,5 +1,5 @@
-sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95,.05),
-		ncs.value="max",ncs.weights=NULL,gene.names=dimnames(data)[[1]],q.version=1,...){
+sam <- function(data, cl, method=d.stat, control=samControl(), 
+		gene.names=dimnames(data)[[1]], ...){
 	if(is(data,"ExpressionSet")){
 		require(affy)
 		chip.name<-annotation(data)
@@ -25,19 +25,22 @@ sam<-function(data,cl,method=d.stat,delta=NULL,n.delta=10,p0=NA,lambda=seq(0,.95
 			cl<-as.character(cl)
 		d.out<-FUN(data,cl,...)
 	}
-	if(is.na(p0))
-		p0<-pi0.est(na.exclude(d.out$p),lambda=lambda,ncs.value=ncs.value,
-			ncs.weights=ncs.weights)$p0
-	mat.fdr<-stats.cal(d.out$d,d.out$d.bar,d.out$vec.false,p0,delta=delta,le.delta=n.delta)
+	if(is.na(control$p0))
+		p0 <- pi0.est(na.exclude(d.out$p), lambda=control$lambda,
+			ncs.value=control$ncs.value, ncs.weights=control$ncs.weights)$p0
+	else
+		p0 <- control$p0
+	mat.fdr <- stats.cal(d.out$d, d.out$d.bar, d.out$vec.false, p0, 
+		delta=control$delta, le.delta=control$n.delta)
 	if(!is.null(gene.names)){
 		names(d.out$d)<-names(d.out$p.value)<-names(d.out$vec.false)<-substring(gene.names,1,50)
 		if(length(d.out$s)==length(d.out$d))
 			names(d.out$s)<-names(d.out$d)
 	}
-	if(q.version%in%c(1,2))
-		q.value<-qvalue.cal(d.out$p.value,p0,version=q.version)
+	if(control$q.version %in% c(1,2))
+		q.value <- qvalue.cal(d.out$p.value, p0, version=control$q.version)
 	else
-		q.value<-numeric(0)
+		q.value <- numeric(0)
 	new("SAM",d=d.out$d,d.bar=d.out$d.bar,vec.false=d.out$vec.false,p.value=d.out$p.value,
 		s=d.out$s,s0=d.out$s0,mat.samp=d.out$mat.samp,p0=p0,mat.fdr=mat.fdr,q.value=q.value,
 		fold=d.out$fold,msg=d.out$msg,chip=chip.name)

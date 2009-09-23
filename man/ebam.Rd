@@ -11,9 +11,8 @@
 }
 \usage{
   ebam(x, cl, method = z.ebam, delta = 0.9, which.a0 = NULL, 
-       p0 = NA, p0.estimation = c("splines", "interval", "adhoc"), 
-       lambda = NULL, ncs.value = "max", use.weights = FALSE, 
-       gene.names = dimnames(x)[[1]], ...)
+       control = ebamControl(), gene.names = dimnames(x)[[1]],
+       ...)
 }
 
 \arguments{
@@ -78,21 +77,8 @@
   \item{which.a0}{an integer between 1 and the length of \code{quan.a0} of \code{\link{find.a0}}. If
     \code{NULL}, the suggested choice of \code{find.a0} is used. Ignored if \code{x} is a matrix, data
     frame or ExpressionSet object.}
-  \item{p0}{a numeric value specifying the prior probability \eqn{p_0}{p0} that a gene is not
-    differentially expressed. If \code{NA}, \code{p0} will be estimated automatically.}
-  \item{p0.estimation}{either \code{"splines"} (default), \code{"interval"}, or \code{"adhoc"}. 
-    If \code{"splines"}, the spline based method of Storey and Tibshirani (2003) is used to estimate
-    \eqn{p_0}{p0}. If \code{"adhoc"} (\code{"interval"}), the adhoc (interval based) method 
-    proposed by Efron et al.\ (2001) is used to estimate \eqn{p_0}{p0}.}
-  \item{lambda}{a numeric vector or value specifying the \eqn{\lambda}{lambda} values used in
-    the estimation of \eqn{p_0}{p0}. If \code{NULL}, \code{lambda} is set to \code{seq(0, 0.95, 0.05)}
-    if \code{p0.estimation = "splines"}, and to \code{0.5} if \code{p0.estimation = "interval"}.
-    Ignored if \code{p0.estimation = "adhoc"}. For details, see \code{\link{pi0.est}}.}
-  \item{ncs.value}{a character string. Only used if \code{p0.estimation = "splines"} and
-    \code{lambda} is a vector. Either \code{"max"} or \code{"paper"}. For details, see
-    \code{\link{pi0.est}}.}
-  \item{use.weights}{should weights be used in the spline based estimation of \eqn{p_0}{p0}? If
-    \code{TRUE}, 1 - \code{lambda} is used as weights. For details, see \code{\link{pi0.est}}.}
+  \item{control}{further arguments for controlling the EBAM analysis. For these arguments,
+    see \code{\link{ebamControl}}.}
   \item{gene.names}{a vector of length \code{nrow(x)} specifying the names of the variables. By default,
      the row names of the matrix / data frame comprised by \code{x} are used.}
   \item{\dots}{further arguments of the specific EBAM methods. If \code{method = z.ebam}, see 
