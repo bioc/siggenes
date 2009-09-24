@@ -133,7 +133,7 @@
 
 \seealso{
   \code{\link{SAM-class}},\code{\link{d.stat}},\code{\link{wilc.stat}},
-  \code{\link{chisq.stat}, \code{\link{samControl}}}
+  \code{\link{chisq.stat}}, \code{\link{samControl}}
 }
 \examples{\dontrun{
   # Load the package multtest and the data of Golub et al. (1999)
