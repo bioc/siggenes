@@ -10,5 +10,5 @@ Description: Identification of differentially expressed genes and estimation
   of the False Discovery Rate (FDR) using both the Significance Analysis of
   Microarrays (SAM) and the Empirical Bayes Analyses of Microarrays (EBAM).
 License: LGPL (>= 2)
-biocViews: Statistics, MultipleComparisons, Microarray, GeneExpression, SNP, ExonArray,
+biocViews: MultipleComparisons, Microarray, GeneExpression, SNP, ExonArray,
   DifferentialExpression
