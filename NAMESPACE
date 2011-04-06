@@ -14,7 +14,8 @@ export(args.ebam, args.finda0, args.sam, ebam, ebam2excel, ebam2html,
 	z.ebam, cat.ebam, wilc.ebam, z.find, denspr, rowWilcoxon, rowRanksWilc,
 	na.handling, nclass.wand, findDelta, qvalue.cal, chisqClass,
 	chisq.ebam, chisq.stat, trend.stat, trend.ebam, md.plot,
-	limma2sam, limma2ebam, samControl, ebamControl)
+	limma2sam, limma2ebam, samControl, ebamControl, 
+	fuzzy.stat, fuzzy.ebam)
 
 S3method(trend.stat, default)
 S3method(trend.stat, data.frame)
