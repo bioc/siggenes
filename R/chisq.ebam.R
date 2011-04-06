@@ -61,6 +61,7 @@ chisq.ebam <- function(data, cl, approx=NULL, B=100, n.split=1, check.for.NN=FAL
 		n.interval<-139
 	out<-getSuccesses(stats,n.interval=n.interval)
 	mat.samp<-setup.mat.samp(cl-1,"f",B=B,B.more=B.more,B.max=B.max,rand=rand) + 1
+	B <- nrow(mat.samp)
 	fail.out<-compFailure(data,mat.samp,stats,out$interval,n.subset=n.subset,
 		fast=fast,n.cat=n.cat)
 	ratio<-compRatio(out$center,out$success,fail.out$vec.fail,df=df.ratio,z=stats)$ratio

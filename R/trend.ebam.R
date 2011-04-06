@@ -60,6 +60,7 @@ trend.ebam.default <- function(data, cl, catt=TRUE, approx=TRUE, n.interval=NULL
 		n.interval <- 139
 	out <- getSuccesses(stats, n.interval=n.interval)
 	mat.samp <- setupMatSamp2(cl, n.cat-1, B=B, B.more=B.more, B.max=B.max, rand=rand)
+	B <- nrow(mat.samp)
 	facObs <- if(catt) (n.obs)^2 / n.obs   else n.obs
 	fail.out <- compFailure(data, mat.samp, stats, out$interval, n.subset=n.subset,
 		fast=fast, n.cat=-facObs)
