@@ -40,8 +40,10 @@ fuzzy.ebam <- function(data, cl, type=c("asymptotic", "permutation", "abf"), W=N
 	}
 	if(is.null(df.ratio))
 		df.ratio <- ifelse(type=="abf", 3, 5)
-	if(is.null(n.interval))
-		n.interval <- 139
+	if(is.null(n.interval)){
+		tmpfun <- match.fun(paste("nclass", type.nclass, sep="."))
+		n.interval <- max(tmpfun(z), 139)
+	}
 	if(n.interval < 20)
 		stop("n.interval should be at least 20.")
 	succ.out <- getSuccesses(z, n.interval=n.interval)

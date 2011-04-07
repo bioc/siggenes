@@ -17,7 +17,6 @@
 \alias{pretty.mat.fdr}
 \alias{formatSAM}
 \alias{pretty.mat.sig}
-\alias{filterALL}
 \alias{compPermStat}
 \alias{cat.null}
 \alias{cat.null.approx}
@@ -61,4 +60,3 @@
 }
 \author{Holger Schwender, \email{holger.schw@gmx.de}}
 \keyword{internal}
-

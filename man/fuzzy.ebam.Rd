@@ -8,7 +8,8 @@ EBAM and SAM for Fuzzy Genotype Calls
 \description{
 Computes the required statistics for an Empirical Bayes Analysis of Microarrays (EBAM; Efron et al., 2001) 
 or a Significant Analysis of Microarrays (SAM; Tusher et al., 2001), respectively, based on the score statistic 
-proposed by Louis et al. (2010) for fuzzy genotype calls.
+proposed by Louis et al. (2010) for fuzzy genotype calls or approximate Bayes Factors (Wakefield, 2007) determined
+using this score statistic.
 
 Should not be called directly, but via \code{ebam(..., method = fuzzy.ebam)} or \code{sam(..., method = fuzzy.stat)}, respectively. 
 }
@@ -58,8 +59,8 @@ fuzzy.stat(data, cl, type = c("asymptotic", "permutation", "abf"), W = NULL,
   \item{n.interval}{the number of intervals used in the logistic regression with
      repeated observations (if \code{type = "permutation"} or \code{type = "abf"}), or in the Poisson regression used to estimate
      the density of the observed \eqn{z}-values (if \code{type = "asymptotic"}).
-     If \code{NULL}, \code{n.interval} is estimated by the method specified by \code{type.nclass} if \code{type = "asymptotic"}
-     and set to 139 otherwise.
+     If \code{NULL}, \code{n.interval} is estimated by the method specified by \code{type.nclass}, where at least 139 intervals
+     are considered if \code{type = "permutation"} or \code{type = "abf"}.
 }
   \item{df.dens}{integer specifying the degrees of freedom of the natural cubic
      spline used in the Poisson regression to estimate the density of the observed
@@ -130,4 +131,3 @@ Holger Schwender, \email{holger.schw@gmx.de}
 }
 
 \keyword{htest}
-
