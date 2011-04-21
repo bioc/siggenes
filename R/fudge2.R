@@ -22,7 +22,7 @@ fudge2<-function(r,s,alpha=seq(0,1,0.05),include.zero=TRUE){
 			"there should be at least 25 genes with differing standard deviations.")
     	n.int <- ifelse(n.uni.s > 500, 101, floor(n.uni.s/5))
     	quan <- quantile(s, seq(0, 1, le = n.int))
-	quan<-unique(quan)
+	quan<-unique(round(quan,8))
 	n.int<-length(quan)
 	int.s<-as.numeric(cut(s,quan,include.lowest=TRUE,right=FALSE))
 	mad.mat<-matrix(0,n.int-1,ncol(d.mat))
