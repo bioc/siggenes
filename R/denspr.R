@@ -42,8 +42,8 @@ denspr<-function(x,n.interval=NULL,df=5,knots.mode=TRUE,type.nclass=c("wand","sc
 plot.denspr <- function(x, ylab="Density", xlab="x", type="l", ...){
 	if(is.null(x$x))
 		stop("If the density should be plotted, addx must be set to TRUE in denspr.")
-	xval <- unique(x$x)
-	y <- unique(x$y)
+	#xval <- unique(x$x)
+	#y <- unique(x$y)
 	plot(xval[order(xval)], y[order(xval)], type=type, ylab=ylab, xlab=xlab, ...)
 }
 
@@ -51,8 +51,8 @@ plot.denspr <- function(x, ylab="Density", xlab="x", type="l", ...){
 lines.denspr <- function(x, type="l", ...){
 	if(is.null(x$x))
 		stop("If the density should be plotted, addx must be set to TRUE in denspr.")
-	xval <- unique(x$x)
-	y <- unique(x$y)
+	#xval <- unique(x$x)
+	#y <- unique(x$y)
 	lines(xval[order(xval)], y[order(xval)], type=type, ...)
 }
 
