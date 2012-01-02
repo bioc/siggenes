@@ -44,7 +44,9 @@ plot.denspr <- function(x, ylab="Density", xlab="x", type="l", ...){
 		stop("If the density should be plotted, addx must be set to TRUE in denspr.")
 	#xval <- unique(x$x)
 	#y <- unique(x$y)
-	plot(xval[order(xval)], y[order(xval)], type=type, ylab=ylab, xlab=xlab, ...)
+	#plot(xval[order(xval)], y[order(xval)], type=type, ylab=ylab, xlab=xlab, ...)
+	ord <- order(x$x)
+	plot(x$x[ord], x$y[ord], type=type, ylab=ylab, xlab=xlab, ...)
 }
 
 
@@ -53,6 +55,8 @@ lines.denspr <- function(x, type="l", ...){
 		stop("If the density should be plotted, addx must be set to TRUE in denspr.")
 	#xval <- unique(x$x)
 	#y <- unique(x$y)
-	lines(xval[order(xval)], y[order(xval)], type=type, ...)
+	#lines(xval[order(xval)], y[order(xval)], type=type, ...)
+	ord <- order(x$x)
+	lines(x$x[ord], x$y[ord], type=type, ...)
 }
 

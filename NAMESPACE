@@ -1,6 +1,5 @@
 import(methods, multtest, Biobase, splines)
 
-
 importFrom(graphics, identify)
 
 exportClasses("SAM", "EBAM", "FindA0", "sumSAM", "sumEBAM")
