@@ -27,7 +27,7 @@ fudge2<-function(r,s,alpha=seq(0,1,0.05),include.zero=TRUE){
 	int.s<-as.numeric(cut(s,quan,include.lowest=TRUE,right=FALSE))
 	mad.mat<-matrix(0,n.int-1,ncol(d.mat))
 	for(i in 1:(n.int-1)){
-		mad.mat[i,]<-apply(d.mat[which(int.s==i),],2,mad)
+		mad.mat[i,]<-apply(d.mat[which(int.s==i),,drop=FALSE],2,mad)
 		#med.s<-which(d.mat[which(int.s==i),1]==median(d.mat[which(int.s==i),1]))
 		#med.mat[which(int.s==i),]<-d.mat[med.s,]
 	}
