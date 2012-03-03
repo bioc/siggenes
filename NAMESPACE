@@ -1,6 +1,7 @@
 import(methods, multtest, Biobase, splines)
 
 importFrom(graphics, identify)
+importFrom(stats4, plot, summary)
 
 exportClasses("SAM", "EBAM", "FindA0", "sumSAM", "sumEBAM")
 exportMethods("show", "print", "plot", "summary", "identify")
