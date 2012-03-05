@@ -10,7 +10,7 @@ function(data,mat.samp,z,interval,a0=0,type.mt=NULL,n.subset=5,fast=FALSE,n.cat=
 	z.range<-range(z)
 	if(!fast){
 		vec.pos<-vec.neg<-numeric(n.row)
-		z.rank<-rank(-abs(z),ties="first")
+		z.rank<-rank(-abs(z),ties.method="first")
 	}
 	else
 		vec.pos<-vec.neg<-NULL

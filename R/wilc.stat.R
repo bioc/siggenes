@@ -102,7 +102,7 @@ wilc.stat<-function(data,cl,gene.names=NULL,R.fold=1,use.dm=FALSE,R.unlog=TRUE,n
 			warning("There are ",sum(X==0)," observation pairs having a difference of zero.",
 				"\n","These differences are randomly set to either 1e-06 or -1e-06.",
 				call.=FALSE)
-			X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),rep=TRUE)
+			X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),replace=TRUE)
 		}
 		if(use.row)
 			W<-rowWilcoxon(X,rep(1,n.cl))

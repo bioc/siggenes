@@ -14,7 +14,7 @@ rowWilcoxon <- function(X, cl, rand=NA){
 		warning("There are ",sum(X==0)," observations/pairs having a value/difference of zero.",
 			"\n","These values/differences are randomly set to either 1e-06 or -1e-06.",
 			call.=FALSE)
-		X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),rep=TRUE)
+		X[X==0]<-sample(c(1e-06,-1e-06),sum(X==0),replace=TRUE)
 	}
 	out <- rowRanksWilc(abs(X), cl)
 	rowSums(out*(X>0))

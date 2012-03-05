@@ -5,6 +5,7 @@
 \alias{show,FindA0-method}
 \alias{print,FindA0-method}
 \alias{plot,FindA0-method}
+\alias{plot,FindA0,ANY-method}
 
 \title{Class FindA0}
 

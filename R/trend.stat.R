@@ -79,12 +79,12 @@ trend.null <- function(x, mat.perm, stats, facObs, n.subset, B){
 	n.B <- length(vecB) - 1
 	n.var <- length(stats)
 	vec.dperm <- vec.false <- numeric(n.var)
-	d.rank <- rank(-stats, ties="first")
+	d.rank <- rank(-stats, ties.method="first")
 	for(i in 1:n.B){
 		tmp <- compPermTrendStat(x, mat.perm[vecB[i]:(vecB[i+1]-1),, drop=FALSE], facObs)
 		vec.dperm <- vec.dperm + rowSums(tmp)
 		tmp2 <- c(as.vector(tmp), stats)
-		vec.false <- vec.false + rank(-tmp2, ties="first")[length(tmp) + (1:n.var)] - d.rank
+		vec.false <- vec.false + rank(-tmp2, ties.method="first")[length(tmp) + (1:n.var)] - d.rank
 	}
 	d.bar <- vec.dperm / B
 	vec.false <- vec.false / B

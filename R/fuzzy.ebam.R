@@ -76,7 +76,7 @@ compFailFuzzy <- function(X, mat.samp, z, s, interval, n.subset=10, fast=FALSE, 
 	mat.samp <- mat.samp - mean(mat.samp[1,])
 	if(!fast){
 		vec.pos <- vec.neg <- numeric(n.row)
-		z.rank <- rank(-abs(z), ties="first")
+		z.rank <- rank(-abs(z), ties.method="first")
 	}
 	else
 		vec.pos <- vec.neg <- NULL
@@ -107,7 +107,7 @@ compFailABF <- function(X, mat.samp, z, s, sd1, interval, n.subset=10, fast=FALS
 	vec.fail <- numeric(n.int)
 	if(!fast){
 		vec.neg <- numeric(n.row)
-		vec.pos <- -n.seq * rank(-z, ties="first")
+		vec.pos <- -n.seq * rank(-z, ties.method="first")
 	}
 	else
 		vec.pos <- vec.neg <- NULL
@@ -119,7 +119,7 @@ compFailABF <- function(X, mat.samp, z, s, sd1, interval, n.subset=10, fast=FALS
 		tmp <- getFailure(z.perm, z, interval, z.range=z.range, n.interval=n.int)
 		vec.fail <- vec.fail + tmp
 		if(!fast)
-			vec.pos <- vec.pos + rank(-c(z.perm, z), ties="first")[length(z.perm) + (1:n.row)]
+			vec.pos <- vec.pos + rank(-c(z.perm, z), ties.method="first")[length(z.perm) + (1:n.row)]
 	}
 	structure(list(vec.fail=vec.fail, vec.pos=vec.pos, vec.neg=vec.neg))
 }

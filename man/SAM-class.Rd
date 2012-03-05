@@ -7,6 +7,7 @@
 \alias{print,SAM-method}
 \alias{show,SAM-method}
 \alias{summary,SAM-method}
+\alias{plot,SAM,ANY-method}
 
 \title{Class SAM}
 \description{This is a class representation for several versions of the

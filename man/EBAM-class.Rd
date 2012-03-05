@@ -6,6 +6,7 @@
 \alias{print,EBAM-method}
 \alias{plot,EBAM-method}
 \alias{summary,EBAM-method}
+\alias{plot,EBAM,ANY-method}
 
 \title{Class EBAM}
 

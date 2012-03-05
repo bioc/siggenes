@@ -54,7 +54,7 @@ fuzzy.null <- function(mat.fuzzy, mat.samp, d, s, sd1, n.subset=10, logbase=exp(
 	mat.samp <- mat.samp - mean(mat.samp[1,])
 	dpos <- d >= 0
 	d <- abs(d)
-	d.rank <- rank(-d, ties="first")
+	d.rank <- rank(-d, ties.method="first")
 	vec.dperm <- numeric(n.var)
 	vec.pos <- vec.neg <- -n.int * d.rank
 	for(i in 1:n.int){
@@ -63,9 +63,9 @@ fuzzy.null <- function(mat.fuzzy, mat.samp, d, s, sd1, n.subset=10, logbase=exp(
 		mat.dperm <- apply(mat.dperm, 2, sort)
 		vec.dperm <- vec.dperm + rowSums(mat.dperm, na.rm=TRUE)
 		pos <- mat.dperm >= 0
-		tmp <- rank(-c(mat.dperm[pos], d), na.last=NA, ties="first")
+		tmp <- rank(-c(mat.dperm[pos], d), na.last=NA, ties.method="first")
 		vec.pos <- vec.pos + tmp[length(tmp) - ((n.var-1):0)] 
-		tmp <- rank(c(mat.dperm[!pos], -d), na.last=NA, ties="first")
+		tmp <- rank(c(mat.dperm[!pos], -d), na.last=NA, ties.method="first")
 		vec.neg <- vec.neg + tmp[length(tmp) - ((n.var-1):0)] 
 	}
 	d.bar <- vec.dperm / B
@@ -83,7 +83,7 @@ fuzzy.null.abf <- function(mat.fuzzy, mat.samp, d, s, sd1, n.subset=10, logbase=
 	n.var <- nrow(mat.fuzzy)
 	mat.samp <- mat.samp - mean(mat.samp[1,])
 	vec.dperm <- numeric(n.var)
-	d.rank <- rank(-d, ties="first")
+	d.rank <- rank(-d, ties.method="first")
 	vec.false <- -n.int * d.rank
 	var0 <- s * s
 	for(i in 1:n.int){
@@ -93,7 +93,7 @@ fuzzy.null.abf <- function(mat.fuzzy, mat.samp, d, s, sd1, n.subset=10, logbase=
 			mat.dperm <- log(mat.dperm + add1, base=logbase)
 		mat.dperm <- apply(mat.dperm, 2, sort)
 		vec.dperm <- vec.dperm + rowSums(mat.dperm)
-		tmp <- rank(-c(as.vector(mat.dperm), d), ties="first")
+		tmp <- rank(-c(as.vector(mat.dperm), d), ties.method="first")
 		vec.false <- vec.false + tmp[length(tmp)-((n.var-1):0)]
 	}
 	d.bar <- vec.dperm / B
