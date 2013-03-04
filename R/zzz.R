@@ -2,7 +2,7 @@
     	if(interactive() && .Platform$OS.type == "windows" && .Platform$GUI ==  "Rgui"){
         	addVigs2WinMenu("siggenes")
 		winMenuAddItem("Vignettes/siggenes","Rnews Paper",
-			"openPDF(file.path(.find.package('siggenes'),'doc','siggenesRnews.pdf'))")
+			"openPDF(file.path(find.package('siggenes'),'doc','siggenesRnews.pdf'))")
 	}
 }
 

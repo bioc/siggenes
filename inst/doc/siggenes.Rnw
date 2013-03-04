@@ -94,7 +94,7 @@ This article is also available in the doc-folder of the \texttt{siggenes} packag
 and can be opened by
 
 \begin{verbatim}
-> openPDF(file.path(.find.package("siggenes"),"doc","siggenesRnews.pdf"))
+> openPDF(file.path(find.package("siggenes"),"doc","siggenesRnews.pdf"))
 \end{verbatim}
 
 \section{General Information}\label{info}
@@ -358,7 +358,7 @@ can be applied to gene expression data can be found in Schwender et
 al.\ (2006). This article can be opened by calling
 
 \begin{verbatim}
-> openPDF(file.path(.find.package("siggenes"),"doc","siggenesRnews.pdf"))
+> openPDF(file.path(find.package("siggenes"),"doc","siggenesRnews.pdf"))
 \end{verbatim}
 
 The matrix \texttt{golub} contains the expression values of
