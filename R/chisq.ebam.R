@@ -75,7 +75,7 @@ chisq.ebam <- function(data, cl, approx=NULL, B=100, n.split=1, check.for.NN=FAL
 
 chisqEbamMissing <- function(data, approx=NULL, n.interval=NULL, df.dens=NULL, knots.mode=NULL,
 		type.nclass="wand"){
-	require(scrime)
+	# requireNamespace("scrime")
 	if(class(data)!="list")
 		stop("data must be a list of matrices if cl is not specified.")
 	if(is.null(approx))

@@ -103,7 +103,7 @@ compPermTrendStat <- function(x, perms, facObs){
 
 trend.stat.list <- function(data, cl, catt=TRUE, approx=TRUE, B=100, B.more=0.1, B.max=50000, 
 		n.subset=10,rand=NA, ...){
-	require(scrime)
+	# requireNamespace("scrime")
 	if(missing(cl))
 		cl <- NULL
 	n.cat <- length(data)

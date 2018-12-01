@@ -1,6 +1,6 @@
 denspr<-function(x,n.interval=NULL,df=5,knots.mode=TRUE,type.nclass=c("wand","scott","FD"),
 		addx=FALSE){
-	require(splines)
+	# requireNamespace("splines")
 	if(is.null(n.interval)){
 		type<-match.arg(type.nclass)
 		FUN<-match.fun(paste("nclass",type,sep="."))

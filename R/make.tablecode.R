@@ -2,7 +2,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		fullname=FALSE,chipname="",cdfname=NULL,dataframe=NULL,new.window=TRUE,
 		tableborder=1,name1stcol="Name",refsnp=NULL,which.refseq="NM",load=TRUE,
 		max.associated=2){
-	require(annotate)
+	requireNamespace("annotate", quietly=TRUE)
 	if(!is.null(refsnp))
 		entrez<-refseq<-symbol<-omim<-ug<-fullname<-FALSE
 	if(any(c(entrez,refseq,symbol,omim,ug,fullname))){
@@ -20,14 +20,14 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 			"pd.mapping250k.sty"="Mendel_Sty")
 	if(!is.null(cdfname)){
 		if(is.null(refsnp)){
-			require(affy)
-			clean<-cleancdfname(cdfname,addcdf=FALSE)
+			requireNamespace("affy", quietly=TRUE)
+			clean <- affy::cleancdfname(cdfname,addcdf=FALSE)
 			if(chipname=="")
 				chipname<-clean
 			if(clean!=chipname)
 				stop("'chipname' and 'cdfname' do not specify the same chip.")
 			tmp<-new("AffyBatch",cdfName=cdfname,annotation=clean)
-			gN<-geneNames(tmp)
+			gN <- affy::geneNames(tmp)
 			isMap<-FALSE
 		}
 		else{
@@ -48,7 +48,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 	outDBcheck <- checkDBs(entrez, refseq, symbol, omim, ug, fullname, chipname, load=load)
 	rm(entrez, refseq, symbol, omim, ug, fullname)
 	if(outDBcheck$symbol){
-		sym<-unlist(lookUp(genenames,chipname,"SYMBOL",load=load))
+		sym<-unlist(annotate::lookUp(genenames,chipname,"SYMBOL",load=load))
 		sym[is.na(sym)]<-"&nbsp;"
 		sym.cols<-paste("<TD>",sym,"</TD>\n",sep="")
 		th<-c(th,"Symbol")
@@ -67,7 +67,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 				"Probe_Set","Probe.Set"))
 			tmp.dat<-refsnp[,-c(col.rs,col.ps),drop=FALSE]
 			if(any(cn.refsnp=="Gene") && max.associated>=1){
-				require(scrime)
+				# requireNamespace("scrime")
 				tmp.dat<-shortenGeneDescription(tmp.dat,max.length=max.associated)
 			}
 			if(ncol(tmp.dat)>0)
@@ -81,14 +81,14 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		tr<-paste(tr,rs,"\n")
 	}
 	if(outDBcheck$entrez){
-		LL<-unlist(lookUp(genenames,chipname,"ENTREZID",load=load))
+		LL<-unlist(annotate::lookUp(genenames,chipname,"ENTREZID",load=load))
 		LL[is.na(LL)]<-"&nbsp;"
 		LL.cols<-annotate:::getTDRows(LL,"en")
 		th<-c(th,"Entrez")
 		tr<-paste(tr,LL.cols,"\n")
 	}
 	if(outDBcheck$refseq){
-		tmp.refseq<-lookUp(genenames,chipname,"REFSEQ",load=load)
+		tmp.refseq<-annotate::lookUp(genenames,chipname,"REFSEQ",load=load)
 		which.refseq<-c(tolower(which.refseq),toupper(which.refseq))
 		nm.select<-function(x) x[substring(x,1,2)%in%which.refseq]
 		RefSeq<-lapply(tmp.refseq,nm.select)
@@ -99,14 +99,14 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 	}
 	any.na<-function(x){any(is.na(x))}
 	if(outDBcheck$omim){
-		OMIM<-lookUp(genenames,chipname,"OMIM",load=load)
+		OMIM<-annotate::lookUp(genenames,chipname,"OMIM",load=load)
 		OMIM[unlist(lapply(OMIM,any.na))]<-"&nbsp;"
 		OMIM.cols<-annotate:::getTDRows(OMIM,"omim")
 		th<-c(th,"OMIM")
 		tr<-paste(tr,OMIM.cols,"\n")
 	}
 	if(outDBcheck$ug){
-		UG<-lookUp(genenames,chipname,"UNIGENE",load=load)
+		UG<-annotate::lookUp(genenames,chipname,"UNIGENE",load=load)
 		UG[lapply(UG,length)==0]<-"&nbsp;"
 		# Notloesung:
 		UG<-unlist(lapply(UG,function(x) x[1]))
@@ -131,7 +131,7 @@ make.tablecode<-function(genenames,entrez=TRUE,refseq=TRUE,symbol=TRUE,omim=TRUE
 		}
 	}
 	if(outDBcheck$fullname){
-		genedesc<-unlist(lookUp(genenames,chipname,"GENENAME",load=load))
+		genedesc<-unlist(annotate::lookUp(genenames,chipname,"GENENAME",load=load))
 		genedesc[is.na(genedesc)]<-"&nbsp;"
 		genedesc.cols<-paste("<TD>",genedesc,"</TD>\n",sep="")
 		th<-c(th,"Gene Name")

@@ -6,10 +6,10 @@
 			"Use print to obtain the number of interesting genes for other values ",
 			"of delta.")
 	if(is(data,"ExpressionSet")){
-		require(affy,quietly=TRUE)
+		# requireNamespace("affy",quietly=TRUE)
 		if(is.character(cl) & length(cl)<=2)
 			cl<-pData(data)[,cl]
-		chip.name<-annotation(data)
+		chip.name <- data@annotation
 		data<-exprs(data)
 	}
 	else

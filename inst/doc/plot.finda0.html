@@ -1,0 +1,118 @@
+<html><head><title>R: FindA0 specific plot method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for FindA0 specific plot method {siggenes}"><tr>
+<td>plot {siggenes}</td><td align="right">R Documentation</td></tr></table> 
+<h2>FindA0 specific plot method</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Generates a plot of the (logit-transformed) posterior probabilities for a set of values
+of the fudge factor in an Empirical Bayes Analysis of Microarrays.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+   plot(x, y, logit = TRUE, pos.legend = NULL, legend.cex = 0.8, col = NULL, 
+        main = NULL, xlab = NULL, ylab = NULL, only.a0 = FALSE, lty = 1, lwd = 1,
+        y.intersp = 1.1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+an object of class FindA0</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+the delta value, i.e. the minimum probability for a gene to be
+called differentially expressed</td></tr>
+<tr valign="top"><td><code>logit</code></td>
+<td>
+should the posterior probabilities be logit-transformed before they are plotted?</td></tr>
+<tr valign="top"><td><code>pos.legend</code></td>
+<td>
+an integer between 0 and 4. If <code>pos.stats=1</code>, general
+information as the number of significant genes and the estimated FDR for
+the specified value of <code>y</code> will be plotted in the upper center of the
+plot. If <code>pos.stats=2</code>, these information will be plotted in
+the bottom right corner, if <code>pos.stats=3</code> in the bottom left corner, and
+if <code>pos.stats=4</code> in the upper left corner. If <code>pos.stats=0</code>, 
+no information will be plotted.
+By default, <code>pos.stats=1</code> if the expression scores can be both 
+positive and negative, and <code>pos.stats=4</code> if they can only take positive
+values</td></tr>
+<tr valign="top"><td><code>legend.cex</code></td>
+<td>
+the size of the text in the legend relative to the default size</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+a vector specifying the colors of the lines for the different values of the fudge factor
+<code>a0</code>.
+For a description of how colors are specified, see the help of <code>par</code></td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+a character string naming the main title of the plot</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+a character string naming the label of the x axis</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+a character string naming the label of the y axis</td></tr>
+<tr valign="top"><td><code>only.a0</code></td>
+<td>
+if <code>TRUE</code>, only the values of <code>a0</code> are shown in the legend. If
+<code>FALSE</code>, both the values of <code>a0</code> and the corresponding numbers
+of differentially expressed genes are shown</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+a value or vector specifying the line type of the curves. For details, see the help
+of <code>par</code></td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+a numeric value specifying the width of the plotted lines. For details, see the help
+of <code>par</code></td></tr>
+<tr valign="top"><td><code>y.intersp</code></td>
+<td>
+a numeric value specifying the space between the rows in the legend</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+further graphical parameters for the plot of the posterior probabilities. See the help pages of 
+<code>plot.default</code> and  <code>par</code></td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+a plot of the (logit-transformed) posterior probabilities of the genes for a 
+set of values of the fudge factor</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Holger Schwender, <a href="mailto:holger.schw@gmx.de">holger.schw@gmx.de</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>
+Efron, B., Tibshirani, R., Storey, J.D. and Tusher, V. (2001). Empirical Bayes Analysis
+of a Microarray Experiment, <EM>JASA</EM>, 96, 1151-1160.
+</p>
+
+<p>
+Schwender, H., Krause, A. and Ickstadt, K. (2003). Comparison of
+the Empirical Bayes and the Significance Analysis of Microarrays.
+<EM>Technical Report</EM>, SFB 475, University of Dortmund, Germany.
+</p>
+
+</body></html>

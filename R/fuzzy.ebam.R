@@ -2,7 +2,7 @@ fuzzy.ebam <- function(data, cl, type=c("asymptotic", "permutation", "abf"), W=N
 		logbase=exp(1), addOne=TRUE, df.ratio=NULL, n.interval=NULL, df.dens=5, 
 		knots.mode=TRUE, type.nclass=c("FD","wand", "scott"), fast=FALSE,
 		B=100, B.more=0.1, B.max=30000, n.subset=10, rand=NA){
-	require(scrime, quietly=TRUE)
+	# requireNamespace("scrime", quietly=TRUE)
 	if(is.data.frame(data))
 		data <- as.matrix(data)
 	if(!is.matrix(data))

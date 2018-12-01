@@ -24,8 +24,8 @@
 	}
 	else{
 		if(is(x,"ExpressionSet")){
-			require(affy,quietly=TRUE)
-			chip.name<-annotation(x)
+			# requireNamespace("affy", quietly=TRUE)
+			chip.name <- x@annotation
 			if(is.character(cl) & length(cl)<=2)
 				cl<-pData(x)[,cl]
 			x<-exprs(x)

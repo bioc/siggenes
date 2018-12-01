@@ -73,9 +73,9 @@ setMethod("summary","SAM",
 						chip<-object@chip
 					if(chip!=object@chip & object@chip!="")
 						stop("'chip' differs from the chip type of the SAM object.")
-					require(annotate)
-					LL<-unlist(lookUp(row.names(mat.sig),chip,"ENTREZID", load=TRUE))
-					sym<-getSYMBOL(row.names(mat.sig),chip)
+					# requireNamespace(annotate)
+					LL<-unlist(annotate::lookUp(row.names(mat.sig),chip,"ENTREZID", load=TRUE))
+					sym <- annotate::getSYMBOL(row.names(mat.sig),chip)
 					mat.sig<-data.frame(Row=mat.sig[,1],Symbol=sym,
 						Entrez=LL,mat.sig[,-1])
 				}
@@ -154,13 +154,13 @@ setMethod("identify","SAM",
 						chip<-x@chip
 					if(chip!=x@chip & x@chip!="")
 						stop("'chip' differs from the chip type of the SAM object.")
-					require(annotate)
-					LL<-unlist(lookUp(row.names(mat.ided),chip,"ENTREZID", load=TRUE))
-					sym<-getSYMBOL(row.names(mat.ided),chip)
+					# requireNamespace("annotate", quietly=TRUE)
+					LL<-unlist(annotate::lookUp(row.names(mat.ided),chip,"ENTREZID", load=TRUE))
+					sym <- annotate::getSYMBOL(row.names(mat.ided),chip)
 					mat.ided<-data.frame(Symbol=sym,Entrez=LL,mat.ided)
 					if(browse){
 						for(i in 1:length(na.exclude(LL))){
-							browseURL(annotate:::getQuery4LL(na.exclude(LL)[i]))
+							browseURL(annotate::getQueryLink(na.exclude(LL)[i], repository="en"))
 							if(i<length(na.exclude(LL))){
 								answer2<-readline("Next Entrez link?")
 								if(tolower(answer2)%in%c("n","no"))

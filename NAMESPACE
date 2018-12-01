@@ -1,7 +1,19 @@
-import(methods, multtest, Biobase, splines)
+import(methods, Biobase, multtest, splines)
 
 importFrom(graphics, identify)
 importFrom(stats4, plot, summary)
+importFrom("grDevices", "col2rgb", "dev.off")
+importFrom("graphics", "abline", "hist", "legend", "lines", "par",
+	"points", "segments", "text")
+importFrom("stats", "approx", "binomial", "dchisq", "dnorm",
+	"dsignrank", "dt", "dwilcox", "glm", "mad", "median",
+	"na.exclude", "p.adjust", "pchisq", "pnorm", "poisson",
+	"ppoints", "predict", "psignrank", "pt", "pwilcox",
+	"qchisq", "qf", "qnorm", "qsignrank", "qt", "quantile",
+	"qwilcox", "sd", "smooth.spline")
+importFrom("utils", "browseURL", "write.table")
+importFrom("scrime", "abf", "rowCATTs", "rowChisq2Class", "rowChisqMultiClass",
+	"rowMsquares", "rowTrendFuzzy", "shortenGeneDescription")
 
 exportClasses("SAM", "EBAM", "FindA0", "sumSAM", "sumEBAM")
 exportMethods("show", "print", "plot", "summary", "identify")

@@ -1,6 +1,6 @@
 nclass.wand<-function(x,level=1){
-	require(KernSmooth)
-	ceiling(diff(range(x))/dpih(x,level=level))
+	# requireNamespace("KernSmooth", quietly=TRUE)
+	ceiling(diff(range(x))/KernSmooth::dpih(x,level=level))
 }
 
 

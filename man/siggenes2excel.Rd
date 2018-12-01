@@ -9,11 +9,11 @@
   and gene-specific information on the differentially expressed genes.
 }
 \usage{
- sam2excel(object, delta, file, excel.version=1, n.digits = 3, what = "both", entrez = FALSE,
-        chip = "", quote = FALSE)
+ sam2excel(object, delta, file, excel.version=1, n.digits = 3, what = "both", 
+        entrez = FALSE, chip = "", quote = FALSE)
         
- ebam2excel(object, delta, file, excel.version=1, n.digits = 4, what = "both", entrez = FALSE,
-        chip = "", quote = FALSE)
+ ebam2excel(object, delta, file, excel.version=1, n.digits = 4, what = "both", 
+        entrez = FALSE, chip = "", quote = FALSE)
 }
 \arguments{
   \item{object}{either a SAM or an EBAM object.}

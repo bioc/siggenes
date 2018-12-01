@@ -1,8 +1,8 @@
 sam <- function(data, cl, method=d.stat, control=samControl(), 
 		gene.names=dimnames(data)[[1]], ...){
 	if(is(data,"ExpressionSet")){
-		require(affy)
-		chip.name<-annotation(data)
+		# requireNamespace("affy")
+		chip.name <- data@annotation
 		if(is.character(cl) & length(cl)<=2)
 			cl<-pData(data)[,cl]
 		data<-exprs(data)

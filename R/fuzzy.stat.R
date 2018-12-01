@@ -1,6 +1,6 @@
 fuzzy.stat <- function(data, cl, type=c("asymptotic", "permutation", "abf"), W=NULL, logbase=exp(1),
 		addOne=TRUE, B=100, B.more=0.1, B.max=30000, n.subset=10, rand=NA){
-	require(scrime, quietly=TRUE)
+	# requireNamespace("scrime", quietly=TRUE)
 	if(is.data.frame(data))
 		data <- as.matrix(data)
 	if(!is.matrix(data))

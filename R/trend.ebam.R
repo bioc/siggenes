@@ -76,7 +76,7 @@ trend.ebam.default <- function(data, cl, catt=TRUE, approx=TRUE, n.interval=NULL
 
 trend.ebam.list <- function(data, cl, catt=TRUE, approx=TRUE, n.interval=NULL, df.dens=NULL, 
 		knots.mode=NULL, type.nclass="wand", ...){
-	require(scrime)
+	# requireNamespace("scrime")
 	if(missing(cl))
 		cl <- NULL
 	n.cat <- length(data)

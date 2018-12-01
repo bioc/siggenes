@@ -1,6 +1,6 @@
 wilc.ebam<-function(data,cl,approx50=TRUE,ties.method=c("min","random","max"),use.offset=TRUE,
 		df.glm=5,use.row=FALSE,rand=NA){
-	require(splines)
+	# requireNamespace("splines")
 	if(!is.na(rand))
 		set.seed(rand)
 	data<-as.matrix(data)

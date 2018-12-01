@@ -1,5 +1,5 @@
 checkDBs <- function(entrez, refseq, symbol, omim, ug, fullname, chipname, load=TRUE){
-	getAnnMap("", chipname, load=load)
+	annotate::getAnnMap("", chipname, load=load)
 	obj <- search()
 	pkg <- obj[obj %in% paste("package:", chipname, c(".db", ""), sep="")]
 	vecDBs <- c("ENTREZID", "REFSEQ", "SYMBOL", "OMIM", "UNIGENE", "GENENAME")

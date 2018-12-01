@@ -64,7 +64,7 @@ chisq.stat <- function(data, cl, approx=NULL, B=100, n.split=1, check.for.NN=FAL
 }
 
 chisqStatMissing <- function(data, approx=NULL){
-	require(scrime)
+	# requireNamespace("scrime")
 	if(!inherits(data, "list"))
 		stop("data must be a list of matrices if cl is not specified.")
 	if(is.null(approx))
