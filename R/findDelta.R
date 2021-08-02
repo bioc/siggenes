@@ -1,8 +1,8 @@
 `findDelta` <-
 function(object,fdr=NULL,genes=NULL,prec=6,initial=NULL,verbose=FALSE){
-	if(!class(object)%in%c("SAM","EBAM"))
+	if(!class(object)[1] %in% c("SAM","EBAM"))
 		stop("object must be an object of class SAM or EBAM.")
-	isSAM<-is(object,"SAM")
+	isSAM<-is(object,"SAM")[1]
 	if(is.null(fdr) & is.null(genes))
 		stop("Either fdr or genes must be specified.")
 	if(!is.null(fdr) & !is.null(genes))

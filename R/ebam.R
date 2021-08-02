@@ -1,6 +1,6 @@
 `ebam` <- function(x, cl, method=z.ebam, delta=.9, which.a0=NULL, control=ebamControl(),
 		gene.names=dimnames(x)[[1]], ...){
-	xclass<-class(x)
+	xclass<-class(x)[1]
 	if(!xclass%in%c("FindA0","ExpressionSet","matrix","data.frame", "list"))
 		stop("x must be an object of class FindA0, ExpressionSet,\n",
 			"matrix, data.frame, or list.")
